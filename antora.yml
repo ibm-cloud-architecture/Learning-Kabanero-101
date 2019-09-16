@@ -1,6 +1,6 @@
 name: web
 title: Learning Kabanero 101
 version: 1.0.0
-start_page: ROOT:Nodesjs-Express/nodejs-express.adoc
+start_page: ROOT:kabanero/kabanero-overview.adoc
 nav:
   - modules/ROOT/nav.adoc
