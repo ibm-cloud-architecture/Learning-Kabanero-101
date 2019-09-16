@@ -8,3 +8,5 @@ v1.0, 2019-06-28
 In this tutorial we are going to cover deploying a Nodejs application with Express using Kabanero.  
 
 == Environment Setup
+
+We will be using Visual Code Studio with the Codewind Extension.
