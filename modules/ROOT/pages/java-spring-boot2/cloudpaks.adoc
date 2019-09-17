@@ -2,7 +2,7 @@
 Hemankita Perabathini <Hemankita.Perabathini@ibm.com>
 v1.0, 2019-09-17
 :toc:
-:imagesdir: images
+:imagesdir: images/springboot
 
 == Prerequisites
 
@@ -227,3 +227,137 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 You can make changes to the application for example changing the title in `index.html`. You can access it at `src/main/resources/public/index.html`.
 
 The change will be detected and the application will be restarted inside the running container.
+
+== Configure the DevOps Pipeline
+
+=== Setup Github repository
+
+- Setup your git locally with the content of the application.
+
+[source, bash]
+----
+git init
+git add .
+git commit -m "initial commit"
+----
+
+- Create a github repository and push the code to the remote repository.
+
+[source, bash]
+----
+git remote add origin $GITHUB_REPOSITORY_URL
+git push -u origin master
+----
+
+=== Setup the Github Webhook
+
+- To access the Tekton Dashboard, run the below command.
+
+[source, bash]
+----
+$ oc get route -n kabanero
+NAME               HOST/PORT                                                                                                          PATH      SERVICES           PORT      TERMINATION          WILDCARD
+icpa-landing       ibm-cp-applications.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                   icpa-landing       <all>     reencrypt/Redirect   None
+kabanero-cli       kabanero-cli-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                 kabanero-cli       <all>     passthrough          None
+kabanero-landing   kabanero-landing-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             kabanero-landing   <all>     passthrough          None
+tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             tekton-dashboard   <all>     reencrypt/Redirect   None
+----
+
+You can access it at the `HOST/PORT` available. For instance here it will be `tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
+
+- You can also access it on the Cloud Pak Landing page. You will find a `Tekton Dashboard`.
+
+image::kabanero_enterprise.png[align="center"]
+
+image::kabanero_ent_dashboard.png[align="center"]
+
+image::kabanero_ent_instance.png[align="center"]
+
+image::tekton_dashboard.png[align="center"]
+
+- Click on Webhooks in the menu.
+
+image::menu_webhooks.png[align="center"]
+
+- Click on `Add Webhook`.
+
+image::add_webhook.png[align="center"]
+
+- Enter the information for the Webhook settings.
+
+image::webhook_settings.png[align="center"]
+
+----
+Name - <Name for webhook>
+Repository URL - <Your github repository URL>
+Access Token - <For this, you need to create a Github access token with permission `admin:repo_hook` or select one from the list>
+----
+
+- Create a new token as follows.
+
+image::webhook_settings_access_token_create.png[align="center"]
+
+- You can also use an existing token if it is already created.
+
+image::webhook_settings_access_token_existing.png[align="center"]
+
+- Enter the information for the Pipeline settings
+
+----
+Namespace - kabanero
+Pipeline - java-spring-boot2-build-deploy-pipeline
+Service account - kabaner-operator
+Docker Registry - docker-registry.default.svc:5000/<your_project>
+----
+
+image::pipeline_settings.png[align="center"]
+
+- Click Create, a new webhook is created.
+
+image::webhook.png[align="center"]
+
+Also, a new Gitub webhook is created on the project repository.
+
+You can verify it by going into your `github repository > Settings > Webhooks` and you should be able to see the webhook created.
+
+*[Issue]* The webhook may show an error of 503. It will be cleared the first time the github webhook gets triggered.
+
+== Deploy Application
+
+The way to deploy the application is to make a change in the application in the git repository to trigger the tekton webhook and start the DevOps pipeline to build and deploy the application.
+
+- Make a change to the application such as changing the `index.html` or any other things.
+
+Let us change the `title` from `Hello from Appsody!` to `Hello from Cloud Paks !!!`.
+
+- Push your changes to the remote git repository.
+
+- This will trigger the Tekton Pipeline. To see the status of the Pipeline click on `PipelineRuns` on the menu of the dashboard.
+
+image::pipeline_runs.png[align="center"]
+
+- When the application is built and deployed the application will be available via the expose `Route`.
+
+- Go to the OpenShift Console, switch to the project, and select `Applications > Routes`
+
+You will see a route for your application, click on the url to open your application.
+
+image::application_route.png[align="center"]
+
+- Or you can also get the route from the oc CLI.
+
+[source, bash]
+----
+oc get route -n <your_project>
+----
+
+For instance,
+
+[source,bash]
+----
+$ oc get routes -n kabanero-samples-java
+NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
+appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-springboot   8080                    None
+----
+
+You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
