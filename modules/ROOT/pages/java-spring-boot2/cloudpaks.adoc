@@ -151,3 +151,79 @@ spec:
     periodSeconds: 2
   expose: true
 ----
+
+== Run the Application using Appsody
+
+- Run the application using appsody
+
+[source, bash]
+----
+appsody run
+----
+
+This step is building a container and running it, the output has the endpoint for the application.
+
+----
+Running development environment...
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=run]
+......
+......
+......
+[Container] 2019-09-12 17:49:22.173  INFO 185 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
+[Container] 2019-09-12 17:49:22.377  INFO 185 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+[Container] 2019-09-12 17:49:22.386  INFO 185 --- [  restartedMain] application.Main                         : Started Main in 7.984 seconds (JVM running for 9.679)
+[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+[Container] 2019-09-12 17:58:42.805  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 27 ms
+[Container] 2019-09-12 17:58:43.044  INFO 185 --- [nio-8080-exec-1] i.j.internal.reporters.LoggingReporter   : Span reported: 445d02b19cea491:445d02b19cea491:0:1 - GET
+----
+
+- Open the application using the web browser at http://localhost:8080.
+
+== Stop the Application using Appsody
+
+- To stop the container, run this command.
+
+[source, bash]
+----
+appsody stop
+----
+
+- Alternatively, you can also press `Ctrl+C`.
+
+== Debug the Application using Appsody
+
+To debug the application including reloading the application on code changes run the below command.
+
+[source, bash]
+----
+appsody debug
+----
+
+The output indicates the debug environment is being used
+
+[source, bash]
+----
+$ appsody debug
+Running debug environment
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=debug]
+.......
+.......
+.......
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
+[Container] [INFO] Changes detected - recompiling the module!
+[Container] [INFO] Compiling 1 source file to /project/user-app/target/test-classes
+[Container] [INFO]
+[Container] [INFO] <<< spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) < test-compile @ application <<<
+[Container] [INFO]
+[Container] [INFO]
+[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) @ application ---
+[Container] [INFO] Attaching agents: []
+[Container] Listening for transport dt_socket at address: 5005
+----
+
+You can make changes to the application for example changing the title in `index.html`. You can access it at `src/main/resources/public/index.html`.
+
+The change will be detected and the application will be restarted inside the running container.
