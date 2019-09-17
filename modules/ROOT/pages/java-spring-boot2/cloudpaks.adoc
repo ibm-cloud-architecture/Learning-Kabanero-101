@@ -54,3 +54,100 @@ kabanero	nodejs           	0.2.5    	*simple          	Runtime for Node.js appli
 kabanero	nodejs-express   	0.2.5    	*simple, skaffold	Express web framework for Node.js
 kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework for Node.js
 ----
+
+== Create a new Application using appsody
+
+- Create a new directory for the project and change directory into it.
+
+[source, bash]
+----
+mkdir appsody_sample_springboot
+cd appsody_sample_springboot/
+----
+
+- Initialize the project using `appsody init` and select the desired stack ID.
+
+[source, bash]
+----
+appsody init kabanero/java-spring-boot2
+----
+
+- Extract the appsody deployment config.
+
+[source, bash]
+----
+appsody deploy --generate-only
+----
+
+This will generate you the below file.
+
+[source, yaml]
+----
+apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: appsody-sample-springboot
+spec:
+  # Add fields here
+  version: 1.0.0
+  applicationImage: appsody-sample-springboot
+  stack: java-spring-boot2
+  service:
+    type: NodePort
+    port: 8080
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path: '/actuator/prometheus'
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /actuator/health
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /actuator/liveness
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  expose: true
+----
+
+By default, the application is deployed in the `kabanero` namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called `kabanero-samples-java` and we can specify it under the metadata as below.
+
+[source, yaml]
+----
+apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: appsody-sample-springboot
+  namespace: kabanero-samples-java
+spec:
+  # Add fields here
+  version: 1.0.0
+  applicationImage: appsody-sample-springboot
+  stack: java-spring-boot2
+  service:
+    type: NodePort
+    port: 8080
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path: '/actuator/prometheus'
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /actuator/health
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /actuator/liveness
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  expose: true
+----
