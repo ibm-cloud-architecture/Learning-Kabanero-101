@@ -1,0 +1,15 @@
+= SpringBoot - Appsody sample application
+Hemankita Perabathini <Hemankita.Perabathini@ibm.com>
+v1.0, 2019-09-17
+:toc:
+:imagesdir: images
+
+== Prerequisites
+
+* https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift] (We are using the IKS Openshift cluster)
+* Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac], https://docs.docker.com/docker-for-windows/install/[Windows]
+* The following command line (CLI) tools and configured:
+  ** docker - It comes with the Docker for Desktop installation.
+  ** https://www.okd.io/download.html[oc]
+  ** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
+  ** https://appsody.dev/docs/getting-started/installation[appsody]
