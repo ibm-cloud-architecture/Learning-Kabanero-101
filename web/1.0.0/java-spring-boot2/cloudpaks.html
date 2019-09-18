@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>SpringBoot - Appsody sample application :: Learning-Kabanero-101</title>
+    <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/java-spring-boot2/cloudpaks.html">
+    <meta name="generator" content="Antora 2.0.1">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <p>Learning Kabanero 101</p>
+      </div>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="web" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../kabanero/kabanero-overview.html">Learning Kabanero 101</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Overview</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../kabanero/kabanero-overview.html">Overview</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Java Springboot</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#">java-spring-boot2/java-spring-boot2.adoc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Java Microprofile</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../java-microprofile/java-microprofile.html">Java Microprofile</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Nodejs-Express</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#">nodejs-express/nodejs-express.adoc</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Learning Kabanero 101</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Learning Kabanero 101</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../kabanero/kabanero-overview.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main role="main">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../kabanero/kabanero-overview.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../kabanero/kabanero-overview.html">Learning Kabanero 101</a></li>
+    <li><a href="cloudpaks.html">SpringBoot - Appsody sample application</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/java-spring-boot2/cloudpaks.adoc">Edit this Page</a></div>
+</div>
+<article class="doc">
+<h1 class="page">SpringBoot - Appsody sample application</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_prerequisites">Prerequisites</a></li>
+<li><a href="#_add_kabanero_collection_to_appsody">Add Kabanero Collection to appsody</a></li>
+<li><a href="#_create_a_new_application_using_appsody">Create a new Application using appsody</a></li>
+<li><a href="#_run_the_application_using_appsody">Run the Application using Appsody</a></li>
+<li><a href="#_stop_the_application_using_appsody">Stop the Application using Appsody</a></li>
+<li><a href="#_debug_the_application_using_appsody">Debug the Application using Appsody</a></li>
+<li><a href="#_configure_the_devops_pipeline">Configure the DevOps Pipeline</a>
+<ul class="sectlevel2">
+<li><a href="#_setup_github_repository">Setup Github repository</a></li>
+<li><a href="#_setup_the_github_webhook">Setup the Github Webhook</a></li>
+</ul>
+</li>
+<li><a href="#_deploy_application">Deploy Application</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://cloud.ibm.com/kubernetes/catalog/openshiftcluster">Openshift</a> (We are using the IKS Openshift cluster)</p>
+</li>
+<li>
+<p>Docker for Desktop - <a href="https://docs.docker.com/docker-for-mac/install/">Mac</a>, <a href="https://docs.docker.com/docker-for-windows/install/">Windows</a></p>
+</li>
+<li>
+<p>The following command line (CLI) tools and configured:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>docker - It comes with the Docker for Desktop installation.</p>
+</li>
+<li>
+<p><a href="https://www.okd.io/download.html">oc</a></p>
+</li>
+<li>
+<p><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a></p>
+</li>
+<li>
+<p><a href="https://appsody.dev/docs/getting-started/installation">appsody</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_add_kabanero_collection_to_appsody"><a class="anchor" href="#_add_kabanero_collection_to_appsody"></a>Add Kabanero Collection to appsody</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>From the Cloud Pak for Applications landing page get the <code>Collection Hub</code> URL. For example in our example it is as follows.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code><a href="https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml" class="bare">https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml</a></code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the appsody CLI to add the Collection repo.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set the repo as default.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo set-default kabanero</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>List the appsody stacks available in the Collection:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody list kabanero</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It gives you the list of available stacks.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody list kabanero
+
+REPO    	ID               	VERSION  	TEMPLATES        	DESCRIPTION
+kabanero	java-microprofile	0.2.11   	*default         	Eclipse MicroProfile on Open Liberty &amp; OpenJ9 using Maven
+kabanero	java-spring-boot2	0.3.9    	*default, kotlin 	Spring Boot using OpenJ9 and Maven
+kabanero	nodejs           	0.2.5    	*simple          	Runtime for Node.js applications
+kabanero	nodejs-express   	0.2.5    	*simple, skaffold	Express web framework for Node.js
+kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework for Node.js</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_a_new_application_using_appsody"><a class="anchor" href="#_create_a_new_application_using_appsody"></a>Create a new Application using appsody</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new directory for the project and change directory into it.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir appsody_sample_springboot
+cd appsody_sample_springboot/</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Initialize the project using <code>appsody init</code> and select the desired stack ID.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody init kabanero/java-spring-boot2</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Extract the appsody deployment config.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody deploy --generate-only</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will generate you the below file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: appsody-sample-springboot
+spec:
+  # Add fields here
+  version: 1.0.0
+  applicationImage: appsody-sample-springboot
+  stack: java-spring-boot2
+  service:
+    type: NodePort
+    port: 8080
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path: '/actuator/prometheus'
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /actuator/health
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /actuator/liveness
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  expose: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, the application is deployed in the <code>kabanero</code> namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called <code>kabanero-samples-java</code> and we can specify it under the metadata as below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: appsody-sample-springboot
+  namespace: kabanero-samples-java
+spec:
+  # Add fields here
+  version: 1.0.0
+  applicationImage: appsody-sample-springboot
+  stack: java-spring-boot2
+  service:
+    type: NodePort
+    port: 8080
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path: '/actuator/prometheus'
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /actuator/health
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /actuator/liveness
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  expose: true</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_run_the_application_using_appsody"><a class="anchor" href="#_run_the_application_using_appsody"></a>Run the Application using Appsody</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Run the application using appsody</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody run</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This step is building a container and running it, the output has the endpoint for the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Running development environment...
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/&lt;user&gt;@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/&lt;user&gt;@ibm.com/.m2/repository:/mvn/repository -v /Users/&lt;user&gt;@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=run]
+......
+......
+......
+[Container] 2019-09-12 17:49:22.173  INFO 185 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
+[Container] 2019-09-12 17:49:22.377  INFO 185 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+[Container] 2019-09-12 17:49:22.386  INFO 185 --- [  restartedMain] application.Main                         : Started Main in 7.984 seconds (JVM running for 9.679)
+[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+[Container] 2019-09-12 17:58:42.805  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 27 ms
+[Container] 2019-09-12 17:58:43.044  INFO 185 --- [nio-8080-exec-1] i.j.internal.reporters.LoggingReporter   : Span reported: 445d02b19cea491:445d02b19cea491:0:1 - GET</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open the application using the web browser at <a href="http://localhost:8080" class="bare">http://localhost:8080</a>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_stop_the_application_using_appsody"><a class="anchor" href="#_stop_the_application_using_appsody"></a>Stop the Application using Appsody</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>To stop the container, run this command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody stop</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Alternatively, you can also press <code>Ctrl+C</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_debug_the_application_using_appsody"><a class="anchor" href="#_debug_the_application_using_appsody"></a>Debug the Application using Appsody</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To debug the application including reloading the application on code changes run the below command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody debug</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output indicates the debug environment is being used</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody debug
+Running debug environment
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/&lt;user&gt;@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/&lt;user&gt;@ibm.com/.m2/repository:/mvn/repository -v /Users/&lt;user&gt;@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=debug]
+.......
+.......
+.......
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
+[Container] [INFO] Changes detected - recompiling the module!
+[Container] [INFO] Compiling 1 source file to /project/user-app/target/test-classes
+[Container] [INFO]
+[Container] [INFO] &lt;&lt;&lt; spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) &lt; test-compile @ application &lt;&lt;&lt;
+[Container] [INFO]
+[Container] [INFO]
+[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) @ application ---
+[Container] [INFO] Attaching agents: []
+[Container] Listening for transport dt_socket at address: 5005</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can make changes to the application for example changing the title in <code>index.html</code>. You can access it at <code>src/main/resources/public/index.html</code>.</p>
+</div>
+<div class="paragraph">
+<p>The change will be detected and the application will be restarted inside the running container.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configure_the_devops_pipeline"><a class="anchor" href="#_configure_the_devops_pipeline"></a>Configure the DevOps Pipeline</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_setup_github_repository"><a class="anchor" href="#_setup_github_repository"></a>Setup Github repository</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Setup your git locally with the content of the application.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git init
+git add .
+git commit -m "initial commit"</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a github repository and push the code to the remote repository.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git remote add origin $GITHUB_REPOSITORY_URL
+git push -u origin master</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_setup_the_github_webhook"><a class="anchor" href="#_setup_the_github_webhook"></a>Setup the Github Webhook</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>To access the Tekton Dashboard, run the below command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get route -n kabanero
+NAME               HOST/PORT                                                                                                          PATH      SERVICES           PORT      TERMINATION          WILDCARD
+icpa-landing       ibm-cp-applications.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                   icpa-landing       &lt;all&gt;     reencrypt/Redirect   None
+kabanero-cli       kabanero-cli-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                 kabanero-cli       &lt;all&gt;     passthrough          None
+kabanero-landing   kabanero-landing-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             kabanero-landing   &lt;all&gt;     passthrough          None
+tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             tekton-dashboard   &lt;all&gt;     reencrypt/Redirect   None</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can access it at the <code>HOST/PORT</code> available. For instance here it will be <code>tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can also access it on the Cloud Pak Landing page. You will find a <code>Tekton Dashboard</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/kabanero_enterprise.png" alt="kabanero enterprise">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/kabanero_ent_dashboard.png" alt="kabanero ent dashboard">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/kabanero_ent_instance.png" alt="kabanero ent instance">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/tekton_dashboard.png" alt="tekton dashboard">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on Webhooks in the menu.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/menu_webhooks.png" alt="menu webhooks">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on <code>Add Webhook</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/add_webhook.png" alt="add webhook">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Enter the information for the Webhook settings.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/webhook_settings.png" alt="webhook settings">
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Name - &lt;Name for webhook&gt;
+Repository URL - &lt;Your github repository URL&gt;
+Access Token - &lt;For this, you need to create a Github access token with permission `admin:repo_hook` or select one from the list&gt;</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new token as follows.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/webhook_settings_access_token_create.png" alt="webhook settings access token create">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can also use an existing token if it is already created.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/webhook_settings_access_token_existing.png" alt="webhook settings access token existing">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Enter the information for the Pipeline settings</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Namespace - kabanero
+Pipeline - java-spring-boot2-build-deploy-pipeline
+Service account - kabaner-operator
+Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/pipeline_settings.png" alt="pipeline settings">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click Create, a new webhook is created.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/webhook.png" alt="webhook">
+</div>
+</div>
+<div class="paragraph">
+<p>Also, a new Gitub webhook is created on the project repository.</p>
+</div>
+<div class="paragraph">
+<p>You can verify it by going into your <code>github repository &gt; Settings &gt; Webhooks</code> and you should be able to see the webhook created.</p>
+</div>
+<div class="paragraph">
+<p><strong>[Issue]</strong> The webhook may show an error of 503. It will be cleared the first time the github webhook gets triggered.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploy_application"><a class="anchor" href="#_deploy_application"></a>Deploy Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The way to deploy the application is to make a change in the application in the git repository to trigger the tekton webhook and start the DevOps pipeline to build and deploy the application.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Make a change to the application such as changing the <code>index.html</code> or any other things.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let us change the <code>title</code> from <code>Hello from Appsody!</code> to <code>Hello from Cloud Paks !!!</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Push your changes to the remote git repository.</p>
+</li>
+<li>
+<p>This will trigger the Tekton Pipeline. To see the status of the Pipeline click on <code>PipelineRuns</code> on the menu of the dashboard.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/pipeline_runs.png" alt="pipeline runs">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When the application is built and deployed the application will be available via the expose <code>Route</code>.</p>
+</li>
+<li>
+<p>Go to the OpenShift Console, switch to the project, and select <code>Applications &gt; Routes</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You will see a route for your application, click on the url to open your application.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/application_route.png" alt="application route">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Or you can also get the route from the oc CLI.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get route -n &lt;your_project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For instance,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get routes -n kabanero-samples-java
+NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
+appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-springboot   8080                    None</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can now acccess the application at &lt;HOST/PORT&gt;, here it is <code>appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
+</div>
+</div>
+</div>
+</article>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
