@@ -1,7 +1,7 @@
 * Overview
 ** xref:kabanero/kabanero-overview.adoc[Overview]
 * Java Springboot
-** xref:java-spring-boot2/java-spring-boot2.adoc[Java Springboot]
+** xref:java-spring-boot2/cloudpaks.adoc[Java Springboot]
 * Java Microprofile
 ** xref:java-microprofile/java-microprofile.adoc[Java Microprofile]
 * Nodejs-Express
