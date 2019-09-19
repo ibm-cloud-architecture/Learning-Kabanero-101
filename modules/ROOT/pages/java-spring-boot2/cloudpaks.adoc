@@ -2,7 +2,7 @@
 Hemankita Perabathini <Hemankita.Perabathini@ibm.com>
 v1.0, 2019-09-17
 :toc:
-:imagesdir: images/springboot
+:imagesdir: images
 
 == Prerequisites
 
@@ -27,12 +27,35 @@ v1.0, 2019-09-17
 appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml
 ----
 
-- Set the repo as default.
+- If possible, remove other repos that are existing.
+
+To get the list of available repos, run this command.
 
 [source, bash]
 ----
-appsody repo set-default kabanero
+appsody repo list
 ----
+
+This returns you something like below.
+
+[source, bash]
+----
+$ appsody repo list
+
+NAME        	URL
+*kabanero   	https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml
+appsodyhub  	https://github.com/appsody/stacks/releases/latest/download/incubator-index.yaml
+experimental	https://github.com/appsody/stacks/releases/latest/download/experimental-index.yaml
+----
+
+To remove the unused repos, run
+
+[source, bash]
+----
+appsody repo remove <NAME>
+----
+
+For instance, if you want to remove `appsodyhub`, then it will be `appsody repo remove appsodyhub`.
 
 - List the appsody stacks available in the Collection:
 
@@ -55,13 +78,23 @@ kabanero	nodejs-express   	0.2.5    	*simple, skaffold	Express web framework for
 kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework for Node.js
 ----
 
-== Create a new Application using appsody
+- Set the `kabanero` repo as default.
+
+[source, bash]
+----
+appsody repo set-default kabanero
+----
+
+== Appsody application
+
+=== Create a new Application
 
 - Create a new directory for the project and change directory into it.
 
 [source, bash]
 ----
 mkdir appsody_sample_springboot
+
 cd appsody_sample_springboot/
 ----
 
@@ -71,6 +104,213 @@ cd appsody_sample_springboot/
 ----
 appsody init kabanero/java-spring-boot2
 ----
+
+=== Build the application
+
+This command will locally build a docker image of your appsody project.
+
+[source, bash]
+----
+appsody build
+----
+
+Once it runs successfully, you will see something like this.
+
+[source, bash]
+----
+[Docker]  ---> Running in 3edec1263e50
+[Docker] Removing intermediate container 3edec1263e50
+[Docker]  ---> b738cc92f9e3
+[Docker] Step 33/34 : COPY --from=compile /project/user-app/target/app.jar /app.jar
+[Docker]  ---> 2bb71966ba32
+[Docker] Step 34/34 : ENTRYPOINT [ "sh", "-c", "java $JVM_ARGS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+[Docker]  ---> Running in d9c411bc4772
+[Docker] Removing intermediate container d9c411bc4772
+[Docker]  ---> 4537506d45ab
+[Docker] Successfully built 4537506d45ab
+[Docker] Successfully tagged appsody-sample-springboot:latest
+Built docker image appsody-sample-springboot
+----
+
+It helps you to check that stack is stable and init is done correctly. You need not run build to run the project ever again.
+
+=== Run the Application
+
+- Run the application using appsody
+
+[source, bash]
+----
+appsody run
+----
+
+This step is building a container and running it, the output has the endpoint for the application.
+
+----
+Running development environment...
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=run]
+......
+......
+......
+[Container] 2019-09-12 17:49:22.173  INFO 185 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
+[Container] 2019-09-12 17:49:22.377  INFO 185 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+[Container] 2019-09-12 17:49:22.386  INFO 185 --- [  restartedMain] application.Main                         : Started Main in 7.984 seconds (JVM running for 9.679)
+[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+[Container] 2019-09-12 17:58:42.805  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 27 ms
+[Container] 2019-09-12 17:58:43.044  INFO 185 --- [nio-8080-exec-1] i.j.internal.reporters.LoggingReporter   : Span reported: 445d02b19cea491:445d02b19cea491:0:1 - GET
+----
+
+- Open the application using the web browser at http://localhost:8080.
+
+- By default, the template provides the below endpoints.
+
+** Health endpoint: http://localhost:8080/actuator/health
+** Liveness endpoint: http://localhost:8080/actuator/liveness
+** Metrics endpoint: http://localhost:8080/actuator/metrics
+** Prometheus endpoint: http://localhost:8080/actuator/prometheus
+
+For more details, refer https://github.com/appsody/stacks/blob/master/incubator/java-spring-boot2/README.md[Spring® Boot 2 Stack].
+
+=== Debug the Application
+
+To debug the application including reloading the application on code changes run the below command.
+
+[source, bash]
+----
+appsody debug
+----
+
+The output indicates the debug environment is being used
+
+[source, bash]
+----
+$ appsody debug
+Running debug environment
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=debug]
+.......
+.......
+.......
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
+[Container] [INFO] Changes detected - recompiling the module!
+[Container] [INFO] Compiling 1 source file to /project/user-app/target/test-classes
+[Container] [INFO]
+[Container] [INFO] <<< spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) < test-compile @ application <<<
+[Container] [INFO]
+[Container] [INFO]
+[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) @ application ---
+[Container] [INFO] Attaching agents: []
+[Container] Listening for transport dt_socket at address: 5005
+----
+
+- Open your editor. We are using `VS Code`. Add the project to your workspcce.
+
+image::sb_lab1_open_project_vscode.png[align="center"]
+
+- Start the debugger in your editor.
+
+image::sb_lab1_vscode_debugger.png[align="center"]
+
+- Once you start it, you will see something like below.
+
+image::sb_lab1_vscode_debugger_window.png[align="center"]
+
+- Now you can open the application at http://localhost:8080/.
+
+- Let us check the liveness probe at http://localhost:8080/actuator/liveness.
+
+image::sb_lab1_liveness.png[align="center"]
+
+- Let us make a code change.
+
+image::sb_lab1_code_change.png[align="center"]
+
+Here, the debugger will reload the application for you.
+
+- Refresh the browser to see the changes.
+
+image::sb_lab1_liveness_test.png[align="center"]
+
+=== Stop the Application
+
+- To stop the container, run this command.
+
+[source, bash]
+----
+appsody stop
+----
+
+- Alternatively, you can also press `Ctrl+C`.
+
+== Deploy the appsody application on Openshift for personal development
+
+*TBD*
+
+== Appsody tasks on VS Code
+
+*TBD*
+
+== Codewind on VS Code
+
+*TBD*
+
+== Deploy the appsody application on Openshift for team development
+
+=== Set up team project namespace
+
+- Create a new project for your team if it does not exist. Or if you have an existing project, skip this step.
+
+[source, bash]
+----
+oc new-project <yournamespace>
+----
+
+Once you create it, you will see something like below.
+
+[source, bash]
+----
+$ oc new-project kabanero-samples-java
+Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
+
+to build a new example application in Ruby.
+----
+
+- Switch to the target project using the below command.
+
+[source, bash]
+----
+oc project <yournamespace>
+----
+
+It gives you the below message if you are already in that space.
+
+[source, bash]
+----
+$ oc project kabanero-samples-java
+Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+----
+
+- Check that the current context is your team's project space.
+
+[source, bash]
+----
+oc project -q
+----
+
+You will see something like below.
+
+[source, bash]
+----
+$ oc project -q
+kabanero-samples-java
+----
+
+=== Create application deployment manifest
 
 - Extract the appsody deployment config.
 
@@ -152,85 +392,7 @@ spec:
   expose: true
 ----
 
-== Run the Application using Appsody
-
-- Run the application using appsody
-
-[source, bash]
-----
-appsody run
-----
-
-This step is building a container and running it, the output has the endpoint for the application.
-
-----
-Running development environment...
-Running command: docker[pull kabanero/java-spring-boot2:0.3]
-Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=run]
-......
-......
-......
-[Container] 2019-09-12 17:49:22.173  INFO 185 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
-[Container] 2019-09-12 17:49:22.377  INFO 185 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-[Container] 2019-09-12 17:49:22.386  INFO 185 --- [  restartedMain] application.Main                         : Started Main in 7.984 seconds (JVM running for 9.679)
-[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-[Container] 2019-09-12 17:58:42.805  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 27 ms
-[Container] 2019-09-12 17:58:43.044  INFO 185 --- [nio-8080-exec-1] i.j.internal.reporters.LoggingReporter   : Span reported: 445d02b19cea491:445d02b19cea491:0:1 - GET
-----
-
-- Open the application using the web browser at http://localhost:8080.
-
-== Stop the Application using Appsody
-
-- To stop the container, run this command.
-
-[source, bash]
-----
-appsody stop
-----
-
-- Alternatively, you can also press `Ctrl+C`.
-
-== Debug the Application using Appsody
-
-To debug the application including reloading the application on code changes run the below command.
-
-[source, bash]
-----
-appsody debug
-----
-
-The output indicates the debug environment is being used
-
-[source, bash]
-----
-$ appsody debug
-Running debug environment
-Running command: docker[pull kabanero/java-spring-boot2:0.3]
-Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=debug]
-.......
-.......
-.......
-[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
-[Container] [INFO] Changes detected - recompiling the module!
-[Container] [INFO] Compiling 1 source file to /project/user-app/target/test-classes
-[Container] [INFO]
-[Container] [INFO] <<< spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) < test-compile @ application <<<
-[Container] [INFO]
-[Container] [INFO]
-[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) @ application ---
-[Container] [INFO] Attaching agents: []
-[Container] Listening for transport dt_socket at address: 5005
-----
-
-You can make changes to the application for example changing the title in `index.html`. You can access it at `src/main/resources/public/index.html`.
-
-The change will be detected and the application will be restarted inside the running container.
-
-== Configure the DevOps Pipeline
-
-=== Setup Github repository
+=== Creating a git repo
 
 - Setup your git locally with the content of the application.
 
@@ -249,7 +411,23 @@ git remote add origin $GITHUB_REPOSITORY_URL
 git push -u origin master
 ----
 
-=== Setup the Github Webhook
+=== Create an access token
+
+- Go to Github `Settings`.
+- Select `Developer settings`.
+- Click on `Personal access tokens`.
+- Select `Generate new token`.
+- Create a Github access token with permission `admin:repo_hook`
+
+image::sb_lab1_github_token.png[align="center"]
+
+- Then finally click `Generate token` to create one.
+
+For more details on how to generate Github personal access token refer https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line[Creating a personal access token].
+
+== Configure the DevOps Pipeline
+
+=== Accessing Tekton dashboard
 
 - To access the Tekton Dashboard, run the below command.
 
@@ -267,25 +445,27 @@ You can access it at the `HOST/PORT` available. For instance here it will be `te
 
 - You can also access it on the Cloud Pak Landing page. You will find a `Tekton Dashboard`.
 
-image::kabanero_enterprise.png[align="center"]
+image::sb_lab1_kabanero_enterprise.png[align="center"]
 
-image::kabanero_ent_dashboard.png[align="center"]
+image::sb_lab1_kabanero_ent_dashboard.png[align="center"]
 
-image::kabanero_ent_instance.png[align="center"]
+image::sb_lab1_kabanero_ent_instance.png[align="center"]
 
-image::tekton_dashboard.png[align="center"]
+image::sb_lab1_tekton_dashboard.png[align="center"]
+
+=== Create Tekton webhook for git repo
 
 - Click on Webhooks in the menu.
 
-image::menu_webhooks.png[align="center"]
+image::sb_lab1_menu_webhooks.png[align="center"]
 
 - Click on `Add Webhook`.
 
-image::add_webhook.png[align="center"]
+image::sb_lab1_add_webhook.png[align="center"]
 
 - Enter the information for the Webhook settings.
 
-image::webhook_settings.png[align="center"]
+image::sb_lab1_webhook_settings.png[align="center"]
 
 ----
 Name - <Name for webhook>
@@ -295,11 +475,13 @@ Access Token - <For this, you need to create a Github access token with permissi
 
 - Create a new token as follows.
 
-image::webhook_settings_access_token_create.png[align="center"]
+image::sb_lab1_webhook_settings_access_token_create.png[align="center"]
 
 - You can also use an existing token if it is already created.
 
-image::webhook_settings_access_token_existing.png[align="center"]
+image::sb_lab1_webhook_settings_access_token_existing.png[align="center"]
+
+=== Set up the pipeline
 
 - Enter the information for the Pipeline settings
 
@@ -310,11 +492,11 @@ Service account - kabaner-operator
 Docker Registry - docker-registry.default.svc:5000/<your_project>
 ----
 
-image::pipeline_settings.png[align="center"]
+image::sb_lab1_pipeline_settings.png[align="center"]
 
 - Click Create, a new webhook is created.
 
-image::webhook.png[align="center"]
+image::sb_lab1_webhook.png[align="center"]
 
 Also, a new Gitub webhook is created on the project repository.
 
@@ -322,7 +504,7 @@ You can verify it by going into your `github repository > Settings > Webhooks` a
 
 *[Issue]* The webhook may show an error of 503. It will be cleared the first time the github webhook gets triggered.
 
-== Deploy Application
+=== Deploy the Application
 
 The way to deploy the application is to make a change in the application in the git repository to trigger the tekton webhook and start the DevOps pipeline to build and deploy the application.
 
@@ -334,7 +516,7 @@ Let us change the `title` from `Hello from Appsody!` to `Hello from Cloud Paks !
 
 - This will trigger the Tekton Pipeline. To see the status of the Pipeline click on `PipelineRuns` on the menu of the dashboard.
 
-image::pipeline_runs.png[align="center"]
+image::sb_lab1_pipeline_runs.png[align="center"]
 
 - When the application is built and deployed the application will be available via the expose `Route`.
 
@@ -342,7 +524,7 @@ image::pipeline_runs.png[align="center"]
 
 You will see a route for your application, click on the url to open your application.
 
-image::application_route.png[align="center"]
+image::sb_lab1_application_route.png[align="center"]
 
 - Or you can also get the route from the oc CLI.
 
@@ -361,3 +543,7 @@ appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csan
 ----
 
 You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
+
+== Enabling knative in your application
+
+*TBD*

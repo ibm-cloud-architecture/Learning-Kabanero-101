@@ -2,5 +2,6 @@
 Hemankita Perabathini <Hemankita.Perabathini@ibm.com>
 v1.0, 2019-09-16
 :toc:
+:imagesdir: images
 
 image::kabanero.jpg[align="center"]
