@@ -249,7 +249,25 @@ appsody stop
 
 == Appsody tasks on VS Code
 
-*TBD*
+- To access the build tasks on VS code, go to
+
+----
+Terminal > Run Build Task...
+----
+
+image::sb_lab1_build_task_menu.png[align="center"]
+
+- You will see a list of available tasks.
+
+image::sb_lab1_build_task_list.png[align="center"]
+
+- Click on `Appsody: run` and this will run the application.
+
+image::sb_lab1_build_task_run.png[align="center"]
+
+- Once, it is successfully started, you can access the application at http://localhost:8080/.
+
+image::sb_lab1_build_task_run_app.png[align="center"]
 
 == Codewind on VS Code
 
@@ -546,4 +564,22 @@ You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-s
 
 == Enabling knative in your application
 
-*TBD*
+- Edit the file `app-deploy.yaml`.
+
+- Add the line `createKnativeService: true` to the spec object.
+
+[source, bash]
+----
+apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: my-appsody-app
+spec:
+  stack: java-microprofile
+  createKnativeService: true
+----
+
+Git push the change, tekton pipeline runs, show the app again running and inspect extra resource associated with Kantive
+Knative Service oc get ksvc
+Knative Configurations oc get configurations
+Knative Revisions oc get revisions
