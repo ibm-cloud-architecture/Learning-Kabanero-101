@@ -1,8 +1,6 @@
-* Overview
-** xref:kabanero/kabanero-overview.adoc[Overview]
-* Java Springboot
-** xref:java-spring-boot2/cloudpaks.adoc[Lab]
-* Java Microprofile
-** xref:java-microprofile/java-microprofile.adoc[Java Microprofile]
-* Nodejs-Express
-** xref:nodejs-express/nodejs-express.adoc[NodeJS]
+* xref:kabanero/kabanero-overview.adoc[Overview]
+* xref:java-spring-boot2/cloudpaks.adoc[E2E Spring Boot]
+* xref:java-microprofile/java-microprofile.adoc[E2E Java Microprofile]
+* xref:nodejs-express/nodejs-express.adoc[E2E Node.js Express]
+* xref:tekton/create-pipeline.adoc[Create Tekton Pipeline]
+* xref:appsody/create-stack.adoc[Create Appsody Stack]
