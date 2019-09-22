@@ -121,7 +121,13 @@
 </li>
 <li><a href="#_deploy_the_appsody_application_on_openshift_for_personal_development">Deploy the appsody application on Openshift for personal development</a></li>
 <li><a href="#_appsody_tasks_on_vs_code">Appsody tasks on VS Code</a></li>
-<li><a href="#_codewind_on_vs_code">Codewind on VS Code</a></li>
+<li><a href="#_codewind_on_vs_code">Codewind on VS Code</a>
+<ul class="sectlevel2">
+<li><a href="#_getting_the_codewind_extension">Getting the Codewind extension</a></li>
+<li><a href="#_adding_the_application">Adding the application</a></li>
+<li><a href="#_project_options">Project Options</a></li>
+</ul>
+</li>
 <li><a href="#_deploy_the_appsody_application_on_openshift_for_team_development">Deploy the appsody application on Openshift for team development</a>
 <ul class="sectlevel2">
 <li><a href="#_set_up_team_project_namespace">Set up team project namespace</a></li>
@@ -557,8 +563,58 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 <div class="sect1">
 <h2 id="_appsody_tasks_on_vs_code"><a class="anchor" href="#_appsody_tasks_on_vs_code"></a>Appsody tasks on VS Code</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p><strong>TBD</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>To access the build tasks on VS code, go to</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Terminal &gt; Run Build Task...</pre>
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_build_task_menu.png" alt="sb lab1 build task menu">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You will see a list of available tasks.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_build_task_list.png" alt="sb lab1 build task list">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on <code>Appsody: run</code> and this will run the application.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_build_task_run.png" alt="sb lab1 build task run">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once, it is successfully started, you can access the application at <a href="http://localhost:8080/" class="bare">http://localhost:8080/</a>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_build_task_run_app.png" alt="sb lab1 build task run app">
+</div>
 </div>
 </div>
 </div>
@@ -566,7 +622,240 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 <h2 id="_codewind_on_vs_code"><a class="anchor" href="#_codewind_on_vs_code"></a>Codewind on VS Code</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>TBD</strong></p>
+<p>Codewind simplifies and enhances development in containers by extending industry standard IDEs with features to write, debug, and deploy cloud-native applications. It helps you to get started quickly with templates or samples, or you can also pull in your applications and let Codewind get them cloud ready.</p>
+</div>
+<div class="paragraph">
+<p>Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using VS Code as our IDE.</p>
+</div>
+<div class="sect2">
+<h3 id="_getting_the_codewind_extension"><a class="anchor" href="#_getting_the_codewind_extension"></a>Getting the Codewind extension</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>To get codewind extension you need <a href="https://code.visualstudio.com/download">VS Code version 1.28 or later</a>.</p>
+</li>
+<li>
+<p>Go to the extensions view and install codewind from the VS code market place.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_vscode_codewind_extension.png" alt="sb lab1 vscode codewind extension">
+</div>
+</div>
+<div class="paragraph">
+<p>You will find <code>Codewind 0.3.1</code> and click <code>install</code> to get it. Also, if you want to use the IDE for Java applications, you need to install <code>Codewind Java Profiler 19.7.1</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once you get them installed, let us now open the <code>Codewind</code> in the IDE.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>View &gt; Open View...</pre>
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_vscode_view.png" alt="sb lab1 vscode view">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It gives you you a list of options. Select <code>Codewind</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_vscode_code_explorer.png" alt="sb lab1 vscode code explorer">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>This opens the <code>Codewind</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_vscode_codewind_explorer.png" alt="sb lab1 vscode codewind explorer">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_the_application"><a class="anchor" href="#_adding_the_application"></a>Adding the application</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>You can create a new project or add an existing project to Codewind. Since, we already created one using appsody earlier, let us add the existing project.</p>
+</li>
+<li>
+<p>Right click on <code>Projects</code> under Codewind. Select <code>Add Existing Project</code> in the menu.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_add_existing_project.png" alt="sb lab1 codewind add existing project">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong> - Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the <code>codewind workspace</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>From the codewind workspace, select the project you created earlier.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_add_existing_prj_from_workspace.png" alt="sb lab1 add existing prj from workspace">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The codewind extension asks you for confirmation as follows. Click <code>Yes</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_appsody_extension.png" alt="sb lab1 appsody extension">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The project will be added.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_appsody_project.png" alt="sb lab1 appsody project">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once it is successfully build, it starts running.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_appsody_project_running.png" alt="sb lab1 appsody project running">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_project_options"><a class="anchor" href="#_project_options"></a>Project Options</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to the application and <code>right click</code> on it to access the various options available.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_project_options.png" alt="sb lab1 code wind project options">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click <code>Open App</code> to access the application.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_open_app.png" alt="sb lab1 codewind open app">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong> - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To get the overview of your project, click on <code>Open Project Overview</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_project_overview.png" alt="sb lab1 codewind project overview">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can access the container shell directly from the IDE by using <code>Open Container Shell</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_container_shell.png" alt="sb lab1 codewind container shell">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To access the logs of the application, click on <code>Show all logs</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_project_logs.png" alt="sb lab1 codewind project logs">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can also hide the logs if you want to by using <code>Hide all logs</code> option.</p>
+</li>
+<li>
+<p>If you have multiple applications and want to manage the logs for them, you can use <code>Manage logs</code>.</p>
+</li>
+<li>
+<p>You can also run the application by using <code>Restart in Run Mode</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_project_restart_in_run_mode.png" alt="sb lab1 codewind project restart in run mode">
+</div>
+</div>
+<div class="paragraph">
+<p>Once it is restarted, you can access the application by clicking on the button as shown below.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_restart_in_run_mode_app.png" alt="sb lab1 restart in run mode app">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Similarly, you can also do debugging by using <code>Restart in Debug Mode</code>.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
@@ -1050,8 +1339,32 @@ appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csan
 <div class="sect1">
 <h2 id="_enabling_knative_in_your_application"><a class="anchor" href="#_enabling_knative_in_your_application"></a>Enabling knative in your application</h2>
 <div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Edit the file <code>app-deploy.yaml</code>.</p>
+</li>
+<li>
+<p>Add the line <code>createKnativeService: true</code> to the spec object.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: my-appsody-app
+spec:
+  stack: java-microprofile
+  createKnativeService: true</code></pre>
+</div>
+</div>
 <div class="paragraph">
-<p><strong>TBD</strong></p>
+<p>Git push the change, tekton pipeline runs, show the app again running and inspect extra resource associated with Kantive
+Knative Service oc get ksvc
+Knative Configurations oc get configurations
+Knative Revisions oc get revisions</p>
 </div>
 </div>
 </div>
