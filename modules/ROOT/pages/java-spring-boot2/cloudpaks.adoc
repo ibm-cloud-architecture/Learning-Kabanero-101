@@ -331,7 +331,7 @@ image::sb_lab1_appsody_project.png[align="center"]
 
 image::sb_lab1_appsody_project_running.png[align="center"]
 
-=== Project Options
+=== Project Options for dev
 
 - Go to the application and `right click` on it to access the various options available.
 
@@ -368,6 +368,105 @@ Once it is restarted, you can access the application by clicking on the button a
 image::sb_lab1_restart_in_run_mode_app.png[align="center"]
 
 - Similarly, you can also do debugging by using `Restart in Debug Mode`.
+
+=== Project options for performance
+
+- Go to the application and `right click` on it to access the various options available.
+
+image::sb_lab1_code_wind_project_options.png[align="center"]
+
+- Click `Open Application Monitor` to access the application monitor.
+
+==== Enabling Javametrics
+
+For Springboot project, you need to set up the Javametrics before accessing the application monitor.
+
+*Note* - For editing these files, you can use the option `Add Folder to Workspace` and open it in your VS code editor.
+
+- To the sample project you created earlier, add the below annotation.
+
+[source, java]
+----
+@ComponentScan(basePackages = {"com.ibm.javametrics.spring", "<your_package_name>"})
+----
+
+For the sample application, your main class will be as follows.
+
+[source, java]
+----
+package application;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootApplication
+@ComponentScan(basePackages = {"com.ibm.javametrics.spring", "application"})
+public class Main {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Main.class, args);
+	}
+
+}
+----
+
+- Add the below dependencies to your `pom.xml`.
+
+[source, xml]
+----
+<dependency>
+    <groupId>com.ibm.runtimetools</groupId>
+    <artifactId>javametrics-spring</artifactId>
+    <version>1.4.0</version>
+</dependency>
+<dependency>
+    <groupId>com.ibm.runtimetools</groupId>
+    <artifactId>javametrics-agent</artifactId>
+    <version>1.4.0</version>
+</dependency>
+<dependency>
+    <groupId>org.glassfish</groupId>
+    <artifactId>javax.json</artifactId>
+    <version>1.0.4</version>
+</dependency>
+----
+
+- Now, restart your application using the option `Restart in Run Mode`.
+
+image::sb_lab1_code_wind_perf_restart_app.png[align="center"]
+
+- Once the application is restarted, you can access the application monitor and performance dashboard.
+
+- Click on the `Open Application Monitor` to access the java metrics dashboard.
+
+image::sb_lab1_code_wind_perf_app_monitor.png[align="center"]
+
+image::sb_lab1_code_wind_perf_app_monitor_summary.png[align="center"]
+
+- To open the performance dashboard, click on `Open Performance Dashboard`.
+
+** Access the dashboard and then run the test.
+
+image::sb_lab1_code_wind_perf_dashboard.png[align="center"]
+
+** Create a load test as follows. Then refresh your application to create load.
+
+image::sb_lab1_code_wind_perf_load_test_create.png[align="center"]
+
+** Run the test.
+
+image::sb_lab1_code_wind_perf_load_test_run.png[align="center"]
+
+** You will see something like below after the first test.
+
+image::sb_lab1_code_wind_perf_load_test_one.png[align="center"]
+
+** Run couple of tests and you should be able to see the results.
+
+image::sb_lab1_code_wind_perf_load_test_two.png[align="center"]
+
+image::sb_lab1_code_wind_perf_load_test_four.png[align="center"]
 
 == Deploy the appsody application on Openshift for team development
 
