@@ -1,18 +1,22 @@
-= SpringBoot - Appsody sample application
-Hemankita Perabathini <Hemankita.Perabathini@ibm.com>
-v1.0, 2019-09-17
+= Nodejs-Express Using Kabanero
+Carlos Santana <csantana@us.ibm.com>
+v1.0, 2019-09-22
 :toc:
 :imagesdir: images
 
 == Prerequisites
 
-* https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift] (We are using the IKS Openshift cluster)
+* https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift Cluster]
+** Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)
+*** Appsody Operator
+*** Tekton Operator and TekTon Dashboard
+*** Knative Operator
 * Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac], https://docs.docker.com/docker-for-windows/install/[Windows]
 * The following command line (CLI) tools and configured:
-  ** docker - It comes with the Docker for Desktop installation.
-  ** https://www.okd.io/download.html[oc]
-  ** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
-  ** https://appsody.dev/docs/getting-started/installation[appsody]
+** docker - It comes with the Docker for Desktop installation.
+** https://www.okd.io/download.html[oc]
+** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
+** https://appsody.dev/docs/getting-started/installation[appsody]
 
 == Add Kabanero Collection to appsody
 
@@ -93,16 +97,16 @@ appsody repo set-default kabanero
 
 [source, bash]
 ----
-mkdir appsody_sample_springboot
+mkdir appsody_sample_nodejs-express
 
-cd appsody_sample_springboot/
+cd appsody_sample_nodejs-express/
 ----
 
-- Initialize the project using `appsody init` and select the desired stack ID.
+- Initialize the project using `appsody init` by selecting the desired stack ID template `simple`.
 
 [source, bash]
 ----
-appsody init kabanero/java-spring-boot2
+appsody init kabanero/nodejs-express
 ----
 
 === Build the application
@@ -114,25 +118,71 @@ This command will locally build a docker image of your appsody project.
 appsody build
 ----
 
-Once it runs successfully, you will see something like this.
+Once it builds successfully, you will see something like this.
 
 [source, bash]
 ----
-[Docker]  ---> Running in 3edec1263e50
-[Docker] Removing intermediate container 3edec1263e50
-[Docker]  ---> b738cc92f9e3
-[Docker] Step 33/34 : COPY --from=compile /project/user-app/target/app.jar /app.jar
-[Docker]  ---> 2bb71966ba32
-[Docker] Step 34/34 : ENTRYPOINT [ "sh", "-c", "java $JVM_ARGS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
-[Docker]  ---> Running in d9c411bc4772
-[Docker] Removing intermediate container d9c411bc4772
-[Docker]  ---> 4537506d45ab
-[Docker] Successfully built 4537506d45ab
-[Docker] Successfully tagged appsody-sample-springboot:latest
-Built docker image appsody-sample-springboot
+[Docker] Removing intermediate container 264b4dd86f2c
+[Docker]  ---> 3a7e5ca613f2
+[Docker] Step 20/21 : EXPOSE 3000
+[Docker]  ---> Running in fb7b734205a8
+[Docker] Removing intermediate container fb7b734205a8
+[Docker]  ---> badce710593d
+[Docker] Step 21/21 : CMD ["npm", "start"]
+[Docker]  ---> Running in 961a344e2c68
+[Docker] Removing intermediate container 961a344e2c68
+[Docker]  ---> e417d7dfc54c
+[Docker] Successfully built e417d7dfc54c
+[Docker] Successfully tagged appsody-sample-nodejs-express:latest
+Built docker image appsody-sample-nodejs-express
 ----
 
-It helps you to check that stack is stable and init is done correctly. You need not run build to run the project ever again.
+It helps you to check that stack is stable and init is done correctly. You do not need to run build directly ever again.
+
+=== Test the Application
+
+- Test the application using appsody
+
+[source, bash]
+----
+appsody test
+----
+
+This step is building a container and running the test command inside of it.
+
+[source, bash]
+----
+Running test environment
+Running command: docker pull kabanero/nodejs-express:0.2
+Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantanapr/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantanapr/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=test
+[Container] Running APPSODY_PREP command: npm install --prefix user-app
+added 170 packages from 578 contributors and audited 295 packages in 2.76s
+...
+[Container] Running command:  npm test && npm test --prefix user-app
+[Container]
+[Container] > nodejs-express@0.2.6 test /project
+[Container] > mocha
+...
+[Container] App started on PORT 3000
+...
+[Container]
+[Container]   7 passing (44ms)
+[Container]
+[Container]
+[Container] > nodejs-express-simple@0.1.0 test /project/user-app
+[Container] > mocha
+[Container]
+...
+[Container] App started on PORT 3000
+[Container]   Node.js Express Simple template
+[Container]     / endpoint
+[Container]       ✓ status
+[Container]
+[Container]
+[Container]   1 passing (40ms)
+[Container]
+[Container] The file watcher is not running because no APPSODY_RUN/TEST/DEBUG_ON_CHANGE action was specified or it has been disabled using the --no-watcher flag.
+----
 
 === Run the Application
 
@@ -145,36 +195,58 @@ appsody run
 
 This step is building a container and running it, the output has the endpoint for the application.
 
+[source, bash]
 ----
 Running development environment...
-Running command: docker[pull kabanero/java-spring-boot2:0.3]
-Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=run]
-......
-......
-......
-[Container] 2019-09-12 17:49:22.173  INFO 185 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
-[Container] 2019-09-12 17:49:22.377  INFO 185 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-[Container] 2019-09-12 17:49:22.386  INFO 185 --- [  restartedMain] application.Main                         : Started Main in 7.984 seconds (JVM running for 9.679)
-[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-[Container] 2019-09-12 17:58:42.805  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 27 ms
-[Container] 2019-09-12 17:58:43.044  INFO 185 --- [nio-8080-exec-1] i.j.internal.reporters.LoggingReporter   : Span reported: 445d02b19cea491:445d02b19cea491:0:1 - GET
+Running command: docker pull kabanero/nodejs-express:0.2
+Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantanapr/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantanapr/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=run
+[Container] Running APPSODY_PREP command: npm install --prefix user-app
+audited 295 packages in 1.546s
+[Container] found 0 vulnerabilities
+[Container]
+[Container] Running command:  npm start
+[Container]
+[Container] > nodejs-express@0.2.6 start /project
+[Container] > node server.js
+[Container]
+[Container] [Sun Sep 22 23:29:50 2019] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.0.5.201909191743 (Agent Core 4.0.5)
+[Container] [Sun Sep 22 23:29:51 2019] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
+[Container] App started on PORT 3000
 ----
 
-- Open the application using the web browser at http://localhost:8080.
+- Open the application using the web browser at http://localhost:3000 .
 
 - By default, the template provides the below endpoints.
 
-** Health endpoint: http://localhost:8080/actuator/health
-** Liveness endpoint: http://localhost:8080/actuator/liveness
-** Metrics endpoint: http://localhost:8080/actuator/metrics
-** Prometheus endpoint: http://localhost:8080/actuator/prometheus
+** Readiness endpoint: http://localhost:3000/ready
+** Liveness endpoint: http://localhost:3000/live
+** Health check endpoint: http://localhost:3000/health
+** Metrics endpoint: http://localhost:3000/metrics
 
-For more details, refer https://github.com/appsody/stacks/blob/master/incubator/java-spring-boot2/README.md[Spring® Boot 2 Stack].
+For more details, refer https://github.com/appsody/stacks/blob/master/incubator/nodejs-express/README.md[Node.js Express Stack].
+
+=== Stop the Application
+
+- To stop the application container, run this command.
+
+[source, bash]
+----
+appsody stop
+----
+
+- Alternatively, you can also press `Ctrl+C`.
 
 === Debug the Application
 
-To debug the application including reloading the application on code changes run the below command.
+- Open your editor. We are using `VS Code`. Add the project to your workspace, or use the command `code .` .
+
+image::js_lab1_vscode_project.png[align="center"]
+
+- Open a new terminal window inside VS Code use `View->Terminal`
+
+image::js_lab1_vscode_terminal.png[align="center"]
+
+ - To debug the application including reloading the application on code changes run the below command.
 
 [source, bash]
 ----
@@ -185,42 +257,29 @@ The output indicates the debug environment is being used
 
 [source, bash]
 ----
-$ appsody debug
 Running debug environment
-Running command: docker[pull kabanero/java-spring-boot2:0.3]
-Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=debug]
-.......
-.......
-.......
-[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
-[Container] [INFO] Changes detected - recompiling the module!
-[Container] [INFO] Compiling 1 source file to /project/user-app/target/test-classes
-[Container] [INFO]
-[Container] [INFO] <<< spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) < test-compile @ application <<<
-[Container] [INFO]
-[Container] [INFO]
-[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) @ application ---
-[Container] [INFO] Attaching agents: []
-[Container] Listening for transport dt_socket at address: 5005
+Running command: docker pull kabanero/nodejs-express:0.2
+Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantana23/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantana23/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=debug
+[Container] Running APPSODY_PREP command: npm install --prefix user-app
+audited 295 packages in 1.154s
+[Container] found 0 vulnerabilities
+[Container]
+[Container] Running command:  npm run debug
+[Container]
+[Container] > nodejs-express@0.2.6 debug /project
+[Container] > node --inspect=0.0.0.0 server.js
+[Container]
+[Container] Debugger listening on ws://0.0.0.0:9229/35c7d2cb-ced9-4c57-94f1-a58a5e078302
+[Container] For help, see: https://nodejs.org/en/docs/inspector
+[Container] [Sun Sep 22 23:38:35 2019] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.0.5.201909191743 (Agent Core 4.0.5)
+[Container] [Sun Sep 22 23:38:35 2019] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
+[Container] App started on PORT 3000
 ----
 
-- Open your editor. We are using `VS Code`. Add the project to your workspace.
 
-image::sb_lab1_open_project_vscode.png[align="center"]
+- Now you can open the application at http://localhost:3000/
 
-- Start the debugger in your editor.
-
-image::sb_lab1_vscode_debugger.png[align="center"]
-
-- Once you start it, you will see something like below.
-
-image::sb_lab1_vscode_debugger_window.png[align="center"]
-
-- Now you can open the application at http://localhost:8080/.
-
-- Let us check the liveness probe at http://localhost:8080/actuator/liveness.
-
-image::sb_lab1_liveness.png[align="center"]
+image::js_lab1_endpoint.png[align="center"]
 
 - Let us make a code change.
 
@@ -230,18 +289,27 @@ Here, the debugger will reload the application for you.
 
 - Refresh the browser to see the changes.
 
-image::sb_lab1_liveness_test.png[align="center"]
+image::js_lab1_endpoint_test.png[align="center"]
 
-=== Stop the Application
+- Stop the appication usig `Ctrl+C`
 
-- To stop the container, run this command.
+- You ca attach to the Node.js debugger using `VSCode`
 
-[source, bash]
-----
-appsody stop
-----
+- To access the debug view use `View->Debug` or click Debug icon on left menu
 
-- Alternatively, you can also press `Ctrl+C`.
+image::js_lab1_vscode_debug.png[align="center"]
+
+- Add a break point to the application, click to the left of the line number
+
+image::js_lab1_vscode_breakpoint.png[align="center"]
+
+- Click on the debug task `Appsody: Attach node`
+
+image::js_lab1_vscode_attach.png[align="center"]
+
+- Refresh the browser and watch how the debugger stops at the break point
+
+image::js_lab1_vscode_attach_break.png[align="center"]
 
 == Deploy the appsody application on Openshift for personal development
 
@@ -255,19 +323,23 @@ appsody stop
 Terminal > Run Build Task...
 ----
 
-image::sb_lab1_build_task_menu.png[align="center"]
+image::js_lab1_build_task_menu.png[align="center"]
 
 - You will see a list of available tasks.
 
-image::sb_lab1_build_task_list.png[align="center"]
+image::js_lab1_build_task_list.png[align="center"]
 
 - Click on `Appsody: run` and this will run the application.
 
-image::sb_lab1_build_task_run.png[align="center"]
+image::js_lab1_build_task_run.png[align="center"]
 
-- Once, it is successfully started, you can access the application at http://localhost:8080/.
+- Once, it is successfully started, you can access the application at http://localhost:3000/
 
-image::sb_lab1_build_task_run_app.png[align="center"]
+image::js_lab1_endpoint.png[align="center"]
+
+- Run the `Appsody: stop` task
+
+image::js_lab1_build_task_stop.png[align="center"]
 
 == Codewind on VS Code
 
@@ -279,11 +351,11 @@ Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using V
 
 - To get codewind extension you need https://code.visualstudio.com/download[VS Code version 1.28 or later].
 
-- Go to the extensions view and install codewind from the VS code market place.
+- Go to the extensions view and search for codewind from the VS code market place.
 
-image::sb_lab1_vscode_codewind_extension.png[align="center"]
+image::js_lab1_vscode_codewind_extension.png[align="center"]
 
-You will find `Codewind 0.3.1` and click `install` to get it. Also, if you want to use the IDE for Java applications, you need to install `Codewind Java Profiler 19.7.1`.
+You will find `Codewind` then click `install` to get it. Also, if you want to use Codewind for Node.js performance analysis, you need to install `Codewind Node.js Profiler`.
 
 - Once you get them installed, let us now open the `Codewind` in the IDE.
 
@@ -309,47 +381,47 @@ image::sb_lab1_vscode_codewind_explorer.png[align="center"]
 
 image::sb_lab1_codewind_add_existing_project.png[align="center"]
 
-**Note** - Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the `codewind workspace`.
+**Note** - Before doing this, copy your project to the codewind workspace, in the directory `codewind-workspaces/` in your HOME directory. At this point of time, codewind only accepts the projects that are available in the `codewind workspace`.
 
 - From the codewind workspace, select the project you created earlier.
 
-image::sb_lab1_add_existing_prj_from_workspace.png[align="center"]
+image::js_lab1_add_existing_prj_from_workspace.png[align="center"]
 
 - The codewind extension asks you for confirmation as follows. Click `Yes`.
 
-image::sb_lab1_appsody_extension.png[align="center"]
-
 - The project will be added.
-
-image::sb_lab1_appsody_project.png[align="center"]
 
 - Once it is successfully build, it starts running.
 
-image::sb_lab1_appsody_project_running.png[align="center"]
+image::js_lab1_appsody_project_running.png[align="center"]
+
+- You can open the CodeWind workspace, right click on `Projects`
+
+image::js_lab1_codewind_open_workspace.png[align="center"]
 
 === Project Options
 
 - Go to the application and `right click` on it to access the various options available.
 
-image::sb_lab1_code_wind_project_options.png[align="center"]
+image::js_lab1_codewind_project_options.png[align="center"]
 
 - Click `Open App` to access the application.
 
-image::sb_lab1_codewind_open_app.png[align="center"]
+image::js_lab1_codewind_open_app.png[align="center"]
 
 **Note** - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
 
 - To get the overview of your project, click on `Open Project Overview`.
 
-image::sb_lab1_codewind_project_overview.png[align="center"]
+image::js_lab1_codewind_project_overview.png[align="center"]
 
 - You can access the container shell directly from the IDE by using `Open Container Shell`.
 
-image::sb_lab1_codewind_container_shell.png[align="center"]
+image::js_lab1_codewind_container_shell.png[align="center"]
 
 - To access the logs of the application, click on `Show all logs`.
 
-image::sb_lab1_codewind_project_logs.png[align="center"]
+image::js_lab1_codewind_project_logs.png[align="center"]
 
 - You can also hide the logs if you want to by using `Hide all logs` option.
 
@@ -357,11 +429,11 @@ image::sb_lab1_codewind_project_logs.png[align="center"]
 
 - You can also run the application by using `Restart in Run Mode`.
 
-image::sb_lab1_codewind_project_restart_in_run_mode.png[align="center"]
+image::js_lab1_codewind_project_restart_in_run_mode.png[align="center"]
 
 Once it is restarted, you can access the application by clicking on the button as shown below.
 
-image::sb_lab1_restart_in_run_mode_app.png[align="center"]
+image::js_lab1_restart_in_run_mode_app.png[align="center"]
 
 - Similarly, you can also do debugging by using `Restart in Debug Mode`.
 
@@ -380,8 +452,8 @@ Once you create it, you will see something like below.
 
 [source, bash]
 ----
-$ oc new-project kabanero-samples-java
-Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+$ oc new-project kabanero-samples
+Now using project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -401,8 +473,8 @@ It gives you the below message if you are already in that space.
 
 [source, bash]
 ----
-$ oc project kabanero-samples-java
-Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+$ oc project kabanero-samples
+Already on project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
 ----
 
 - Check that the current context is your team's project space.
@@ -417,7 +489,7 @@ You will see something like below.
 [source, bash]
 ----
 $ oc project -q
-kabanero-samples-java
+kabanero-samples
 ----
 
 === Create application deployment manifest
@@ -429,74 +501,74 @@ kabanero-samples-java
 appsody deploy --generate-only
 ----
 
-This will generate you the below file.
+This will generate the file `app-deploy.yaml` with the following content:
 
 [source, yaml]
 ----
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-springboot
+  name: appsody-sample-nodejs-express
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: appsody-sample-springboot
-  stack: java-spring-boot2
+  applicationImage: appsody-sample-nodejs-express 
+  stack: nodejs-express
   service:
     type: NodePort
-    port: 8080
+    port: 3000
     annotations:
       prometheus.io/scrape: 'true'
-      prometheus.io/path: '/actuator/prometheus'
   readinessProbe:
     failureThreshold: 12
     httpGet:
-      path: /actuator/health
-      port: 8080
+      path: /ready
+      port: 3000
     initialDelaySeconds: 5
     periodSeconds: 2
+    timeoutSeconds: 1
   livenessProbe:
     failureThreshold: 12
     httpGet:
-      path: /actuator/liveness
-      port: 8080
+      path: /live
+      port: 3000
     initialDelaySeconds: 5
     periodSeconds: 2
   expose: true
 ----
 
-By default, the application is deployed in the `kabanero` namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called `kabanero-samples-java` and we can specify it under the metadata as below.
+By default, the application is deployed in the `kabanero` namespace. If you want to deploy the application in a different namespace, you need to specify it in this yaml file. In this lab, lets use a namespace called `kabanero-samples` and we can specify it under the metadata as below.
 
 [source, yaml]
 ----
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-springboot
-  namespace: kabanero-samples-java
+  name: appsody-sample-nodejs-express
+  namespace: kabanero-samples
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: appsody-sample-springboot
-  stack: java-spring-boot2
+  applicationImage: appsody-sample-nodejs-express 
+  stack: nodejs-express
   service:
     type: NodePort
-    port: 8080
+    port: 3000
     annotations:
       prometheus.io/scrape: 'true'
-      prometheus.io/path: '/actuator/prometheus'
   readinessProbe:
     failureThreshold: 12
     httpGet:
-      path: /actuator/health
-      port: 8080
+      path: /ready
+      port: 3000
     initialDelaySeconds: 5
     periodSeconds: 2
+    timeoutSeconds: 1
   livenessProbe:
     failureThreshold: 12
     httpGet:
-      path: /actuator/liveness
-      port: 8080
+      path: /live
+      port: 3000
     initialDelaySeconds: 5
     periodSeconds: 2
   expose: true
@@ -529,7 +601,7 @@ git push -u origin master
 - Select `Generate new token`.
 - Create a Github access token with permission `admin:repo_hook`
 
-image::sb_lab1_github_token.png[align="center"]
+image::js_lab1_github_token.png[align="center"]
 
 - Then finally click `Generate token` to create one.
 
@@ -594,19 +666,20 @@ image::sb_lab1_webhook_settings_access_token_existing.png[align="center"]
 === Set up the pipeline
 
 - Enter the information for the Pipeline settings
+**Note** Replace <your_project> with the name of the target namspace in our case `kabanero-samples`
 
 ----
 Namespace - kabanero
-Pipeline - java-spring-boot2-build-deploy-pipeline
+Pipeline - nodejs-express-build-deploy-pipeline
 Service account - kabaner-operator
 Docker Registry - docker-registry.default.svc:5000/<your_project>
 ----
 
-image::sb_lab1_pipeline_settings.png[align="center"]
+image::js_lab1_pipeline_settings.png[align="center"]
 
 - Click Create, a new webhook is created.
 
-image::sb_lab1_webhook.png[align="center"]
+image::js_lab1_webhook.png[align="center"]
 
 Also, a new Gitub webhook is created on the project repository.
 
@@ -618,15 +691,15 @@ You can verify it by going into your `github repository > Settings > Webhooks` a
 
 The way to deploy the application is to make a change in the application in the git repository to trigger the tekton webhook and start the DevOps pipeline to build and deploy the application.
 
-- Make a change to the application such as changing the `index.html` or any other things.
+- Make a change to the application such as changing the `app.js` or any other things.
 
-Let us change the `title` from `Hello from Appsody!` to `Hello from Cloud Paks !!!`.
+Lets change from `Hello from Appsody Demo!` to `Hello from Cloud Paks !!!`.
 
 - Push your changes to the remote git repository.
 
 - This will trigger the Tekton Pipeline. To see the status of the Pipeline click on `PipelineRuns` on the menu of the dashboard.
 
-image::sb_lab1_pipeline_runs.png[align="center"]
+image::js_lab1_pipeline_runs.png[align="center"]
 
 - When the application is built and deployed the application will be available via the expose `Route`.
 
@@ -634,7 +707,7 @@ image::sb_lab1_pipeline_runs.png[align="center"]
 
 You will see a route for your application, click on the url to open your application.
 
-image::sb_lab1_application_route.png[align="center"]
+image::js_lab1_application_route.png[align="center"]
 
 - Or you can also get the route from the oc CLI.
 
@@ -647,31 +720,9 @@ For instance,
 
 [source,bash]
 ----
-$ oc get routes -n kabanero-samples-java
-NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
-appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-springboot   8080                    None
+$ oc get routes -n kabanero-samples
+NAME                            HOST/PORT                                                                                                                               PATH      SERVICES                        PORT      TERMINATION   WILDCARD
+appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-nodejs-express   3000                    None
 ----
 
-You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
-
-== Enabling knative in your application
-
-- Edit the file `app-deploy.yaml`.
-
-- Add the line `createKnativeService: true` to the spec object.
-
-[source, bash]
-----
-apiVersion: appsody.dev/v1beta1
-kind: AppsodyApplication
-metadata:
-  name: my-appsody-app
-spec:
-  stack: java-microprofile
-  createKnativeService: true
-----
-
-Git push the change, tekton pipeline runs, show the app again running and inspect extra resource associated with Kantive
-Knative Service oc get ksvc
-Knative Configurations oc get configurations
-Knative Revisions oc get revisions
+You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
