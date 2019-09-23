@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Nodejs-Express Using Kabanero :: Learning-Kabanero-101</title>
+    <title>End to end Node.js Express Kabanero workflow :: Learning-Kabanero-101</title>
     <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/nodejs-express/nodejs-express.html">
     <meta name="generator" content="Antora 2.0.1">
     <link rel="stylesheet" href="../../../_/css/site.css">
@@ -85,7 +85,7 @@
   <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/nodejs-express/nodejs-express.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">Nodejs-Express Using Kabanero</h1>
+<h1 class="page">End to end Node.js Express Kabanero workflow</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -126,6 +126,7 @@
 <li><a href="#_deploy_the_application">Deploy the Application</a></li>
 </ul>
 </li>
+<li><a href="#_serverless_autoscaling_the_application_with_knative">Serverless autoscaling the Application with Knative</a></li>
 </ul>
 </div>
 <div class="sect1">
@@ -142,9 +143,6 @@
 <div class="ulist">
 <ul>
 <li>
-<p>Appsody Operator</p>
-</li>
-<li>
 <p>Tekton Operator and TekTon Dashboard</p>
 </li>
 <li>
@@ -152,6 +150,9 @@
 </li>
 </ul>
 </div>
+</li>
+<li>
+<p>Install Appsody Operator that watches on all namespaces <a href="https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0" class="bare">https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0</a></p>
 </li>
 </ul>
 </div>
@@ -1099,33 +1100,7 @@ spec:
 kind: AppsodyApplication
 metadata:
   name: appsody-sample-nodejs-express
-  namespace: kabanero-samples
-spec:
-  # Add fields here
-  version: 1.0.0
-  applicationImage: appsody-sample-nodejs-express
-  stack: nodejs-express
-  service:
-    type: NodePort
-    port: 3000
-    annotations:
-      prometheus.io/scrape: 'true'
-  readinessProbe:
-    failureThreshold: 12
-    httpGet:
-      path: /ready
-      port: 3000
-    initialDelaySeconds: 5
-    periodSeconds: 2
-    timeoutSeconds: 1
-  livenessProbe:
-    failureThreshold: 12
-    httpGet:
-      path: /live
-      port: 3000
-    initialDelaySeconds: 5
-    periodSeconds: 2
-  expose: true</code></pre>
+  namespace: kabanero-samples</code></pre>
 </div>
 </div>
 </div>
@@ -1437,7 +1412,124 @@ appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.c
 </div>
 </div>
 <div class="paragraph">
-<p>You can now acccess the application at &lt;HOST/PORT&gt;, here it is <code>appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
+<p>You can now acccess the application at &lt;HOST/PORT&gt;, here it is <code><a href="https://appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud" class="bare">https://appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</a></code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_serverless_autoscaling_the_application_with_knative"><a class="anchor" href="#_serverless_autoscaling_the_application_with_knative"></a>Serverless autoscaling the Application with Knative</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Edit the file <code>app-deploy.yaml</code>.</p>
+</li>
+<li>
+<p>Add the line <code>createKnativeService: true</code> to the spec object.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: appsody-sample-nodejs-express
+  namespace: kabanero-samples
+spec:
+  version: 1.0.0
+  applicationImage: appsody-sample-nodejs-express
+  stack: nodejs-express
+  createKnativeService: true</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Git push the change, and see tekton pipeline runs again.</p>
+</li>
+<li>
+<p>Show the Knative resource</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get service.serving.knative.dev/appsody-sample-nodejs-express
+
+NAME                            URL                                                                                                                                            LATESTCREATED                         LATESTREADY                           READY     REASON
+appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Show the Knative route</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get route.serving.knative.dev/appsody-sample-nodejs-expres
+
+NAME                            URL                                                                                                                                            READY     REASON
+appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Show the Knative configuration</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get configuration.serving.knative.dev/appsody-sample-nodejs-express
+
+NAME                            LATESTCREATED                         LATESTREADY                           READY     REASON
+appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Show the Knative latest ready revision</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get revision.serving.knative.dev/appsody-sample-nodejs-express-mtl4q
+
+NAME                                  SERVICE NAME                          GENERATION   READY     REASON
+appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   2            True</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Visit the Knative public url <code><a href="http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud" class="bare">http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</a></code> and list the pods</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods
+
+NAME                                                              READY     STATUS    RESTARTS   AGE
+appsody-sample-nodejs-express-mtl4q-deployment-7bf6dbddf6-rr89p   2/2       Running   0          27s</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Wait 1 minute and you will the see the pods are not longer runnning</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get pods
+
+No resources found.</pre>
 </div>
 </div>
 </div>

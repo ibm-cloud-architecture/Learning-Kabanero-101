@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>SpringBoot - Appsody sample application :: Learning-Kabanero-101</title>
+    <title>End to end Spring Boot Kabanero workflow :: Learning-Kabanero-101</title>
     <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/java-spring-boot2/cloudpaks.html">
     <meta name="generator" content="Antora 2.0.1">
     <link rel="stylesheet" href="../../../_/css/site.css">
@@ -85,7 +85,7 @@
   <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/java-spring-boot2/cloudpaks.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">SpringBoot - Appsody sample application</h1>
+<h1 class="page">End to end Spring Boot Kabanero workflow</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -134,7 +134,27 @@
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://cloud.ibm.com/kubernetes/catalog/openshiftcluster">Openshift</a> (We are using the IKS Openshift cluster)</p>
+<p><a href="https://cloud.ibm.com/kubernetes/catalog/openshiftcluster">Openshift Cluster</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Tekton Operator and TekTon Dashboard</p>
+</li>
+<li>
+<p>Knative Operator</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Install Appsody Operator that watches on all namespaces <a href="https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0" class="bare">https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0</a></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>Docker for Desktop - <a href="https://docs.docker.com/docker-for-mac/install/">Mac</a>, <a href="https://docs.docker.com/docker-for-windows/install/">Windows</a></p>
