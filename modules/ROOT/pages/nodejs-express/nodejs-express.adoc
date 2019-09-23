@@ -1,4 +1,4 @@
-= Nodejs-Express Using Kabanero
+= End to end Node.js Express Kabanero workflow
 Carlos Santana <csantana@us.ibm.com>
 v1.0, 2019-09-22
 :toc:
@@ -8,9 +8,9 @@ v1.0, 2019-09-22
 
 * https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift Cluster]
 ** Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)
-*** Appsody Operator
 *** Tekton Operator and TekTon Dashboard
 *** Knative Operator
+** Install Appsody Operator that watches on all namespaces https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0
 * Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac], https://docs.docker.com/docker-for-windows/install/[Windows]
 * The following command line (CLI) tools and configured:
 ** docker - It comes with the Docker for Desktop installation.
@@ -546,32 +546,6 @@ kind: AppsodyApplication
 metadata:
   name: appsody-sample-nodejs-express
   namespace: kabanero-samples
-spec:
-  # Add fields here
-  version: 1.0.0
-  applicationImage: appsody-sample-nodejs-express 
-  stack: nodejs-express
-  service:
-    type: NodePort
-    port: 3000
-    annotations:
-      prometheus.io/scrape: 'true'
-  readinessProbe:
-    failureThreshold: 12
-    httpGet:
-      path: /ready
-      port: 3000
-    initialDelaySeconds: 5
-    periodSeconds: 2
-    timeoutSeconds: 1
-  livenessProbe:
-    failureThreshold: 12
-    httpGet:
-      path: /live
-      port: 3000
-    initialDelaySeconds: 5
-    periodSeconds: 2
-  expose: true
 ----
 
 === Creating a git repo
@@ -725,4 +699,80 @@ NAME                            HOST/PORT                                       
 appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-nodejs-express   3000                    None
 ----
 
-You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
+You can now acccess the application at <HOST/PORT>, here it is `https://appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
+
+
+== Serverless autoscaling the Application with Knative
+
+- Edit the file `app-deploy.yaml`.
+
+- Add the line `createKnativeService: true` to the spec object.
+
+[source, bash]
+----
+apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: appsody-sample-nodejs-express
+  namespace: kabanero-samples
+spec:
+  version: 1.0.0
+  applicationImage: appsody-sample-nodejs-express
+  stack: nodejs-express
+  createKnativeService: true
+----
+
+- Git push the change, and see tekton pipeline runs again.
+
+- Show the Knative resource
+[source, bash]
+----
+oc get service.serving.knative.dev/appsody-sample-nodejs-express
+
+NAME                            URL                                                                                                                                            LATESTCREATED                         LATESTREADY                           READY     REASON
+appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True
+----
+
+- Show the Knative route
+[source, bash]
+----
+oc get route.serving.knative.dev/appsody-sample-nodejs-expres
+                                                         
+NAME                            URL                                                                                                                                            READY     REASON
+appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True 
+----
+
+- Show the Knative configuration
+[source, bash]
+----
+oc get configuration.serving.knative.dev/appsody-sample-nodejs-express
+
+NAME                            LATESTCREATED                         LATESTREADY                           READY     REASON
+appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True 
+----
+
+- Show the Knative latest ready revision
+[source, bash]
+----
+oc get revision.serving.knative.dev/appsody-sample-nodejs-express-mtl4q
+
+NAME                                  SERVICE NAME                          GENERATION   READY     REASON
+appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   2            True   
+----
+
+Visit the Knative public url `http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud` and list the pods
+[source, bash]
+----
+oc get pods
+
+NAME                                                              READY     STATUS    RESTARTS   AGE
+appsody-sample-nodejs-express-mtl4q-deployment-7bf6dbddf6-rr89p   2/2       Running   0          27s
+----
+
+- Wait 1 minute and you will the see the pods are not longer runnning
+[source, bash]
+----
+oc get pods
+
+No resources found.
+----
