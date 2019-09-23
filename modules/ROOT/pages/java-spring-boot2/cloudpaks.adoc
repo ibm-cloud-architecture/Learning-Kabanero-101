@@ -1,4 +1,4 @@
-= SpringBoot - Appsody sample application
+= End to end Spring Boot Kabanero workflow
 Hemankita Perabathini <Hemankita.Perabathini@ibm.com>
 v1.0, 2019-09-17
 :toc:

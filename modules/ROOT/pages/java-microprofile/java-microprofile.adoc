@@ -1,4 +1,4 @@
-= Java Microprofile Using Kabanero
+= End to end Microprofile Kabanero workflow
 Bryan Kribbs <bakribbs@us.ibm.com>
 v1.0, 2019-06-28
 :toc:
