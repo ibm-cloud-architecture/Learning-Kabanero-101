@@ -8,9 +8,9 @@ v1.0, 2019-09-22
 
 * https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift Cluster]
 ** Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)
-*** Appsody Operator
 *** Tekton Operator and TekTon Dashboard
 *** Knative Operator
+** Install Appsody Operator that watches on all namespaces https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0
 * Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac], https://docs.docker.com/docker-for-windows/install/[Windows]
 * The following command line (CLI) tools and configured:
 ** docker - It comes with the Docker for Desktop installation.
