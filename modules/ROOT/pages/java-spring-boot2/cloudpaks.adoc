@@ -204,7 +204,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 [Container] Listening for transport dt_socket at address: 5005
 ----
 
-- Open your editor. We are using `VS Code`. Add the project to your workspcce.
+- Open your editor. We are using `VS Code`. Add the project to your workspace.
 
 image::sb_lab1_open_project_vscode.png[align="center"]
 
