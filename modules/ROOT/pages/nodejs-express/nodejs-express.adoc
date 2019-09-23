@@ -726,29 +726,3 @@ appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.c
 ----
 
 You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
-
-== Enabling knative in your application
-
-- Edit the file `app-deploy.yaml`.
-
-- Add the line `createKnativeService: true` to the spec object.
-
-[source, bash]
-----
-apiVersion: appsody.dev/v1beta1
-kind: AppsodyApplication
-metadata:
-  name: appsody-sample-nodejs-express
-  namespace: kabanero-samples
-spec:
-  # Add fields here
-  version: 1.0.0
-  applicationImage: appsody-sample-nodejs-express
-  stack: nodejs-express
-  createKnativeService: true
-----
-
-Git push the change, tekton pipeline runs, show the app again running and inspect extra resource associated with Knative
-Knative Service oc get ksvc
-Knative Configurations oc get configurations
-Knative Revisions oc get revisions
