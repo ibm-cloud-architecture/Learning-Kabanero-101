@@ -468,6 +468,10 @@ image::sb_lab1_code_wind_perf_load_test_two.png[align="center"]
 
 image::sb_lab1_code_wind_perf_load_test_four.png[align="center"]
 
+** If you scroll down, you can also see the test history details.
+
+image::sb_lab1_code_wind_perf_load_test_history.png[align="center"]
+
 == Deploy the appsody application on Openshift for team development
 
 === Set up team project namespace
