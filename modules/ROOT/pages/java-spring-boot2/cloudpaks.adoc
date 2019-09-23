@@ -331,7 +331,7 @@ image::sb_lab1_appsody_project.png[align="center"]
 
 image::sb_lab1_appsody_project_running.png[align="center"]
 
-=== Project Options for dev
+=== Project options for dev
 
 - Go to the application and `right click` on it to access the various options available.
 
@@ -377,7 +377,7 @@ image::sb_lab1_code_wind_project_options.png[align="center"]
 
 - Click `Open Application Monitor` to access the application monitor.
 
-==== Enabling Javametrics
+[maroon]*Enabling Javametrics*
 
 For Springboot project, you need to set up the Javametrics before accessing the application monitor.
 
