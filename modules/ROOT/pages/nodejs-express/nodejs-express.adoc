@@ -546,32 +546,6 @@ kind: AppsodyApplication
 metadata:
   name: appsody-sample-nodejs-express
   namespace: kabanero-samples
-spec:
-  # Add fields here
-  version: 1.0.0
-  applicationImage: appsody-sample-nodejs-express 
-  stack: nodejs-express
-  service:
-    type: NodePort
-    port: 3000
-    annotations:
-      prometheus.io/scrape: 'true'
-  readinessProbe:
-    failureThreshold: 12
-    httpGet:
-      path: /ready
-      port: 3000
-    initialDelaySeconds: 5
-    periodSeconds: 2
-    timeoutSeconds: 1
-  livenessProbe:
-    failureThreshold: 12
-    httpGet:
-      path: /live
-      port: 3000
-    initialDelaySeconds: 5
-    periodSeconds: 2
-  expose: true
 ----
 
 === Creating a git repo
