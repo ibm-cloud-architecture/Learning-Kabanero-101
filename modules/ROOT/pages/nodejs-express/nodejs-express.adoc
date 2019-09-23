@@ -721,11 +721,11 @@ For instance,
 [source,bash]
 ----
 $ oc get routes -n kabanero-samples
-NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
-appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-springboot   8080                    None
+NAME                            HOST/PORT                                                                                                                               PATH      SERVICES                        PORT      TERMINATION   WILDCARD
+appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-nodejs-express   3000                    None
 ----
 
-You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
+You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
 
 == Enabling knative in your application
 
@@ -738,9 +738,13 @@ You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-s
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: my-appsody-app
+  name: appsody-sample-nodejs-express
+  namespace: kabanero-samples
 spec:
-  stack: java-microprofile
+  # Add fields here
+  version: 1.0.0
+  applicationImage: appsody-sample-nodejs-express
+  stack: nodejs-express
   createKnativeService: true
 ----
 
