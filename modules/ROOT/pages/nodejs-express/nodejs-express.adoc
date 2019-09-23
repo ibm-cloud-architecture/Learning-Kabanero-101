@@ -293,6 +293,24 @@ image::js_lab1_endpoint_test.png[align="center"]
 
 - Stop the appication usig `Ctrl+C`
 
+- You ca attach to the Node.js debugger using `VSCode`
+
+- To access the debug view use `View->Debug` or click Debug icon on left menu
+
+image::js_lab1_vscode_debug.png[align="center"]
+
+- Add a break point to the application, click to the left of the line number
+
+image::js_lab1_vscode_breakpoint.png[align="center"]
+
+- Click on the debug task `Appsody: Attach node`
+
+image::js_lab1_vscode_attach.png[align="center"]
+
+- Refresh the browser and watch how the debugger stops at the break point
+
+image::js_lab1_vscode_attach_break.png[align="center"]
+
 == Deploy the appsody application on Openshift for personal development
 
 *TBD*
@@ -305,16 +323,20 @@ image::js_lab1_endpoint_test.png[align="center"]
 Terminal > Run Build Task...
 ----
 
-image::sb_lab1_build_task_menu.png[align="center"]
+image::js_lab1_build_task_menu.png[align="center"]
 
 - You will see a list of available tasks.
 
-image::sb_lab1_build_task_list.png[align="center"]
+image::js_lab1_build_task_list.png[align="center"]
 
 - Click on `Appsody: run` and this will run the application.
 
-image::sb_lab1_build_task_run.png[align="center"]
+image::js_lab1_build_task_run.png[align="center"]
 
-- Once, it is successfully started, you can access the application at http://localhost:8080/.
+- Once, it is successfully started, you can access the application at http://localhost:3000/
 
-image::sb_lab1_build_task_run_app.png[align="center"]
+image::js_lab1_endpoint.png[align="center"]
+
+- Run the `Appsody: stop` task
+
+image::js_lab1_build_task_stop.png[align="center"]
