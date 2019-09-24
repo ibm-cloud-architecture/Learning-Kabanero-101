@@ -564,7 +564,7 @@ git push -u origin master
 - Select `Generate new token`.
 - Create a Github access token with permission `admin:repo_hook`
 
-image::microservice-github-token.png[align="center"]
+image::microprofile-github-token.png[align="center"]
 
 - Then finally click `Generate token` to create one.
 
