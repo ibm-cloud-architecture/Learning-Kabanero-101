@@ -283,7 +283,7 @@ image::js_lab1_endpoint.png[align="center"]
 
 - Let us make a code change.
 
-image::sb_lab1_code_change.png[align="center"]
+image::js_lab1_code_change.png[align="center"]
 
 Here, the debugger will reload the application for you.
 
@@ -311,9 +311,6 @@ image::js_lab1_vscode_attach.png[align="center"]
 
 image::js_lab1_vscode_attach_break.png[align="center"]
 
-== Deploy the appsody application on Openshift for personal development
-
-*TBD*
 
 == Appsody tasks on VS Code
 
@@ -347,13 +344,14 @@ Codewind simplifies and enhances development in containers by extending industry
 
 Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using VS Code as our IDE.
 
+
 === Getting the Codewind extension
 
 - To get codewind extension you need https://code.visualstudio.com/download[VS Code version 1.28 or later].
 
 - Go to the extensions view and search for codewind from the VS code market place.
 
-image::js_lab1_vscode_codewind_extension.png[align="center"]
+image::js_lab1_vscode_codewind_extension.png[Codewind extensions, 500]
 
 You will find `Codewind` then click `install` to get it. Also, if you want to use Codewind for Node.js performance analysis, you need to install `Codewind Node.js Profiler`.
 
@@ -436,6 +434,30 @@ Once it is restarted, you can access the application by clicking on the button a
 image::js_lab1_restart_in_run_mode_app.png[align="center"]
 
 - Similarly, you can also do debugging by using `Restart in Debug Mode`.
+
+=== Application Performance, Monitor, Profiling with Codewind
+
+- You can launch the app monitor by selecting `Open Appplication Monitor`
+
+image::js_lab1_codewind_app_monitor.png[]
+
+- The monitor dashboard will open in the browser
+
+image::js_lab1_app_monitor_dashboard.png[]
+
+- You can launch the app performance dashboard by selecting `Open Performance Dashboard`
+
+image::js_lab1_app_performance.png[]
+
+- The performance dashboard will open in the browser
+
+image::js_lab1_app_performance_dashboard.png[]
+
+- You can click Run Test and have Monitor and Performance dashboars side by side during the test.
+
+image::js_lab1_app_side_by_side_perf_test.png[]
+
+**Note** Profiling the node.js code is currently not working an https://github.com/eclipse/codewind-node-profiler/issues/5[issue] is opened on the github repo for the codewind node.js profiler extension
 
 == Deploy the appsody application on Openshift for team development
 
@@ -601,19 +623,19 @@ You can access it at the `HOST/PORT` available. For instance here it will be `te
 
 - You can also access it on the Cloud Pak Landing page. You will find a `Tekton Dashboard`.
 
-image::sb_lab1_kabanero_enterprise.png[align="center"]
+image::sb_lab1_kabanero_enterprise.png[Kabanero Menu,300]
 
 image::sb_lab1_kabanero_ent_dashboard.png[align="center"]
 
 image::sb_lab1_kabanero_ent_instance.png[align="center"]
 
-image::sb_lab1_tekton_dashboard.png[align="center"]
+image::sb_lab1_tekton_dashboard.png[]
 
 === Create Tekton webhook for git repo
 
 - Click on Webhooks in the menu.
 
-image::sb_lab1_menu_webhooks.png[align="center"]
+image::sb_lab1_menu_webhooks.png[Tekton Menu,300]
 
 - Click on `Add Webhook`.
 
