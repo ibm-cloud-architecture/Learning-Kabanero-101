@@ -177,7 +177,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 
 ** Health endpoint: http://localhost:9080/health
 ** Liveness endpoint: http://localhost:9080/health/live
-** Metrics endpoint:http://localhost:9080/metrics (login as admin user with adminpwd password)
+** Metrics endpoint: http://localhost:9080/metrics (login as admin user with adminpwd password)
 ** OpenAPI endpoint: http://localhost:9080/openapi
 ** Swagger UI endpoint: http://localhost:9080/openapi/ui
 
@@ -256,17 +256,17 @@ image::sb_lab1_vscode_debugger_window.png[align="center"]
 
 - Let us check the liveness probe at http://localhost:9080/health.
 
-image::sb_lab1_liveness.png[align="center"]
+image::microprofile-health-up.png[align="center"]
 
-- Let us make a code change.
+- Let us make a code change. We want to change the isAlive() to return `false` instead of `true`.
 
-image::sb_lab1_code_change.png[align="center"]
+image::microprofile-code-change.png[align="center"]
 
 Here, the debugger will reload the application for you.
 
 - Refresh the browser to see the changes.
 
-image::sb_lab1_liveness_test.png[align="center"]
+image::microprofile-health-down.png[align="center"]
 
 === Stop the Application
 
