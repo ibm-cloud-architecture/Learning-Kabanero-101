@@ -279,10 +279,6 @@ appsody stop
 
 - Alternatively, you can also press `Ctrl+C`.
 
-== Deploy the appsody application on Openshift for personal development
-
-*TBD*
-
 == Appsody tasks on VS Code
 
 - To access the build tasks on VS code, go to
