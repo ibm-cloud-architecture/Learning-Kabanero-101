@@ -95,18 +95,19 @@
 <ul class="sectlevel2">
 <li><a href="#_create_a_new_application">Create a new Application</a></li>
 <li><a href="#_build_the_application">Build the application</a></li>
+<li><a href="#_test_the_application">Test the Application</a></li>
 <li><a href="#_run_the_application">Run the Application</a></li>
-<li><a href="#_debug_the_application">Debug the Application</a></li>
 <li><a href="#_stop_the_application">Stop the Application</a></li>
+<li><a href="#_debug_the_application">Debug the Application</a></li>
 </ul>
 </li>
-<li><a href="#_deploy_the_appsody_application_on_openshift_for_personal_development">Deploy the appsody application on Openshift for personal development</a></li>
 <li><a href="#_appsody_tasks_on_vs_code">Appsody tasks on VS Code</a></li>
 <li><a href="#_codewind_on_vs_code">Codewind on VS Code</a>
 <ul class="sectlevel2">
 <li><a href="#_getting_the_codewind_extension">Getting the Codewind extension</a></li>
 <li><a href="#_adding_the_application">Adding the application</a></li>
-<li><a href="#_project_options">Project Options</a></li>
+<li><a href="#_project_options_for_dev">Project options for dev</a></li>
+<li><a href="#_project_options_for_performance">Project options for performance</a></li>
 </ul>
 </li>
 <li><a href="#_deploy_the_appsody_application_on_openshift_for_team_development">Deploy the appsody application on Openshift for team development</a>
@@ -125,7 +126,7 @@
 <li><a href="#_deploy_the_application">Deploy the Application</a></li>
 </ul>
 </li>
-<li><a href="#_enabling_knative_in_your_application">Enabling knative in your application</a></li>
+<li><a href="#_serverless_autoscaling_the_application_with_knative">Serverless autoscaling the Application with Knative</a></li>
 </ul>
 </div>
 <div class="sect1">
@@ -353,6 +354,83 @@ Built docker image appsody-sample-springboot</code></pre>
 </div>
 </div>
 <div class="sect2">
+<h3 id="_test_the_application"><a class="anchor" href="#_test_the_application"></a>Test the Application</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Test the application using appsody.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This step is building a container and running the test command inside of it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody test
+Running test environment
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/user@ibm.com/codewind-workspace/appsody-sample-springboot/.:/project/user-app -v /Users/user@ibm.com/.m2/repository:/mvn/repository -v /Users/user@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=test]
+[Container] Running: /project/java-spring-boot2-build.sh test
+[Container] Installing parent dev.appsody:spring-boot2-stack:0.3.13
+[Container] &gt; mvn install -q -f /project/appsody-boot2-pom.xml
+[Container] Test project in the foreground
+[Container] &gt; mvn package test
+[Container] [INFO] Scanning for projects...
+...
+...
+[Container] 2019-09-23 22:25:18.476  INFO 194 --- [           main] i.j.internal.reporters.LoggingReporter   : Span reported: 50797d26c2920f16:50797d26c2920f16:0:1 - GET
+[Container] [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.564 s - in application.MainTests
+[Container] 2019-09-23 22:25:18.659  INFO 194 --- [      Thread-13] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+[Container] [INFO]
+[Container] [INFO] Results:
+[Container] [INFO]
+[Container] [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[Container] [INFO]
+[Container] [INFO]
+[Container] [INFO] --- maven-jar-plugin:3.1.2:jar (default-jar) @ application ---
+[Container] [INFO] Building jar: /project/user-app/target/app.jar
+[Container] [INFO]
+[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:repackage (default) @ application ---
+[Container] [INFO] Replacing main artifact with repackaged archive
+[Container] [INFO]
+[Container] [INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ application ---
+[Container] [INFO] Using 'UTF-8' encoding to copy filtered resources.
+[Container] [INFO] Copying 2 resources
+[Container] [INFO]
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ application ---
+[Container] [INFO] Nothing to compile - all classes are up to date
+[Container] [INFO]
+[Container] [INFO] --- maven-antrun-plugin:1.1:run (trigger-spring-restart) @ application ---
+[Container] [INFO] Executing tasks
+[Container]      [echo] Triggering Spring app restart.
+[Container] [INFO] Executed tasks
+[Container] [INFO]
+[Container] [INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ application ---
+[Container] [INFO] Using 'UTF-8' encoding to copy filtered resources.
+[Container] [INFO] skip non existing resourceDirectory /project/user-app/src/test/resources
+[Container] [INFO]
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
+[Container] [INFO] Nothing to compile - all classes are up to date
+[Container] [INFO]
+[Container] [INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ application ---
+[Container] [INFO] Skipping execution of surefire because it has already been run for this configuration
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] BUILD SUCCESS
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] Total time:  38.440 s
+[Container] [INFO] Finished at: 2019-09-23T22:25:26Z
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] Watcher is not running.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_run_the_application"><a class="anchor" href="#_run_the_application"></a>Run the Application</h3>
 <div class="ulist">
 <ul>
@@ -417,9 +495,59 @@ Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729
 </div>
 </div>
 <div class="sect2">
+<h3 id="_stop_the_application"><a class="anchor" href="#_stop_the_application"></a>Stop the Application</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>To stop the container, run this command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody stop</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Alternatively, you can also press <code>Ctrl+C</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_debug_the_application"><a class="anchor" href="#_debug_the_application"></a>Debug the Application</h3>
-<div class="paragraph">
+<div class="ulist">
+<ul>
+<li>
+<p>Open your editor. We are using VS Code. Add the project to your workspace.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_open_project_vscode.png" alt="sb lab1 open project vscode">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open a new terminal window inside VS Code. Use <code>View→Terminal</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_open_terminal.png" alt="sb lab1 open terminal">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
 <p>To debug the application including reloading the application on code changes run the below command.</p>
+</li>
+</ul>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -427,7 +555,7 @@ Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729
 </div>
 </div>
 <div class="paragraph">
-<p>The output indicates the debug environment is being used</p>
+<p>The output indicates the debug environment is being used.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -448,18 +576,6 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 [Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) @ application ---
 [Container] [INFO] Attaching agents: []
 [Container] Listening for transport dt_socket at address: 5005</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Open your editor. We are using <code>VS Code</code>. Add the project to your workspace.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/sb_lab1_open_project_vscode.png" alt="sb lab1 open project vscode">
 </div>
 </div>
 <div class="ulist">
@@ -488,6 +604,9 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p>Wait till the application starts.</p>
+</li>
 <li>
 <p>Now you can open the application at <a href="http://localhost:8080/" class="bare">http://localhost:8080/</a>.</p>
 </li>
@@ -528,36 +647,13 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 <img src="../_images/sb_lab1_liveness_test.png" alt="sb lab1 liveness test">
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_stop_the_application"><a class="anchor" href="#_stop_the_application"></a>Stop the Application</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>To stop the container, run this command.</p>
+<p>Stop the appication usig <code>Ctrl+C</code>.</p>
 </li>
 </ul>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody stop</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Alternatively, you can also press <code>Ctrl+C</code>.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_deploy_the_appsody_application_on_openshift_for_personal_development"><a class="anchor" href="#_deploy_the_appsody_application_on_openshift_for_personal_development"></a>Deploy the appsody application on Openshift for personal development</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>TBD</strong></p>
 </div>
 </div>
 </div>
@@ -760,7 +856,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </div>
 </div>
 <div class="sect2">
-<h3 id="_project_options"><a class="anchor" href="#_project_options"></a>Project Options</h3>
+<h3 id="_project_options_for_dev"><a class="anchor" href="#_project_options_for_dev"></a>Project options for dev</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -856,6 +952,216 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 <p>Similarly, you can also do debugging by using <code>Restart in Debug Mode</code>.</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_project_options_for_performance"><a class="anchor" href="#_project_options_for_performance"></a>Project options for performance</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to the application and <code>right click</code> on it to access the various options available.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_project_options.png" alt="sb lab1 code wind project options">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click <code>Open Application Monitor</code> to access the application monitor.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong class="maroon">Enabling Javametrics</strong></p>
+</div>
+<div class="paragraph">
+<p>For Springboot project, you need to set up the Javametrics before accessing the application monitor.</p>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong> - For editing these files, you can use the option <code>Add Folder to Workspace</code> and open it in your VS code editor.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To the sample project you created earlier, add the below annotation.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@ComponentScan(basePackages = {"com.ibm.javametrics.spring", "&lt;your_package_name&gt;"})</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For the sample application, your main class will be as follows.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package application;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootApplication
+@ComponentScan(basePackages = {"com.ibm.javametrics.spring", "application"})
+public class Main {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Main.class, args);
+	}
+
+}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add the below dependencies to your <code>pom.xml</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.ibm.runtimetools&lt;/groupId&gt;
+    &lt;artifactId&gt;javametrics-spring&lt;/artifactId&gt;
+    &lt;version&gt;1.4.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.ibm.runtimetools&lt;/groupId&gt;
+    &lt;artifactId&gt;javametrics-agent&lt;/artifactId&gt;
+    &lt;version&gt;1.4.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.glassfish&lt;/groupId&gt;
+    &lt;artifactId&gt;javax.json&lt;/artifactId&gt;
+    &lt;version&gt;1.0.4&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Now, restart your application using the option <code>Restart in Run Mode</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_perf_restart_app.png" alt="sb lab1 code wind perf restart app">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once the application is restarted, you can access the application monitor and performance dashboard.</p>
+</li>
+<li>
+<p>Click on the <code>Open Application Monitor</code> to access the java metrics dashboard.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_perf_app_monitor.png" alt="sb lab1 code wind perf app monitor">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_perf_app_monitor_summary.png" alt="sb lab1 code wind perf app monitor summary">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To open the performance dashboard, click on <code>Open Performance Dashboard</code>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Access the dashboard and then run the test.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_perf_dashboard.png" alt="sb lab1 code wind perf dashboard">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a load test as follows. Then refresh your application to create load.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_perf_load_test_create.png" alt="sb lab1 code wind perf load test create">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Run the test.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_perf_load_test_run.png" alt="sb lab1 code wind perf load test run">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You will see something like below after the first test.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_perf_load_test_one.png" alt="sb lab1 code wind perf load test one">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Run couple of tests and you should be able to see the results.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_perf_load_test_two.png" alt="sb lab1 code wind perf load test two">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_perf_load_test_four.png" alt="sb lab1 code wind perf load test four">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you scroll down, you can also see the test history details.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_perf_load_test_history.png" alt="sb lab1 code wind perf load test history">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong> - In codewind, for now the <code>Application Monitor</code> and <code>Performance Dashboard</code> shows up on first run. It does not load the metrics if you reload the dashboard.</p>
 </div>
 </div>
 </div>
@@ -1338,7 +1644,7 @@ appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csan
 </div>
 </div>
 <div class="sect1">
-<h2 id="_enabling_knative_in_your_application"><a class="anchor" href="#_enabling_knative_in_your_application"></a>Enabling knative in your application</h2>
+<h2 id="_serverless_autoscaling_the_application_with_knative"><a class="anchor" href="#_serverless_autoscaling_the_application_with_knative"></a>Serverless autoscaling the Application with Knative</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1352,20 +1658,101 @@ appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csan
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">apiVersion: appsody.dev/v1beta1
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: my-appsody-app
+  name: appsody-sample-springboot
+  namespace: kabanero-samples
 spec:
-  stack: java-microprofile
+  version: 1.0.0
+  applicationImage: appsody-sample-springboot
+  stack: java-spring-boot2
   createKnativeService: true</code></pre>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Git push the change, and see tekton pipeline runs again.</p>
+</li>
+<li>
+<p>Show the Knative resource.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get service.serving.knative.dev/appsody-sample-springboot
+NAME                        URL                                                                                                                                        LATESTCREATED                     LATESTREADY                       READY     REASON
+appsody-sample-springboot   http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   True</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Show the Knative route.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get route.serving.knative.dev/appsody-sample-springboot
+NAME                        URL                                                                                                                                        READY     REASON
+appsody-sample-springboot   http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Show the Knative configuration.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get configuration.serving.knative.dev/appsody-sample-springboot
+NAME                        LATESTCREATED                     LATESTREADY                       READY     REASON
+appsody-sample-springboot   appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   True</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Show the Knative latest ready revision.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get revision.serving.knative.dev/appsody-sample-springboot-cbq47
+NAME                              SERVICE NAME                      GENERATION   READY     REASON
+appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   2            True</code></pre>
+</div>
+</div>
 <div class="paragraph">
-<p>Git push the change, tekton pipeline runs, show the app again running and inspect extra resource associated with Kantive
-Knative Service oc get ksvc
-Knative Configurations oc get configurations
-Knative Revisions oc get revisions</p>
+<p>Visit the Knative public url <a href="http://appsody-sample-springboot.hema-dev.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud" class="bare">http://appsody-sample-springboot.hema-dev.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</a> and list the pods.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pods
+
+NAME                                                          READY     STATUS    RESTARTS   AGE
+appsody-sample-springboot-cbq47-deployment-7dd6b4d559-phmv7   2/2       Running   0          1m</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Wait 1 minute and you will the see the pods are not longer running</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pods
+
+No resources found.</code></pre>
+</div>
 </div>
 </div>
 </div>
