@@ -171,17 +171,39 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 [Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, run, defaultServer .
 ----
 
-- Open the application using the web browser at http://localhost:8080.
+- Open the application using the web browser at http://localhost:9080.
 
 - By default, the template provides the below endpoints.
 
-** Health endpoint: http://localhost:8080/actuator/health
-** Liveness endpoint: http://localhost:8080/actuator/liveness
-** Metrics endpoint: http://localhost:8080/actuator/metrics
-** Prometheus endpoint: http://localhost:8080/actuator/prometheus
+** Health endpoint: http://localhost:9080/health
+** Liveness endpoint: http://localhost:9080/health/live
+** Metrics endpoint:http://localhost:9080/metrics (login as admin user with adminpwd password)
+** OpenAPI endpoint: http://localhost:9080/openapi
+** Swagger UI endpoint: http://localhost:9080/openapi/ui
 
 For more details, refer https://github.com/appsody/stacks/blob/master/incubator/java-microprofile/README.md[Java Microprofile Stack].
 
+.Note
+****
+If you run into the following error:
+----
+[Docker] Downloading from central: https://repo.maven.apache.org/maven2/dev/appsody/java-microprofile/0.2.9/java-microprofile-0.2.9.pom
+[Docker]  ERROR   ERROR  Some problems were encountered while processing the POMs:
+[Docker]  FATAL  Non-resolvable parent POM for dev.appsody.starter.java-microprofile:starter-app:1.0-SNAPSHOT: Could not find artifact dev.appsody:java-microprofile:pom:0.2.9 in central (https://repo.maven.apache.org/maven2) and 'parent.relativePath' points at wrong local POM @ line 8, column 13
+[Error] exit status 1
+----
+
+To resolve it modify the `pom.xml` file with the following code near line 8.
+
+[source, xml]
+----
+<parent>
+        <groupId>dev.appsody</groupId>
+        <artifactId>java-microprofile</artifactId>
+        <version>[0.2, 0.3)</version>
+    </parent>
+----
+****
 === Debug the Application
 
 To debug the application including reloading the application on code changes run the below command.
@@ -224,7 +246,7 @@ image::sb_lab1_open_project_vscode.png[align="center"]
 
 - Start the debugger in your editor.
 
-image::sb_lab1_vscode_debugger.png[align="center"]
+image::microprofile-debug.png[align="center"]
 
 - Once you start it, you will see something like below.
 
@@ -232,7 +254,7 @@ image::sb_lab1_vscode_debugger_window.png[align="center"]
 
 - Now you can open the application at http://localhost:9080/.
 
-- Let us check the liveness probe at http://localhost:9080/actuator/liveness.
+- Let us check the liveness probe at http://localhost:9080/health.
 
 image::sb_lab1_liveness.png[align="center"]
 
@@ -281,7 +303,7 @@ image::sb_lab1_build_task_run.png[align="center"]
 
 - Once, it is successfully started, you can access the application at http://localhost:9080/.
 
-image::sb_lab1_build_task_run_app.png[align="center"]
+image::microprofile-home.png[align="center"]
 
 == Codewind on VS Code
 
@@ -491,26 +513,25 @@ metadata:
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: appsody-sample-microprofile
-  stack: java-spring-boot2
+  applicationImage: appsody-sample-microprofile 
+  stack: java-microprofile
   service:
     type: NodePort
-    port: 8080
+    port: 9080
     annotations:
       prometheus.io/scrape: 'true'
-      prometheus.io/path: '/actuator/prometheus'
   readinessProbe:
     failureThreshold: 12
     httpGet:
-      path: /actuator/health
-      port: 8080
+      path: /health/ready
+      port: 9080
     initialDelaySeconds: 5
     periodSeconds: 2
   livenessProbe:
     failureThreshold: 12
     httpGet:
-      path: /actuator/liveness
-      port: 8080
+      path: /health/live
+      port: 9080
     initialDelaySeconds: 5
     periodSeconds: 2
   expose: true
@@ -543,7 +564,7 @@ git push -u origin master
 - Select `Generate new token`.
 - Create a Github access token with permission `admin:repo_hook`
 
-image::sb_lab1_github_token.png[align="center"]
+image::microservice-github-token.png[align="center"]
 
 - Then finally click `Generate token` to create one.
 
@@ -611,7 +632,7 @@ image::sb_lab1_webhook_settings_access_token_existing.png[align="center"]
 
 ----
 Namespace - kabanero
-Pipeline - java-spring-boot2-build-deploy-pipeline
+Pipeline - java-microprofile-build-deploy-pipeline
 Service account - kabaner-operator
 Docker Registry - docker-registry.default.svc:5000/<your_project>
 ----
@@ -663,10 +684,10 @@ For instance,
 ----
 $ oc get routes -n kabanero-samples-java
 NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
-appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-springboot   8080                    None
+appsody-sample-microprofile   appsody-sample-microprofile-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-microprofile   8080                    None
 ----
 
-You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
+You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-microprofile-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
 
 == Enabling knative in your application
 
