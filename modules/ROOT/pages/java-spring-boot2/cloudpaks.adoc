@@ -895,7 +895,7 @@ NAME                              SERVICE NAME                      GENERATION  
 appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   2            True
 ----
 
-Visit the Knative public url http://appsody-sample-springboot.hema-dev.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud and list the pods.
+Visit the Knative public url http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud and list the pods.
 
 [source, bash]
 ----
