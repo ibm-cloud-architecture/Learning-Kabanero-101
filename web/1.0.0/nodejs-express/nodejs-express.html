@@ -101,13 +101,13 @@
 <li><a href="#_debug_the_application">Debug the Application</a></li>
 </ul>
 </li>
-<li><a href="#_deploy_the_appsody_application_on_openshift_for_personal_development">Deploy the appsody application on Openshift for personal development</a></li>
 <li><a href="#_appsody_tasks_on_vs_code">Appsody tasks on VS Code</a></li>
 <li><a href="#_codewind_on_vs_code">Codewind on VS Code</a>
 <ul class="sectlevel2">
 <li><a href="#_getting_the_codewind_extension">Getting the Codewind extension</a></li>
 <li><a href="#_adding_the_application">Adding the application</a></li>
 <li><a href="#_project_options">Project Options</a></li>
+<li><a href="#_application_performance_monitor_profiling_with_codewind">Application Performance, Monitor, Profiling with Codewind</a></li>
 </ul>
 </li>
 <li><a href="#_deploy_the_appsody_application_on_openshift_for_team_development">Deploy the appsody application on Openshift for team development</a>
@@ -577,7 +577,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_code_change.png" alt="sb lab1 code change">
+<img src="../_images/js_lab1_code_change.png" alt="js lab1 code change">
 </div>
 </div>
 <div class="paragraph">
@@ -649,14 +649,6 @@ audited 295 packages in 1.154s
 <img src="../_images/js_lab1_vscode_attach_break.png" alt="js lab1 vscode attach break">
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_deploy_the_appsody_application_on_openshift_for_personal_development"><a class="anchor" href="#_deploy_the_appsody_application_on_openshift_for_personal_development"></a>Deploy the appsody application on Openshift for personal development</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>TBD</strong></p>
 </div>
 </div>
 </div>
@@ -751,9 +743,9 @@ audited 295 packages in 1.154s
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="../_images/js_lab1_vscode_codewind_extension.png" alt="js lab1 vscode codewind extension">
+<img src="../_images/js_lab1_vscode_codewind_extension.png" alt="Codewind extensions" width="500">
 </div>
 </div>
 <div class="paragraph">
@@ -961,6 +953,72 @@ audited 295 packages in 1.154s
 <p>Similarly, you can also do debugging by using <code>Restart in Debug Mode</code>.</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_application_performance_monitor_profiling_with_codewind"><a class="anchor" href="#_application_performance_monitor_profiling_with_codewind"></a>Application Performance, Monitor, Profiling with Codewind</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>You can launch the app monitor by selecting <code>Open Appplication Monitor</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/js_lab1_codewind_app_monitor.png" alt="js lab1 codewind app monitor">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The monitor dashboard will open in the browser</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/js_lab1_app_monitor_dashboard.png" alt="js lab1 app monitor dashboard">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can launch the app performance dashboard by selecting <code>Open Performance Dashboard</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/js_lab1_app_performance.png" alt="js lab1 app performance">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The performance dashboard will open in the browser</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/js_lab1_app_performance_dashboard.png" alt="js lab1 app performance dashboard">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can click Run Test and have Monitor and Performance dashboars side by side during the test.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/js_lab1_app_side_by_side_perf_test.png" alt="js lab1 app side by side perf test">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong> Profiling the node.js code is currently not working an <a href="https://github.com/eclipse/codewind-node-profiler/issues/5">issue</a> is opened on the github repo for the codewind node.js profiler extension</p>
 </div>
 </div>
 </div>
@@ -1205,9 +1263,9 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="../_images/sb_lab1_kabanero_enterprise.png" alt="sb lab1 kabanero enterprise">
+<img src="../_images/sb_lab1_kabanero_enterprise.png" alt="Kabanero Menu" width="300">
 </div>
 </div>
 <div class="imageblock text-center">
@@ -1220,7 +1278,7 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 <img src="../_images/sb_lab1_kabanero_ent_instance.png" alt="sb lab1 kabanero ent instance">
 </div>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="../_images/sb_lab1_tekton_dashboard.png" alt="sb lab1 tekton dashboard">
 </div>
@@ -1235,9 +1293,9 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="../_images/sb_lab1_menu_webhooks.png" alt="sb lab1 menu webhooks">
+<img src="../_images/sb_lab1_menu_webhooks.png" alt="Tekton Menu" width="300">
 </div>
 </div>
 <div class="ulist">
