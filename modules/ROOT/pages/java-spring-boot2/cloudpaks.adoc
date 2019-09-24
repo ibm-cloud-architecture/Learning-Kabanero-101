@@ -138,6 +138,76 @@ Built docker image appsody-sample-springboot
 
 It helps you to check that stack is stable and init is done correctly. You need not run build to run the project ever again.
 
+=== Test the Application
+
+- Test the application using appsody.
+
+[source, bash]
+----
+appsody test
+----
+
+This step is building a container and running the test command inside of it.
+
+[source, bash]
+----
+$ appsody test
+Running test environment
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/user@ibm.com/codewind-workspace/appsody-sample-springboot/.:/project/user-app -v /Users/user@ibm.com/.m2/repository:/mvn/repository -v /Users/user@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=test]
+[Container] Running: /project/java-spring-boot2-build.sh test
+[Container] Installing parent dev.appsody:spring-boot2-stack:0.3.13
+[Container] > mvn install -q -f /project/appsody-boot2-pom.xml
+[Container] Test project in the foreground
+[Container] > mvn package test
+[Container] [INFO] Scanning for projects...
+...
+...
+[Container] 2019-09-23 22:25:18.476  INFO 194 --- [           main] i.j.internal.reporters.LoggingReporter   : Span reported: 50797d26c2920f16:50797d26c2920f16:0:1 - GET
+[Container] [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.564 s - in application.MainTests
+[Container] 2019-09-23 22:25:18.659  INFO 194 --- [      Thread-13] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+[Container] [INFO]
+[Container] [INFO] Results:
+[Container] [INFO]
+[Container] [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[Container] [INFO]
+[Container] [INFO]
+[Container] [INFO] --- maven-jar-plugin:3.1.2:jar (default-jar) @ application ---
+[Container] [INFO] Building jar: /project/user-app/target/app.jar
+[Container] [INFO]
+[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:repackage (default) @ application ---
+[Container] [INFO] Replacing main artifact with repackaged archive
+[Container] [INFO]
+[Container] [INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ application ---
+[Container] [INFO] Using 'UTF-8' encoding to copy filtered resources.
+[Container] [INFO] Copying 2 resources
+[Container] [INFO]
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ application ---
+[Container] [INFO] Nothing to compile - all classes are up to date
+[Container] [INFO]
+[Container] [INFO] --- maven-antrun-plugin:1.1:run (trigger-spring-restart) @ application ---
+[Container] [INFO] Executing tasks
+[Container]      [echo] Triggering Spring app restart.
+[Container] [INFO] Executed tasks
+[Container] [INFO]
+[Container] [INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ application ---
+[Container] [INFO] Using 'UTF-8' encoding to copy filtered resources.
+[Container] [INFO] skip non existing resourceDirectory /project/user-app/src/test/resources
+[Container] [INFO]
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
+[Container] [INFO] Nothing to compile - all classes are up to date
+[Container] [INFO]
+[Container] [INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ application ---
+[Container] [INFO] Skipping execution of surefire because it has already been run for this configuration
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] BUILD SUCCESS
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] Total time:  38.440 s
+[Container] [INFO] Finished at: 2019-09-23T22:25:26Z
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] Watcher is not running.
+----
+
 === Run the Application
 
 - Run the application using appsody
@@ -176,16 +246,35 @@ Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729
 
 For more details, refer https://github.com/appsody/stacks/blob/master/incubator/java-spring-boot2/README.md[Spring® Boot 2 Stack].
 
+=== Stop the Application
+
+- To stop the container, run this command.
+
+[source, bash]
+----
+appsody stop
+----
+
+- Alternatively, you can also press `Ctrl+C`.
+
 === Debug the Application
 
-To debug the application including reloading the application on code changes run the below command.
+- Open your editor. We are using VS Code. Add the project to your workspace.
+
+image::sb_lab1_open_project_vscode.png[align="center"]
+
+- Open a new terminal window inside VS Code. Use `View→Terminal`.
+
+image::sb_lab1_open_terminal.png[align="center"]
+
+- To debug the application including reloading the application on code changes run the below command.
 
 [source, bash]
 ----
 appsody debug
 ----
 
-The output indicates the debug environment is being used
+The output indicates the debug environment is being used.
 
 [source, bash]
 ----
@@ -208,10 +297,6 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 [Container] Listening for transport dt_socket at address: 5005
 ----
 
-- Open your editor. We are using `VS Code`. Add the project to your workspace.
-
-image::sb_lab1_open_project_vscode.png[align="center"]
-
 - Start the debugger in your editor.
 
 image::sb_lab1_vscode_debugger.png[align="center"]
@@ -219,6 +304,8 @@ image::sb_lab1_vscode_debugger.png[align="center"]
 - Once you start it, you will see something like below.
 
 image::sb_lab1_vscode_debugger_window.png[align="center"]
+
+- Wait till the application starts.
 
 - Now you can open the application at http://localhost:8080/.
 
@@ -236,20 +323,7 @@ Here, the debugger will reload the application for you.
 
 image::sb_lab1_liveness_test.png[align="center"]
 
-=== Stop the Application
-
-- To stop the container, run this command.
-
-[source, bash]
-----
-appsody stop
-----
-
-- Alternatively, you can also press `Ctrl+C`.
-
-== Deploy the appsody application on Openshift for personal development
-
-*TBD*
+- Stop the appication usig `Ctrl+C`.
 
 == Appsody tasks on VS Code
 
@@ -763,24 +837,79 @@ appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csan
 
 You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
 
-== Enabling knative in your application
+== Serverless autoscaling the Application with Knative
 
 - Edit the file `app-deploy.yaml`.
 
 - Add the line `createKnativeService: true` to the spec object.
 
-[source, bash]
+[source, yaml]
 ----
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: my-appsody-app
+  name: appsody-sample-springboot
+  namespace: kabanero-samples
 spec:
-  stack: java-microprofile
+  version: 1.0.0
+  applicationImage: appsody-sample-springboot
+  stack: java-spring-boot2
   createKnativeService: true
 ----
 
-Git push the change, tekton pipeline runs, show the app again running and inspect extra resource associated with Kantive
-Knative Service oc get ksvc
-Knative Configurations oc get configurations
-Knative Revisions oc get revisions
+- Git push the change, and see tekton pipeline runs again.
+
+- Show the Knative resource.
+
+[source, bash]
+----
+$ oc get service.serving.knative.dev/appsody-sample-springboot
+NAME                        URL                                                                                                                                        LATESTCREATED                     LATESTREADY                       READY     REASON
+appsody-sample-springboot   http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   True
+----
+
+- Show the Knative route.
+
+[source, bash]
+----
+$ oc get route.serving.knative.dev/appsody-sample-springboot
+NAME                        URL                                                                                                                                        READY     REASON
+appsody-sample-springboot   http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True
+----
+
+- Show the Knative configuration.
+
+[source, bash]
+----
+$ oc get configuration.serving.knative.dev/appsody-sample-springboot
+NAME                        LATESTCREATED                     LATESTREADY                       READY     REASON
+appsody-sample-springboot   appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   True
+----
+
+- Show the Knative latest ready revision.
+
+[source, bash]
+----
+$ oc get revision.serving.knative.dev/appsody-sample-springboot-cbq47
+NAME                              SERVICE NAME                      GENERATION   READY     REASON
+appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   2            True
+----
+
+Visit the Knative public url http://appsody-sample-springboot.hema-dev.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud and list the pods.
+
+[source, bash]
+----
+$ oc get pods
+
+NAME                                                          READY     STATUS    RESTARTS   AGE
+appsody-sample-springboot-cbq47-deployment-7dd6b4d559-phmv7   2/2       Running   0          1m
+----
+
+- Wait 1 minute and you will the see the pods are not longer running
+
+[source, bash]
+----
+$ oc get pods
+
+No resources found.
+----
