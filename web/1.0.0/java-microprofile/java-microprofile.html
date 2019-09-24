@@ -90,8 +90,46 @@
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_prerequisites">Prerequisites</a></li>
-<li><a href="#_introduction">Introduction</a></li>
-<li><a href="#_environment_setup">Environment Setup</a></li>
+<li><a href="#_introduction">Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#_add_kabanero_collection_to_appsody">Add Kabanero Collection to appsody</a></li>
+</ul>
+</li>
+<li><a href="#_appsody_application">Appsody application</a>
+<ul class="sectlevel2">
+<li><a href="#_create_a_new_application">Create a new Application</a></li>
+<li><a href="#_build_the_application">Build the application</a></li>
+<li><a href="#_run_the_application">Run the Application</a></li>
+<li><a href="#_debug_the_application">Debug the Application</a></li>
+<li><a href="#_stop_the_application">Stop the Application</a></li>
+</ul>
+</li>
+<li><a href="#_deploy_the_appsody_application_on_openshift_for_personal_development">Deploy the appsody application on Openshift for personal development</a></li>
+<li><a href="#_appsody_tasks_on_vs_code">Appsody tasks on VS Code</a></li>
+<li><a href="#_codewind_on_vs_code">Codewind on VS Code</a>
+<ul class="sectlevel2">
+<li><a href="#_getting_the_codewind_extension">Getting the Codewind extension</a></li>
+<li><a href="#_adding_the_application">Adding the application</a></li>
+<li><a href="#_project_options">Project Options</a></li>
+</ul>
+</li>
+<li><a href="#_deploy_the_appsody_application_on_openshift_for_team_development">Deploy the appsody application on Openshift for team development</a>
+<ul class="sectlevel2">
+<li><a href="#_set_up_team_project_namespace">Set up team project namespace</a></li>
+<li><a href="#_create_application_deployment_manifest">Create application deployment manifest</a></li>
+<li><a href="#_creating_a_git_repo">Creating a git repo</a></li>
+<li><a href="#_create_an_access_token">Create an access token</a></li>
+</ul>
+</li>
+<li><a href="#_configure_the_devops_pipeline">Configure the DevOps Pipeline</a>
+<ul class="sectlevel2">
+<li><a href="#_accessing_tekton_dashboard">Accessing Tekton dashboard</a></li>
+<li><a href="#_create_tekton_webhook_for_git_repo">Create Tekton webhook for git repo</a></li>
+<li><a href="#_set_up_the_pipeline">Set up the pipeline</a></li>
+<li><a href="#_deploy_the_application">Deploy the Application</a></li>
+</ul>
+</li>
+<li><a href="#_enabling_knative_in_your_application">Enabling knative in your application</a></li>
 </ul>
 </div>
 <div class="sect1">
@@ -151,16 +189,1228 @@
 <div class="sect1">
 <h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_add_kabanero_collection_to_appsody"><a class="anchor" href="#_add_kabanero_collection_to_appsody"></a>Add Kabanero Collection to appsody</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>From the Cloud Pak for Applications landing page get the <code>Collection Hub</code> URL. For example in our example it is as follows.</p>
+</li>
+</ul>
+</div>
 <div class="paragraph">
-<p>In this tutorial we are going to cover deploying a Java Microprofile application using Kabanero on Openshift.</p>
+<p><code><a href="https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml" class="bare">https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml</a></code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the appsody CLI to add the Collection repo.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If possible, remove other repos that are existing.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To get the list of available repos, run this command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo list</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This returns you something like below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody repo list
+
+NAME        	URL
+*kabanero   	https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml
+appsodyhub  	https://github.com/appsody/stacks/releases/latest/download/incubator-index.yaml
+experimental	https://github.com/appsody/stacks/releases/latest/download/experimental-index.yaml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To remove the unused repos, run</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo remove &lt;NAME&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For instance, if you want to remove <code>appsodyhub</code>, then it will be <code>appsody repo remove appsodyhub</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>List the appsody stacks available in the Collection:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody list kabanero</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It gives you the list of available stacks.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody list kabanero
+
+REPO    	ID               	VERSION  	TEMPLATES        	DESCRIPTION
+kabanero	java-microprofile	0.2.11   	*default         	Eclipse MicroProfile on Open Liberty &amp; OpenJ9 using Maven
+kabanero	java-spring-boot2	0.3.9    	*default, kotlin 	Spring Boot using OpenJ9 and Maven
+kabanero	nodejs           	0.2.5    	*simple          	Runtime for Node.js applications
+kabanero	nodejs-express   	0.2.5    	*simple, skaffold	Express web framework for Node.js
+kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework for Node.js</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set the <code>kabanero</code> repo as default.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo set-default kabanero</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_environment_setup"><a class="anchor" href="#_environment_setup"></a>Environment Setup</h2>
+<h2 id="_appsody_application"><a class="anchor" href="#_appsody_application"></a>Appsody application</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_create_a_new_application"><a class="anchor" href="#_create_a_new_application"></a>Create a new Application</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new directory for the project and change directory into it.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir appsody_sample_microprofile
+
+cd appsody_sample_microprofile/</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Initialize the project using <code>appsody init</code> and select the desired stack ID.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody init kabanero/java-microprofile</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_the_application"><a class="anchor" href="#_build_the_application"></a>Build the application</h3>
+<div class="paragraph">
+<p>This command will locally build a docker image of your appsody project.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody build</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once it runs successfully, you will see something like this.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[Docker] Status: Downloaded newer image for openliberty/open-liberty:microProfile3-ubi-min
+[Docker]  ---&gt; 95a094a1d39a
+[Docker] Step 23/25 : COPY --chown=1001:0 --from=0 /config/ /opt/ol/wlp/usr/servers/defaultServer/
+[Docker]  ---&gt; 05078636bc75
+[Docker] Step 24/25 : EXPOSE 9080
+[Docker]  ---&gt; Running in 46aac69bcbcb
+[Docker] Removing intermediate container 46aac69bcbcb
+[Docker]  ---&gt; 3caf45a12c01
+[Docker] Step 25/25 : EXPOSE 9443
+[Docker]  ---&gt; Running in 2a95250a992e
+[Docker] Removing intermediate container 2a95250a992e
+[Docker]  ---&gt; 5fbcdcf4cb8c
+[Docker] Successfully built 5fbcdcf4cb8c
+[Docker] Successfully tagged appsody-sample-microprofile:latest
+Built docker image appsody-sample-microprofile</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It helps you to check that stack is stable and init is done correctly. You need not run build to run the project ever again.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_the_application"><a class="anchor" href="#_run_the_application"></a>Run the Application</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Run the application using appsody</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody run</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This step is building a container and running it, the output has the endpoint for the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Running development environment...
+Running command: docker pull kabanero/java-microprofile:0.2
+Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/&lt;user&gt;@ibm.com/.m2/repository:/mvn/repository -v /Users/&lt;user&gt;@ibm.com/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/&lt;user&gt;@ibm.com/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/&lt;user&gt;@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=run
+......
+......
+......
+[Container]  INFO  CWWKM2102I: Using serverName : defaultServer.
+[Container]  INFO  CWWKM2102I: Using serverDirectory : /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2112I: Re-using previously installed assembly.
+[Container]  INFO  Copying 1 file to /project/user-app/target/liberty/wlp/usr/servers/defaultServer
+[Container]  INFO  CWWKM2144I: Update server configuration file server.xml from /project/user-app/src/main/liberty/config/server.xml.
+[Container]  INFO  CWWKM2144I: Update server configuration file bootstrap.properties from inlined configuration.
+[Container]  INFO  CWWKM2001I: server.config.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2001I: server.output.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, run, defaultServer .</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open the application using the web browser at <a href="http://localhost:9080" class="bare">http://localhost:9080</a>.</p>
+</li>
+<li>
+<p>By default, the template provides the below endpoints.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Health endpoint: <a href="http://localhost:9080/health" class="bare">http://localhost:9080/health</a></p>
+</li>
+<li>
+<p>Liveness endpoint: <a href="http://localhost:9080/health/live" class="bare">http://localhost:9080/health/live</a></p>
+</li>
+<li>
+<p>Metrics endpoint: <a href="http://localhost:9080/metrics" class="bare">http://localhost:9080/metrics</a> (login as admin user with adminpwd password)</p>
+</li>
+<li>
+<p>OpenAPI endpoint: <a href="http://localhost:9080/openapi" class="bare">http://localhost:9080/openapi</a></p>
+</li>
+<li>
+<p>Swagger UI endpoint: <a href="http://localhost:9080/openapi/ui" class="bare">http://localhost:9080/openapi/ui</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For more details, refer <a href="https://github.com/appsody/stacks/blob/master/incubator/java-microprofile/README.md">Java Microprofile Stack</a>.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Note</div>
+<div class="paragraph">
+<p>If you run into the following error:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[Docker] Downloading from central: https://repo.maven.apache.org/maven2/dev/appsody/java-microprofile/0.2.9/java-microprofile-0.2.9.pom
+[Docker]  ERROR   ERROR  Some problems were encountered while processing the POMs:
+[Docker]  FATAL  Non-resolvable parent POM for dev.appsody.starter.java-microprofile:starter-app:1.0-SNAPSHOT: Could not find artifact dev.appsody:java-microprofile:pom:0.2.9 in central (https://repo.maven.apache.org/maven2) and 'parent.relativePath' points at wrong local POM @ line 8, column 13
+[Error] exit status 1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To resolve it modify the <code>pom.xml</code> file with the following code near line 8.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;parent&gt;
+        &lt;groupId&gt;dev.appsody&lt;/groupId&gt;
+        &lt;artifactId&gt;java-microprofile&lt;/artifactId&gt;
+        &lt;version&gt;[0.2, 0.3)&lt;/version&gt;
+    &lt;/parent&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_debug_the_application"><a class="anchor" href="#_debug_the_application"></a>Debug the Application</h3>
+<div class="paragraph">
+<p>To debug the application including reloading the application on code changes run the below command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody debug</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output indicates the debug environment is being used</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody debug
+Running debug environment
+Running command: docker pull kabanero/java-microprofile:0.2
+Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/bakribbs/.m2/repository:/mvn/repository -v /Users/bakribbs/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/bakribbs/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/bakribbs/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=debug
+.......
+.......
+.......
+[Container]  INFO  --- liberty-maven-plugin:2.6.4:debug (default-cli) @ starter-app ---
+[Container]  INFO  CWWKM2102I: Using artifact based assembly archive : io.openliberty:openliberty-runtime:null:19.0.0.8:zip.
+[Container]  INFO  CWWKM2102I: Using installDirectory : /project/user-app/target/liberty/wlp.
+[Container]  INFO  CWWKM2102I: Using serverName : defaultServer.
+[Container]  INFO  CWWKM2102I: Using serverDirectory : /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2112I: Re-using previously installed assembly.
+[Container]  INFO  Copying 1 file to /project/user-app/target/liberty/wlp/usr/servers/defaultServer
+[Container]  INFO  CWWKM2144I: Update server configuration file server.xml from /project/user-app/src/main/liberty/config/server.xml.
+[Container]  INFO  CWWKM2144I: Update server configuration file bootstrap.properties from inlined configuration.
+[Container]  INFO  CWWKM2001I: server.config.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2001I: server.output.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, debug, defaultServer .
+[Container]  INFO
+[Container]  INFO  Listening for transport dt_socket at address: 7777</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open your editor. We are using <code>VS Code</code>. Add the project to your workspace.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_open_project_vscode.png" alt="sb lab1 open project vscode">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Start the debugger in your editor.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/microprofile-debug.png" alt="microprofile debug">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once you start it, you will see something like below.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_vscode_debugger_window.png" alt="sb lab1 vscode debugger window">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Now you can open the application at <a href="http://localhost:9080/" class="bare">http://localhost:9080/</a>.</p>
+</li>
+<li>
+<p>Let us check the liveness probe at <a href="http://localhost:9080/health" class="bare">http://localhost:9080/health</a>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/microprofile-health-up.png" alt="microprofile health up">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Let us make a code change. We want to change the isAlive() to return <code>false</code> instead of <code>true</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/microprofile-code-change.png" alt="microprofile code change">
+</div>
+</div>
+<div class="paragraph">
+<p>Here, the debugger will reload the application for you.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Refresh the browser to see the changes.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/microprofile-health-down.png" alt="microprofile health down">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stop_the_application"><a class="anchor" href="#_stop_the_application"></a>Stop the Application</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>To stop the container, run this command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody stop</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Alternatively, you can also press <code>Ctrl+C</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploy_the_appsody_application_on_openshift_for_personal_development"><a class="anchor" href="#_deploy_the_appsody_application_on_openshift_for_personal_development"></a>Deploy the appsody application on Openshift for personal development</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We will be using Visual Code Studio with the Codewind Extension.</p>
+<p><strong>TBD</strong></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_appsody_tasks_on_vs_code"><a class="anchor" href="#_appsody_tasks_on_vs_code"></a>Appsody tasks on VS Code</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>To access the build tasks on VS code, go to</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Terminal &gt; Run Build Task...</pre>
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_build_task_menu.png" alt="sb lab1 build task menu">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You will see a list of available tasks.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_build_task_list.png" alt="sb lab1 build task list">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on <code>Appsody: run</code> and this will run the application.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_build_task_run.png" alt="sb lab1 build task run">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once, it is successfully started, you can access the application at <a href="http://localhost:9080/" class="bare">http://localhost:9080/</a>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/microprofile-home.png" alt="microprofile home">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_codewind_on_vs_code"><a class="anchor" href="#_codewind_on_vs_code"></a>Codewind on VS Code</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Codewind simplifies and enhances development in containers by extending industry standard IDEs with features to write, debug, and deploy cloud-native applications. It helps you to get started quickly with templates or samples, or you can also pull in your applications and let Codewind get them cloud ready.</p>
+</div>
+<div class="paragraph">
+<p>Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using VS Code as our IDE.</p>
+</div>
+<div class="sect2">
+<h3 id="_getting_the_codewind_extension"><a class="anchor" href="#_getting_the_codewind_extension"></a>Getting the Codewind extension</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>To get codewind extension you need <a href="https://code.visualstudio.com/download">VS Code version 1.28 or later</a>.</p>
+</li>
+<li>
+<p>Go to the extensions view and install codewind from the VS code market place.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_vscode_codewind_extension.png" alt="sb lab1 vscode codewind extension">
+</div>
+</div>
+<div class="paragraph">
+<p>You will find <code>Codewind 0.3.1</code> and click <code>install</code> to get it. Also, if you want to use the IDE for Java applications, you need to install <code>Codewind Java Profiler 19.7.1</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once you get them installed, let us now open the <code>Codewind</code> in the IDE.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>View &gt; Open View...</pre>
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_vscode_view.png" alt="sb lab1 vscode view">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It gives you you a list of options. Select <code>Codewind</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_vscode_code_explorer.png" alt="sb lab1 vscode code explorer">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>This opens the <code>Codewind</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_vscode_codewind_explorer.png" alt="sb lab1 vscode codewind explorer">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_the_application"><a class="anchor" href="#_adding_the_application"></a>Adding the application</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>You can create a new project or add an existing project to Codewind. Since, we already created one using appsody earlier, let us add the existing project.</p>
+</li>
+<li>
+<p>Right click on <code>Projects</code> under Codewind. Select <code>Add Existing Project</code> in the menu.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_add_existing_project.png" alt="sb lab1 codewind add existing project">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong> - Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the <code>codewind workspace</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>From the codewind workspace, select the project you created earlier.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_add_existing_prj_from_workspace.png" alt="sb lab1 add existing prj from workspace">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The codewind extension asks you for confirmation as follows. Click <code>Yes</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_appsody_extension.png" alt="sb lab1 appsody extension">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The project will be added.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_appsody_project.png" alt="sb lab1 appsody project">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once it is successfully build, it starts running.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_appsody_project_running.png" alt="sb lab1 appsody project running">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_project_options"><a class="anchor" href="#_project_options"></a>Project Options</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to the application and <code>right click</code> on it to access the various options available.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_code_wind_project_options.png" alt="sb lab1 code wind project options">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click <code>Open App</code> to access the application.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_open_app.png" alt="sb lab1 codewind open app">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong> - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To get the overview of your project, click on <code>Open Project Overview</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_project_overview.png" alt="sb lab1 codewind project overview">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can access the container shell directly from the IDE by using <code>Open Container Shell</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_container_shell.png" alt="sb lab1 codewind container shell">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To access the logs of the application, click on <code>Show all logs</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_project_logs.png" alt="sb lab1 codewind project logs">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can also hide the logs if you want to by using <code>Hide all logs</code> option.</p>
+</li>
+<li>
+<p>If you have multiple applications and want to manage the logs for them, you can use <code>Manage logs</code>.</p>
+</li>
+<li>
+<p>You can also run the application by using <code>Restart in Run Mode</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_codewind_project_restart_in_run_mode.png" alt="sb lab1 codewind project restart in run mode">
+</div>
+</div>
+<div class="paragraph">
+<p>Once it is restarted, you can access the application by clicking on the button as shown below.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_restart_in_run_mode_app.png" alt="sb lab1 restart in run mode app">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Similarly, you can also do debugging by using <code>Restart in Debug Mode</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_deploy_the_appsody_application_on_openshift_for_team_development"><a class="anchor" href="#_deploy_the_appsody_application_on_openshift_for_team_development"></a>Deploy the appsody application on Openshift for team development</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_set_up_team_project_namespace"><a class="anchor" href="#_set_up_team_project_namespace"></a>Set up team project namespace</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new project for your team if it does not exist. Or if you have an existing project, skip this step.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc new-project &lt;yournamespace&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once you create it, you will see something like below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc new-project kabanero-samples-java
+Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app centos/ruby-25-centos7~https://github.com/sclorg/ruby-ex.git
+
+to build a new example application in Ruby.</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Switch to the target project using the below command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc project &lt;yournamespace&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It gives you the below message if you are already in that space.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project kabanero-samples-java
+Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Check that the current context is your team&#8217;s project space.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc project -q</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You will see something like below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project -q
+kabanero-samples-java</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_application_deployment_manifest"><a class="anchor" href="#_create_application_deployment_manifest"></a>Create application deployment manifest</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Extract the appsody deployment config.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody deploy --generate-only</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will generate you the below file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: appsody-sample-microprofile
+spec:
+  # Add fields here
+  version: 1.0.0
+  applicationImage: appsody-sample-microprofile
+  stack: java-microprofile
+  service:
+    type: NodePort
+    port: 9080
+    annotations:
+      prometheus.io/scrape: 'true'
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/ready
+      port: 9080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/live
+      port: 9080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  expose: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, the application is deployed in the <code>kabanero</code> namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called <code>kabanero-samples-java</code> and we can specify it under the metadata as below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: appsody-sample-microprofile
+  namespace: kabanero-samples-java
+spec:
+  # Add fields here
+  version: 1.0.0
+  applicationImage: appsody-sample-microprofile
+  stack: java-microprofile
+  service:
+    type: NodePort
+    port: 9080
+    annotations:
+      prometheus.io/scrape: 'true'
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/ready
+      port: 9080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/live
+      port: 9080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  expose: true</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_git_repo"><a class="anchor" href="#_creating_a_git_repo"></a>Creating a git repo</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Setup your git locally with the content of the application.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git init
+git add .
+git commit -m "initial commit"</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a github repository and push the code to the remote repository.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git remote add origin $GITHUB_REPOSITORY_URL
+git push -u origin master</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_an_access_token"><a class="anchor" href="#_create_an_access_token"></a>Create an access token</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to Github <code>Settings</code>.</p>
+</li>
+<li>
+<p>Select <code>Developer settings</code>.</p>
+</li>
+<li>
+<p>Click on <code>Personal access tokens</code>.</p>
+</li>
+<li>
+<p>Select <code>Generate new token</code>.</p>
+</li>
+<li>
+<p>Create a Github access token with permission <code>admin:repo_hook</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/microprofile-github-token.png" alt="microprofile github token">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Then finally click <code>Generate token</code> to create one.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For more details on how to generate Github personal access token refer <a href="https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line">Creating a personal access token</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configure_the_devops_pipeline"><a class="anchor" href="#_configure_the_devops_pipeline"></a>Configure the DevOps Pipeline</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_accessing_tekton_dashboard"><a class="anchor" href="#_accessing_tekton_dashboard"></a>Accessing Tekton dashboard</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>To access the Tekton Dashboard, run the below command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get route -n kabanero
+NAME               HOST/PORT                                                                                                          PATH      SERVICES           PORT      TERMINATION          WILDCARD
+icpa-landing       ibm-cp-applications.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                   icpa-landing       &lt;all&gt;     reencrypt/Redirect   None
+kabanero-cli       kabanero-cli-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                 kabanero-cli       &lt;all&gt;     passthrough          None
+kabanero-landing   kabanero-landing-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             kabanero-landing   &lt;all&gt;     passthrough          None
+tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             tekton-dashboard   &lt;all&gt;     reencrypt/Redirect   None</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can access it at the <code>HOST/PORT</code> available. For instance here it will be <code>tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can also access it on the Cloud Pak Landing page. You will find a <code>Tekton Dashboard</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_kabanero_enterprise.png" alt="sb lab1 kabanero enterprise">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_kabanero_ent_dashboard.png" alt="sb lab1 kabanero ent dashboard">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_kabanero_ent_instance.png" alt="sb lab1 kabanero ent instance">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_tekton_dashboard.png" alt="sb lab1 tekton dashboard">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_tekton_webhook_for_git_repo"><a class="anchor" href="#_create_tekton_webhook_for_git_repo"></a>Create Tekton webhook for git repo</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on Webhooks in the menu.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_menu_webhooks.png" alt="sb lab1 menu webhooks">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on <code>Add Webhook</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_add_webhook.png" alt="sb lab1 add webhook">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Enter the information for the Webhook settings.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_webhook_settings.png" alt="sb lab1 webhook settings">
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Name - &lt;Name for webhook&gt;
+Repository URL - &lt;Your github repository URL&gt;
+Access Token - &lt;For this, you need to create a Github access token with permission `admin:repo_hook` or select one from the list&gt;</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new token as follows.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_webhook_settings_access_token_create.png" alt="sb lab1 webhook settings access token create">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can also use an existing token if it is already created.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_webhook_settings_access_token_existing.png" alt="sb lab1 webhook settings access token existing">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_set_up_the_pipeline"><a class="anchor" href="#_set_up_the_pipeline"></a>Set up the pipeline</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Enter the information for the Pipeline settings</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Namespace - kabanero
+Pipeline - java-microprofile-build-deploy-pipeline
+Service account - kabaner-operator
+Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_pipeline_settings.png" alt="sb lab1 pipeline settings">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click Create, a new webhook is created.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_webhook.png" alt="sb lab1 webhook">
+</div>
+</div>
+<div class="paragraph">
+<p>Also, a new Gitub webhook is created on the project repository.</p>
+</div>
+<div class="paragraph">
+<p>You can verify it by going into your <code>github repository &gt; Settings &gt; Webhooks</code> and you should be able to see the webhook created.</p>
+</div>
+<div class="paragraph">
+<p><strong>[Issue]</strong> The webhook may show an error of 503. It will be cleared the first time the github webhook gets triggered.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploy_the_application"><a class="anchor" href="#_deploy_the_application"></a>Deploy the Application</h3>
+<div class="paragraph">
+<p>The way to deploy the application is to make a change in the application in the git repository to trigger the tekton webhook and start the DevOps pipeline to build and deploy the application.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Make a change to the application such as changing the <code>index.html</code> or any other things.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let us change the <code>title</code> from <code>Hello from Appsody!</code> to <code>Hello from Cloud Paks !!!</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Push your changes to the remote git repository.</p>
+</li>
+<li>
+<p>This will trigger the Tekton Pipeline. To see the status of the Pipeline click on <code>PipelineRuns</code> on the menu of the dashboard.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_pipeline_runs.png" alt="sb lab1 pipeline runs">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When the application is built and deployed the application will be available via the expose <code>Route</code>.</p>
+</li>
+<li>
+<p>Go to the OpenShift Console, switch to the project, and select <code>Applications &gt; Routes</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You will see a route for your application, click on the url to open your application.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="../_images/sb_lab1_application_route.png" alt="sb lab1 application route">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Or you can also get the route from the oc CLI.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get route -n &lt;your_project&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For instance,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get routes -n kabanero-samples-java
+NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
+appsody-sample-microprofile   appsody-sample-microprofile-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-microprofile   8080                    None</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can now acccess the application at &lt;HOST/PORT&gt;, here it is <code>appsody-sample-microprofile-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enabling_knative_in_your_application"><a class="anchor" href="#_enabling_knative_in_your_application"></a>Enabling knative in your application</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Edit the file <code>app-deploy.yaml</code>.</p>
+</li>
+<li>
+<p>Add the line <code>createKnativeService: true</code> to the spec object.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: my-appsody-app
+spec:
+  stack: java-microprofile
+  createKnativeService: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Git push the change, tekton pipeline runs, show the app again running and inspect extra resource associated with Kantive
+Knative Service oc get ksvc
+Knative Configurations oc get configurations
+Knative Revisions oc get revisions</p>
 </div>
 </div>
 </div>
