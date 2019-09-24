@@ -20,7 +20,7 @@ v1.0, 2019-09-22
 
 == Add Kabanero Collection to appsody
 
-- From the Cloud Pak for Applications landing page get the `Collection Hub` URL. For example in our example it is as follows.
+- From the Cloud Pak for Applications landing page get the `Collection Hub` URL, for example:
 
 `https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml`
 
@@ -293,13 +293,13 @@ image::js_lab1_endpoint_test.png[align="center"]
 
 - Stop the appication usig `Ctrl+C`
 
-- You ca attach to the Node.js debugger using `VSCode`
+- You can attach to the Node.js debugger using `VSCode`
 
 - To access the debug view use `View->Debug` or click Debug icon on left menu
 
 image::js_lab1_vscode_debug.png[align="center"]
 
-- Add a break point to the application, click to the left of the line number
+- Add a breakpoint to the application, click to the left of the line number
 
 image::js_lab1_vscode_breakpoint.png[align="center"]
 
@@ -340,7 +340,7 @@ image::js_lab1_build_task_stop.png[align="center"]
 
 == Codewind on VS Code
 
-Codewind simplifies and enhances development in containers by extending industry standard IDEs with features to write, debug, and deploy cloud-native applications. It helps you to get started quickly with templates or samples, or you can also pull in your applications and let Codewind get them cloud ready.
+Codewind simplifies and enhances development in containers by extending industry-standard IDEs with features to write, debug, and deploy cloud-native applications. It helps you to get started quickly with templates or samples, or you can also pull in your applications and let Codewind get them cloud-ready.
 
 Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using VS Code as our IDE.
 
@@ -379,7 +379,7 @@ image::sb_lab1_vscode_codewind_explorer.png[align="center"]
 
 image::sb_lab1_codewind_add_existing_project.png[align="center"]
 
-**Note** - Before doing this, copy your project to the codewind workspace, in the directory `codewind-workspaces/` in your HOME directory. At this point of time, codewind only accepts the projects that are available in the `codewind workspace`.
+**Note** - Before doing this, copy your project to the codewind workspace, in the directory `codewind-workspaces/` in your HOME directory. At this point in time, codewind only accepts the projects that are available in the `codewind workspace`.
 
 - From the codewind workspace, select the project you created earlier.
 
@@ -389,7 +389,7 @@ image::js_lab1_add_existing_prj_from_workspace.png[align="center"]
 
 - The project will be added.
 
-- Once it is successfully build, it starts running.
+- Once it is successfully built, it starts running.
 
 image::js_lab1_appsody_project_running.png[align="center"]
 
@@ -559,7 +559,7 @@ spec:
   expose: true
 ----
 
-By default, the application is deployed in the `kabanero` namespace. If you want to deploy the application in a different namespace, you need to specify it in this yaml file. In this lab, lets use a namespace called `kabanero-samples` and we can specify it under the metadata as below.
+By default, the application is deployed in the `kabanero` namespace. If you want to deploy the application in a different namespace, you need to specify it in this yaml file. In this lab, let's use a namespace called `kabanero-samples` and we can specify it under the metadata as below.
 
 [source, yaml]
 ----
@@ -619,7 +619,7 @@ kabanero-landing   kabanero-landing-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             tekton-dashboard   <all>     reencrypt/Redirect   None
 ----
 
-You can access it at the `HOST/PORT` available. For instance here it will be `tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
+You can access it at the `HOST/PORT` available. For instance, here it will be `tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
 
 - You can also access it on the Cloud Pak Landing page. You will find a `Tekton Dashboard`.
 
@@ -662,7 +662,7 @@ image::sb_lab1_webhook_settings_access_token_existing.png[align="center"]
 === Set up the pipeline
 
 - Enter the information for the Pipeline settings
-**Note** Replace <your_project> with the name of the target namspace in our case `kabanero-samples`
+**Note** Replace <your_project> with the name of the target namespace in our case `kabanero-samples`
 
 ----
 Namespace - kabanero
@@ -689,7 +689,7 @@ The way to deploy the application is to make a change in the application in the 
 
 - Make a change to the application such as changing the `app.js` or any other things.
 
-Lets change from `Hello from Appsody Demo!` to `Hello from Cloud Paks !!!`.
+Let's change from `Hello from Appsody Demo!` to `Hello from Cloud Paks !!!`.
 
 - Push your changes to the remote git repository.
 
@@ -791,7 +791,7 @@ NAME                                                              READY     STAT
 appsody-sample-nodejs-express-mtl4q-deployment-7bf6dbddf6-rr89p   2/2       Running   0          27s
 ----
 
-- Wait 1 minute and you will the see the pods are not longer runnning
+- Wait 1 minute and you will then see the pods are not longer running
 [source, bash]
 ----
 oc get pods
