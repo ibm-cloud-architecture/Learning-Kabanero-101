@@ -2,7 +2,6 @@
 Bryan Kribbs <bakribbs@us.ibm.com>
 v1.0, 2019-06-28
 :toc:
-== Prerequisites
 
 == Prerequisites
 
@@ -20,7 +19,7 @@ v1.0, 2019-06-28
 
 == Introduction
 
-== Add Kabanero Collection to appsody
+=== Add Kabanero Collection to appsody
 
 - From the Cloud Pak for Applications landing page get the `Collection Hub` URL. For example in our example it is as follows.
 
@@ -156,18 +155,20 @@ This step is building a container and running it, the output has the endpoint fo
 
 ----
 Running development environment...
-Running command: docker[pull kabanero/java-spring-boot2:0.3]
-Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=run]
+Running command: docker pull kabanero/java-microprofile:0.2 
+Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/<user>@ibm.com/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=run
 ......
 ......
 ......
-[Container] 2019-09-12 17:49:22.173  INFO 185 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
-[Container] 2019-09-12 17:49:22.377  INFO 185 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-[Container] 2019-09-12 17:49:22.386  INFO 185 --- [  restartedMain] application.Main                         : Started Main in 7.984 seconds (JVM running for 9.679)
-[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-[Container] 2019-09-12 17:58:42.805  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 27 ms
-[Container] 2019-09-12 17:58:43.044  INFO 185 --- [nio-8080-exec-1] i.j.internal.reporters.LoggingReporter   : Span reported: 445d02b19cea491:445d02b19cea491:0:1 - GET
+[Container]  INFO  CWWKM2102I: Using serverName : defaultServer.
+[Container]  INFO  CWWKM2102I: Using serverDirectory : /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2112I: Re-using previously installed assembly.
+[Container]  INFO  Copying 1 file to /project/user-app/target/liberty/wlp/usr/servers/defaultServer
+[Container]  INFO  CWWKM2144I: Update server configuration file server.xml from /project/user-app/src/main/liberty/config/server.xml.
+[Container]  INFO  CWWKM2144I: Update server configuration file bootstrap.properties from inlined configuration.
+[Container]  INFO  CWWKM2001I: server.config.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2001I: server.output.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, run, defaultServer .
 ----
 
 - Open the application using the web browser at http://localhost:8080.
@@ -179,7 +180,7 @@ Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729
 ** Metrics endpoint: http://localhost:8080/actuator/metrics
 ** Prometheus endpoint: http://localhost:8080/actuator/prometheus
 
-For more details, refer https://github.com/appsody/stacks/blob/master/incubator/java-spring-boot2/README.md[Spring® Boot 2 Stack].
+For more details, refer https://github.com/appsody/stacks/blob/master/incubator/java-microprofile/README.md[Java Microprofile Stack].
 
 === Debug the Application
 
@@ -196,21 +197,25 @@ The output indicates the debug environment is being used
 ----
 $ appsody debug
 Running debug environment
-Running command: docker[pull kabanero/java-spring-boot2:0.3]
-Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=debug]
+Running command: docker pull kabanero/java-microprofile:0.2 
+Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/bakribbs/.m2/repository:/mvn/repository -v /Users/bakribbs/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/bakribbs/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/bakribbs/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=debug 
 .......
 .......
 .......
-[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
-[Container] [INFO] Changes detected - recompiling the module!
-[Container] [INFO] Compiling 1 source file to /project/user-app/target/test-classes
-[Container] [INFO]
-[Container] [INFO] <<< spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) < test-compile @ application <<<
-[Container] [INFO]
-[Container] [INFO]
-[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) @ application ---
-[Container] [INFO] Attaching agents: []
-[Container] Listening for transport dt_socket at address: 5005
+[Container]  INFO  --- liberty-maven-plugin:2.6.4:debug (default-cli) @ starter-app ---
+[Container]  INFO  CWWKM2102I: Using artifact based assembly archive : io.openliberty:openliberty-runtime:null:19.0.0.8:zip.
+[Container]  INFO  CWWKM2102I: Using installDirectory : /project/user-app/target/liberty/wlp.
+[Container]  INFO  CWWKM2102I: Using serverName : defaultServer.
+[Container]  INFO  CWWKM2102I: Using serverDirectory : /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2112I: Re-using previously installed assembly.
+[Container]  INFO  Copying 1 file to /project/user-app/target/liberty/wlp/usr/servers/defaultServer
+[Container]  INFO  CWWKM2144I: Update server configuration file server.xml from /project/user-app/src/main/liberty/config/server.xml.
+[Container]  INFO  CWWKM2144I: Update server configuration file bootstrap.properties from inlined configuration.
+[Container]  INFO  CWWKM2001I: server.config.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2001I: server.output.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, debug, defaultServer .
+[Container]  INFO  
+[Container]  INFO  Listening for transport dt_socket at address: 7777
 ----
 
 - Open your editor. We are using `VS Code`. Add the project to your workspace.
@@ -225,9 +230,9 @@ image::sb_lab1_vscode_debugger.png[align="center"]
 
 image::sb_lab1_vscode_debugger_window.png[align="center"]
 
-- Now you can open the application at http://localhost:8080/.
+- Now you can open the application at http://localhost:9080/.
 
-- Let us check the liveness probe at http://localhost:8080/actuator/liveness.
+- Let us check the liveness probe at http://localhost:9080/actuator/liveness.
 
 image::sb_lab1_liveness.png[align="center"]
 
@@ -274,7 +279,7 @@ image::sb_lab1_build_task_list.png[align="center"]
 
 image::sb_lab1_build_task_run.png[align="center"]
 
-- Once, it is successfully started, you can access the application at http://localhost:8080/.
+- Once, it is successfully started, you can access the application at http://localhost:9080/.
 
 image::sb_lab1_build_task_run_app.png[align="center"]
 
@@ -445,33 +450,33 @@ This will generate you the below file.
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-springboot
+  name: appsody-sample-microprofile
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: appsody-sample-springboot
-  stack: java-spring-boot2
+  applicationImage: appsody-sample-microprofile 
+  stack: java-microprofile
   service:
     type: NodePort
-    port: 8080
+    port: 9080
     annotations:
       prometheus.io/scrape: 'true'
-      prometheus.io/path: '/actuator/prometheus'
   readinessProbe:
     failureThreshold: 12
     httpGet:
-      path: /actuator/health
-      port: 8080
+      path: /health/ready
+      port: 9080
     initialDelaySeconds: 5
     periodSeconds: 2
   livenessProbe:
     failureThreshold: 12
     httpGet:
-      path: /actuator/liveness
-      port: 8080
+      path: /health/live
+      port: 9080
     initialDelaySeconds: 5
     periodSeconds: 2
   expose: true
+
 ----
 
 By default, the application is deployed in the `kabanero` namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called `kabanero-samples-java` and we can specify it under the metadata as below.
@@ -481,12 +486,12 @@ By default, the application is deployed in the `kabanero` namespace. If you want
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-springboot
+  name: appsody-sample-microprofile
   namespace: kabanero-samples-java
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: appsody-sample-springboot
+  applicationImage: appsody-sample-microprofile
   stack: java-spring-boot2
   service:
     type: NodePort
