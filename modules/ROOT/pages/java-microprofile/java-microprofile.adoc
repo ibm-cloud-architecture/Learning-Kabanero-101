@@ -315,7 +315,7 @@ Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using V
 
 image::sb_lab1_vscode_codewind_extension.png[align="center"]
 
-You will find `Codewind 0.3.1` and click `install` to get it. Also, if you want to use the IDE for Java applications, you need to install `Codewind Java Profiler 19.7.1`.
+You will find `Codewind 0.4.0` and click `install` to get it. Also, if you want to use the IDE for Java applications, you need to install `Codewind Java Profiler 19.7.1`.
 
 - Once you get them installed, let us now open the `Codewind` in the IDE.
 
@@ -345,35 +345,35 @@ image::sb_lab1_codewind_add_existing_project.png[align="center"]
 
 - From the codewind workspace, select the project you created earlier.
 
-image::sb_lab1_add_existing_prj_from_workspace.png[align="center"]
+image::microprofile-add.png[align="center"]
 
 - The codewind extension asks you for confirmation as follows. Click `Yes`.
 
-image::sb_lab1_appsody_extension.png[align="center"]
+image::microprofile-confirm.png[align="center"]
 
 - The project will be added.
 
-image::sb_lab1_appsody_project.png[align="center"]
+image::microprofile-codewind-starting.png[align="center"]
 
 - Once it is successfully build, it starts running.
 
-image::sb_lab1_appsody_project_running.png[align="center"]
+image::microprofile-codewind-running.png[align="center"]
 
 === Project Options
 
 - Go to the application and `right click` on it to access the various options available.
 
-image::sb_lab1_code_wind_project_options.png[align="center"]
+image::microprofile-codewind-options.png[align="center"]
 
 - Click `Open App` to access the application.
 
-image::sb_lab1_codewind_open_app.png[align="center"]
+image::microprofile-codewind.png[align="center"]
 
 **Note** - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
 
 - To get the overview of your project, click on `Open Project Overview`.
 
-image::sb_lab1_codewind_project_overview.png[align="center"]
+image::microprofile-overview.png[align="center"]
 
 - You can access the container shell directly from the IDE by using `Open Container Shell`.
 
@@ -633,7 +633,7 @@ Service account - kabaner-operator
 Docker Registry - docker-registry.default.svc:5000/<your_project>
 ----
 
-image::sb_lab1_pipeline_settings.png[align="center"]
+image::microprofile-pipeline-settings.png[align="center"]
 
 - Click Create, a new webhook is created.
 
