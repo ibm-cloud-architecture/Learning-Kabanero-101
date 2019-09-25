@@ -102,6 +102,7 @@
 <ul class="sectlevel2">
 <li><a href="#_create_a_new_application">Create a new Application</a></li>
 <li><a href="#_build_the_application">Build the application</a></li>
+<li><a href="#_test_the_application">Test the Application</a></li>
 <li><a href="#_run_the_application">Run the Application</a></li>
 <li><a href="#_debug_the_application">Debug the Application</a></li>
 <li><a href="#_stop_the_application">Stop the Application</a></li>
@@ -361,7 +362,82 @@ Built docker image appsody-sample-microprofile</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>It helps you to check that stack is stable and init is done correctly. You need not run build to run the project ever again.</p>
+<p>It helps you to check that stack is stable and init is done correctly. You don&#8217;t need to run build to ever again for the rest of this guide.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Note</div>
+<div class="paragraph">
+<p>If you run into the following error:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[Docker] Downloading from central: https://repo.maven.apache.org/maven2/dev/appsody/java-microprofile/0.2.9/java-microprofile-0.2.9.pom
+[Docker]  ERROR   ERROR  Some problems were encountered while processing the POMs:
+[Docker]  FATAL  Non-resolvable parent POM for dev.appsody.starter.java-microprofile:starter-app:1.0-SNAPSHOT: Could not find artifact dev.appsody:java-microprofile:pom:0.2.9 in central (https://repo.maven.apache.org/maven2) and 'parent.relativePath' points at wrong local POM @ line 8, column 13
+[Error] exit status 1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To resolve it modify the <code>pom.xml</code> file with the following code near line 8.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;parent&gt;
+        &lt;groupId&gt;dev.appsody&lt;/groupId&gt;
+        &lt;artifactId&gt;java-microprofile&lt;/artifactId&gt;
+        &lt;version&gt;[0.2, 0.3)&lt;/version&gt;
+    &lt;/parent&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_the_application"><a class="anchor" href="#_test_the_application"></a>Test the Application</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Test the application using appsody</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This step is building a container and running the test command inside of it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Running test environment
+Running command: docker pull kabanero/java-microprofile:0.2
+Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/csantana23/.m2/repository:/mvn/repository -v /Users/csantana23/codewind-workspace/appsody_sample_microprofile/src:/project/user-app/src -v /Users/csantana23/codewind-workspace/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/csantana23/codewind-workspace/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=test
+[Container] Running APPSODY_PREP command: ../validate.sh &amp;&amp; mvn -B -Dmaven.repo.local=/mvn/repository install -DskipTests
+[Container] Installing parent dev.appsody:java-microprofile:0.2.14
+[Container] [INFO] Scanning for projects...
+...
+[Container] [INFO] -------------------------------------------------------
+[Container] [INFO]  T E S T S
+[Container] [INFO] -------------------------------------------------------
+[Container] [INFO] Running it.dev.appsody.starter.HealthEndpointTest
+[Container] [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.877 s - in it.dev.appsody.starter.HealthEndpointTest
+[Container] [INFO]
+[Container] [INFO] Results:
+[Container] [INFO]
+[Container] [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+...
+[Container] [INFO] --- maven-failsafe-plugin:3.0.0-M1:verify (verify-results) @ starter-app ---
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] BUILD SUCCESS
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] Total time:  30.387 s
+[Container] [INFO] Finished at: 2019-09-25T01:46:59Z
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] The file watcher is not running because no APPSODY_RUN/TEST/DEBUG_ON_CHANGE action was specified or it has been disabled using the --no-watcher flag.</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -386,9 +462,7 @@ Built docker image appsody-sample-microprofile</code></pre>
 <pre>Running development environment...
 Running command: docker pull kabanero/java-microprofile:0.2
 Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/&lt;user&gt;@ibm.com/.m2/repository:/mvn/repository -v /Users/&lt;user&gt;@ibm.com/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/&lt;user&gt;@ibm.com/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/&lt;user&gt;@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=run
-......
-......
-......
+...
 [Container]  INFO  CWWKM2102I: Using serverName : defaultServer.
 [Container]  INFO  CWWKM2102I: Using serverDirectory : /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
 [Container]  INFO  CWWKM2112I: Re-using previously installed assembly.
@@ -397,7 +471,12 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 [Container]  INFO  CWWKM2144I: Update server configuration file bootstrap.properties from inlined configuration.
 [Container]  INFO  CWWKM2001I: server.config.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
 [Container]  INFO  CWWKM2001I: server.output.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
-[Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, run, defaultServer .</pre>
+[Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, run, defaultServer .
+...
+[Container] [INFO] [AUDIT   ] CWWKT0016I: Web application available (default_host): http://f8623952d5f2:9080/
+[Container] [INFO] [AUDIT   ] CWWKZ0001I: Application starter-app started in 2.587 seconds.
+[Container] [INFO] [AUDIT   ] CWWKF0012I: The server installed the following features: [appSecurity-2.0, cdi-2.0, concurrent-1.0, distributedMap-1.0, jaxrs-2.1, jaxrsClient-2.1, jndi-1.0, json-1.0, jsonb-1.0, jsonp-1.1, jwt-1.0, microProfile-3.0, mpConfig-1.3, mpFaultTolerance-2.0, mpHealth-2.0, mpJwt-1.1, mpMetrics-2.0, mpOpenAPI-1.1, mpOpenTracing-1.3, mpRestClient-1.3, opentracing-1.3, servlet-4.0, ssl-1.0].
+[Container] [INFO] [AUDIT   ] CWWKF0011I: The defaultServer server is ready to run a smarter planet. The defaultServer server started in 11.307 seconds.</pre>
 </div>
 </div>
 <div class="ulist">
@@ -431,34 +510,6 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="paragraph">
 <p>For more details, refer <a href="https://github.com/appsody/stacks/blob/master/incubator/java-microprofile/README.md">Java Microprofile Stack</a>.</p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="title">Note</div>
-<div class="paragraph">
-<p>If you run into the following error:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>[Docker] Downloading from central: https://repo.maven.apache.org/maven2/dev/appsody/java-microprofile/0.2.9/java-microprofile-0.2.9.pom
-[Docker]  ERROR   ERROR  Some problems were encountered while processing the POMs:
-[Docker]  FATAL  Non-resolvable parent POM for dev.appsody.starter.java-microprofile:starter-app:1.0-SNAPSHOT: Could not find artifact dev.appsody:java-microprofile:pom:0.2.9 in central (https://repo.maven.apache.org/maven2) and 'parent.relativePath' points at wrong local POM @ line 8, column 13
-[Error] exit status 1</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To resolve it modify the <code>pom.xml</code> file with the following code near line 8.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;parent&gt;
-        &lt;groupId&gt;dev.appsody&lt;/groupId&gt;
-        &lt;artifactId&gt;java-microprofile&lt;/artifactId&gt;
-        &lt;version&gt;[0.2, 0.3)&lt;/version&gt;
-    &lt;/parent&gt;</code></pre>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="sect2">
@@ -687,7 +738,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 </div>
 <div class="paragraph">
-<p>You will find <code>Codewind 0.4.0</code> and click <code>install</code> to get it. Also, if you want to use the IDE for Java applications, you need to install <code>Codewind Java Profiler 19.7.1</code>.</p>
+<p>You will find <code>Codewind</code> and click <code>install</code> to get it. Also, if you want to use the IDE for Java applications, you need to install <code>Codewind Java Profiler</code>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -749,7 +800,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Note</strong> - Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the <code>codewind workspace</code>.</p>
+<p><strong>Note</strong> - Before doing this, copy your project to the codewind workspace. At this point in time, codewind only accepts the projects that are available in the <code>codewind workspace</code>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -790,7 +841,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 <div class="ulist">
 <ul>
 <li>
-<p>Once it is successfully build, it starts running.</p>
+<p>Once it is successfully built, it starts running.</p>
 </li>
 </ul>
 </div>
@@ -1035,32 +1086,7 @@ spec:
 kind: AppsodyApplication
 metadata:
   name: appsody-sample-microprofile
-  namespace: kabanero-samples-java
-spec:
-  # Add fields here
-  version: 1.0.0
-  applicationImage: appsody-sample-microprofile
-  stack: java-microprofile
-  service:
-    type: NodePort
-    port: 9080
-    annotations:
-      prometheus.io/scrape: 'true'
-  readinessProbe:
-    failureThreshold: 12
-    httpGet:
-      path: /health/ready
-      port: 9080
-    initialDelaySeconds: 5
-    periodSeconds: 2
-  livenessProbe:
-    failureThreshold: 12
-    httpGet:
-      path: /health/live
-      port: 9080
-    initialDelaySeconds: 5
-    periodSeconds: 2
-  expose: true</code></pre>
+  namespace: kabanero-samples-java</code></pre>
 </div>
 </div>
 </div>
