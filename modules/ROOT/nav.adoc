@@ -4,3 +4,4 @@
 * xref:nodejs-express/nodejs-express.adoc[E2E Node.js Express]
 * xref:tekton/create-pipeline.adoc[Create Tekton Pipeline]
 * xref:appsody/create-stack.adoc[Create Appsody Stack]
+* xref:codewind/setup_codewind_appsody.adoc[Configure CodeWind]
