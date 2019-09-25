@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Configure CodeWind with Appsody CLI :: Learning-Kabanero-101</title>
+    <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/codewind/setup_codewind_appsody.html">
+    <meta name="generator" content="Antora 2.0.1">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <p>Learning Kabanero 101</p>
+      </div>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="web" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../kabanero/kabanero-overview.html">Learning Kabanero 101</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../kabanero/kabanero-overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../java-spring-boot2/cloudpaks.html">E2E Spring Boot</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../java-microprofile/java-microprofile.html">E2E Java Microprofile</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../nodejs-express/nodejs-express.html">E2E Node.js Express</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../tekton/create-pipeline.html">Create Tekton Pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appsody/create-stack.html">Create Appsody Stack</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="setup_codewind_appsody.html">Configure CodeWind</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Learning Kabanero 101</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Learning Kabanero 101</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../kabanero/kabanero-overview.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main role="main">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../kabanero/kabanero-overview.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../kabanero/kabanero-overview.html">Learning Kabanero 101</a></li>
+    <li><a href="setup_codewind_appsody.html">Configure CodeWind</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/codewind/setup_codewind_appsody.adoc">Edit this Page</a></div>
+</div>
+<article class="doc">
+<h1 class="page">Configure CodeWind with Appsody CLI</h1>
+<div class="paragraph">
+<p>This guide will help you setup the appsody CLI and CodeWind to work with the same set of appsody stacks using the same repo.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Edit the appsody CLI file  <code>~/.appsody/.appsody.yaml</code> to point to the CodeWind file <code>codewind-workspace/.appsody</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>home: /Users/&lt;username&gt;/codewind-workspace/.appsody</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Adjust the <code>&lt;username&gt;</code> to match your system, now both Appsody CLI and CodeWind should see the same set of stacks.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add the kabanero repo using the appsody CLI, adjust the URL to match the version of Kabanero Enterprise</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set the <code>kabanero</code> repo as default</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>appsody repo set-default kabanero</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you have two repos that contains the same stack names, the CodeWind new project wizard would not be able to differentiate. To avoid duplicate entries in the wizard remove all apsody repos except <code>kabanero</code></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>appsody repo remove experimental
+appsody repo remove appsodyhub</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>List the appsody stacks using the <code>kabanero</code> repo</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>appsody list
+
+REPO     	ID               	VERSION  	TEMPLATES        	DESCRIPTION
+*kabanero	java-microprofile	0.2.11   	*default         	Eclipse MicroProfile on Open Liberty &amp; OpenJ9 using Maven
+*kabanero	java-spring-boot2	0.3.9    	*default, kotlin 	Spring Boot using OpenJ9 and Maven
+*kabanero	nodejs           	0.2.5    	*simple          	Runtime for Node.js applications
+*kabanero	nodejs-express   	0.2.5    	*simple, skaffold	Express web framework for Node.js
+*kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework for Node.js</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Restart CodeWind extensions for the changes to take effect, by switching the toggle to off and back to on on the CodeWind view.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/codewind_restart.png" alt="codewind restart">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a new Appsody app using CodeWind, right click the Project</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/codewind_new_project.png" alt="codewind new project">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Select an Appsody Stack from the <code>kabanero</code> repo</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../_images/codewind_new_project_list.png" alt="codewind new project list">
+</div>
+</div>
+</article>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -48,6 +48,9 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../appsody/create-stack.html">Create Appsody Stack</a>
   </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../codewind/setup_codewind_appsody.html">Configure CodeWind</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -104,7 +107,6 @@
 <li><a href="#_stop_the_application">Stop the Application</a></li>
 </ul>
 </li>
-<li><a href="#_deploy_the_appsody_application_on_openshift_for_personal_development">Deploy the appsody application on Openshift for personal development</a></li>
 <li><a href="#_appsody_tasks_on_vs_code">Appsody tasks on VS Code</a></li>
 <li><a href="#_codewind_on_vs_code">Codewind on VS Code</a>
 <ul class="sectlevel2">
@@ -601,14 +603,6 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 </div>
 <div class="sect1">
-<h2 id="_deploy_the_appsody_application_on_openshift_for_personal_development"><a class="anchor" href="#_deploy_the_appsody_application_on_openshift_for_personal_development"></a>Deploy the appsody application on Openshift for personal development</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>TBD</strong></p>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_appsody_tasks_on_vs_code"><a class="anchor" href="#_appsody_tasks_on_vs_code"></a>Appsody tasks on VS Code</h2>
 <div class="sectionbody">
 <div class="ulist">
@@ -693,7 +687,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 </div>
 <div class="paragraph">
-<p>You will find <code>Codewind 0.3.1</code> and click <code>install</code> to get it. Also, if you want to use the IDE for Java applications, you need to install <code>Codewind Java Profiler 19.7.1</code>.</p>
+<p>You will find <code>Codewind 0.4.0</code> and click <code>install</code> to get it. Also, if you want to use the IDE for Java applications, you need to install <code>Codewind Java Profiler 19.7.1</code>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -766,7 +760,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_add_existing_prj_from_workspace.png" alt="sb lab1 add existing prj from workspace">
+<img src="../_images/microprofile-add.png" alt="microprofile add">
 </div>
 </div>
 <div class="ulist">
@@ -778,7 +772,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_appsody_extension.png" alt="sb lab1 appsody extension">
+<img src="../_images/microprofile-confirm.png" alt="microprofile confirm">
 </div>
 </div>
 <div class="ulist">
@@ -790,7 +784,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_appsody_project.png" alt="sb lab1 appsody project">
+<img src="../_images/microprofile-codewind-starting.png" alt="microprofile codewind starting">
 </div>
 </div>
 <div class="ulist">
@@ -802,7 +796,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_appsody_project_running.png" alt="sb lab1 appsody project running">
+<img src="../_images/microprofile-codewind-running.png" alt="microprofile codewind running">
 </div>
 </div>
 </div>
@@ -817,7 +811,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_code_wind_project_options.png" alt="sb lab1 code wind project options">
+<img src="../_images/microprofile-codewind-options.png" alt="microprofile codewind options">
 </div>
 </div>
 <div class="ulist">
@@ -829,7 +823,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_codewind_open_app.png" alt="sb lab1 codewind open app">
+<img src="../_images/microprofile-codewind.png" alt="microprofile codewind">
 </div>
 </div>
 <div class="paragraph">
@@ -844,7 +838,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_codewind_project_overview.png" alt="sb lab1 codewind project overview">
+<img src="../_images/microprofile-overview.png" alt="microprofile overview">
 </div>
 </div>
 <div class="ulist">
@@ -1281,7 +1275,7 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_pipeline_settings.png" alt="sb lab1 pipeline settings">
+<img src="../_images/microprofile-pipeline-settings.png" alt="microprofile pipeline settings">
 </div>
 </div>
 <div class="ulist">
