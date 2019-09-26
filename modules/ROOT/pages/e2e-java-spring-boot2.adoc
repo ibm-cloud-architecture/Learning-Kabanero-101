@@ -351,7 +351,7 @@ Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using V
 
 image::sb_lab1_vscode_codewind_extension.png[align="center"]
 
-You will find `Codewind 0.3.1` and click `install` to get it. Also, if you want to use the IDE for Java applications, you need to install `Codewind Java Profiler 19.7.1`.
+You will find `Codewind` and click `install` to get it. Also, if you want to use the IDE for Java applications, you need to install `Codewind Java Profiler`.
 
 - Once you get them installed, let us now open the `Codewind` in the IDE.
 
@@ -445,7 +445,7 @@ image::sb_lab1_code_wind_project_options.png[align="center"]
 
 For Springboot project, you need to set up the Javametrics before accessing the application monitor.
 
-*Note* - For editing these files, you can use the option `Add Folder to Workspace` and open it in your VS code editor.
+NOTE: - For editing these files, you can use the option `Add Folder to Workspace` and open it in your VS code editor.
 
 - To the sample project you created earlier, add the below annotation.
 
@@ -536,7 +536,7 @@ image::sb_lab1_code_wind_perf_load_test_four.png[align="center"]
 
 image::sb_lab1_code_wind_perf_load_test_history.png[align="center"]
 
-*Note* - In codewind, for now the `Application Monitor` and `Performance Dashboard` shows up on first run. It does not load the metrics if you reload the dashboard.
+NOTE: - In codewind, for now the `Application Monitor` and `Performance Dashboard` shows up on first run. It does not load the metrics if you reload the dashboard.
 
 == Deploy the appsody application on Openshift for team development
 
