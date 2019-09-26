@@ -6,17 +6,7 @@ v1.0, 2019-09-17
 
 == Prerequisites
 
-* https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift Cluster]
-** Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)
-*** Tekton Operator and TekTon Dashboard
-*** Knative Operator
-** Install Appsody Operator that watches on all namespaces https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0
-* Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac], https://docs.docker.com/docker-for-windows/install/[Windows]
-* The following command line (CLI) tools and configured:
-** docker - It comes with the Docker for Desktop installation.
-** https://www.okd.io/download.html[oc]
-** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
-** https://appsody.dev/docs/getting-started/installation[appsody]
+include::common/prerequisites.adoc[]
 
 == Add Kabanero Collection to appsody
 

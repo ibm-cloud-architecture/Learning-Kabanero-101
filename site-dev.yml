@@ -4,7 +4,7 @@ runtime:
 site:
   title: Learning-Kabanero-101
   url: https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/
-  start_page: web::kabanero/kabanero-overview.adoc
+  start_page: web::kabanero-overview.adoc
 
 content:
   sources:

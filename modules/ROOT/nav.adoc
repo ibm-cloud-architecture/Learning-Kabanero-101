@@ -1,7 +1,9 @@
-* xref:kabanero/kabanero-overview.adoc[Overview]
-* xref:java-spring-boot2/cloudpaks.adoc[E2E Spring Boot]
-* xref:java-microprofile/java-microprofile.adoc[E2E Java Microprofile]
-* xref:nodejs-express/nodejs-express.adoc[E2E Node.js Express]
-* xref:tekton/create-pipeline.adoc[Create Tekton Pipeline]
-* xref:appsody/create-stack.adoc[Create Appsody Stack]
-* xref:codewind/setup_codewind_appsody.adoc[Configure CodeWind]
+* xref:kabanero-overview.adoc[Kabanero Overview]
+* Workflows
+** xref:e2e-java-spring-boot2.adoc[E2E Spring Boot]
+** xref:e2e-java-microprofile.adoc[E2E Java Microprofile]
+** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
+* Tasks
+** xref:tekton-create-pipeline.adoc[Create Tekton Pipeline]
+** xref:appsody-extend-stack.adoc[Extend Appsody Stack]
+** xref:codewind-setup-appsody.adoc[Configure CodeWind]
