@@ -5,17 +5,7 @@ v1.0, 2019-09-24
 
 == Prerequisites
 
-* https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift Cluster]
-** Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)
-*** Tekton Operator and TekTon Dashboard
-*** Knative Operator
-** Install Appsody Operator that watches on all namespaces https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0
-* Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac], https://docs.docker.com/docker-for-windows/install/[Windows]
-* The following command line (CLI) tools and configured:
-** docker - It comes with the Docker for Desktop installation.
-** https://www.okd.io/download.html[oc]
-** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
-** https://appsody.dev/docs/getting-started/installation[appsody]
+include::common/prerequisites.adoc[]
 
 == Introduction
 
@@ -142,10 +132,13 @@ Built docker image appsody-sample-microprofile
 
 It helps you to check that stack is stable and init is done correctly. You don't need to run build to ever again for the rest of this guide.
 
-.Note
-****
-If you run into the following error:
+[IMPORTANT]
+.POM Errors
+====
+
 ----
+If you run into the following error:
+
 [Docker] Downloading from central: https://repo.maven.apache.org/maven2/dev/appsody/java-microprofile/0.2.9/java-microprofile-0.2.9.pom
 [Docker]  ERROR   ERROR  Some problems were encountered while processing the POMs:
 [Docker]  FATAL  Non-resolvable parent POM for dev.appsody.starter.java-microprofile:starter-app:1.0-SNAPSHOT: Could not find artifact dev.appsody:java-microprofile:pom:0.2.9 in central (https://repo.maven.apache.org/maven2) and 'parent.relativePath' points at wrong local POM @ line 8, column 13
@@ -157,12 +150,13 @@ To resolve it modify the `pom.xml` file with the following code near line 8.
 [source, xml]
 ----
 <parent>
-        <groupId>dev.appsody</groupId>
-        <artifactId>java-microprofile</artifactId>
-        <version>[0.2, 0.3)</version>
-    </parent>
+  <groupId>dev.appsody</groupId>
+  <artifactId>java-microprofile</artifactId>
+  <version>[0.2, 0.3)</version>
+</parent>
 ----
-****
+
+====
 
 === Test the Application
 
@@ -386,7 +380,7 @@ image::sb_lab1_vscode_codewind_explorer.png[align="center"]
 
 image::sb_lab1_codewind_add_existing_project.png[align="center"]
 
-**Note** - Before doing this, copy your project to the codewind workspace. At this point in time, codewind only accepts the projects that are available in the `codewind workspace`.
+NOTE: - Before doing this, copy your project to the codewind workspace. At this point in time, codewind only accepts the projects that are available in the `codewind workspace`.
 
 - From the codewind workspace, select the project you created earlier.
 
@@ -414,7 +408,7 @@ image::microprofile-codewind-options.png[align="center"]
 
 image::microprofile-codewind.png[align="center"]
 
-**Note** - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
+NOTE: - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
 
 - To get the overview of your project, click on `Open Project Overview`.
 
