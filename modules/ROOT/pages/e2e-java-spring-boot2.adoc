@@ -1,4 +1,4 @@
-= End to end Spring Boot Kabanero workflow
+= End to End Java Spring Boot Kabanero workflow
 Hemankita Perabathini <Hemankita.Perabathini@ibm.com>
 v1.0, 2019-09-17
 :toc:
@@ -6,17 +6,7 @@ v1.0, 2019-09-17
 
 == Prerequisites
 
-* https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift Cluster]
-** Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)
-*** Tekton Operator and TekTon Dashboard
-*** Knative Operator
-** Install Appsody Operator that watches on all namespaces https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0
-* Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac], https://docs.docker.com/docker-for-windows/install/[Windows]
-* The following command line (CLI) tools and configured:
-** docker - It comes with the Docker for Desktop installation.
-** https://www.okd.io/download.html[oc]
-** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
-** https://appsody.dev/docs/getting-started/installation[appsody]
+include::common/prerequisites.adoc[]
 
 == Add Kabanero Collection to appsody
 
@@ -361,7 +351,7 @@ Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using V
 
 image::sb_lab1_vscode_codewind_extension.png[align="center"]
 
-You will find `Codewind 0.3.1` and click `install` to get it. Also, if you want to use the IDE for Java applications, you need to install `Codewind Java Profiler 19.7.1`.
+You will find `Codewind` and click `install` to get it. Also, if you want to use the IDE for Java applications, you need to install `Codewind Java Profiler`.
 
 - Once you get them installed, let us now open the `Codewind` in the IDE.
 
@@ -387,7 +377,7 @@ image::sb_lab1_vscode_codewind_explorer.png[align="center"]
 
 image::sb_lab1_codewind_add_existing_project.png[align="center"]
 
-**Note** - Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the `codewind workspace`.
+NOTE: - Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the `codewind workspace`.
 
 - From the codewind workspace, select the project you created earlier.
 
@@ -415,7 +405,7 @@ image::sb_lab1_code_wind_project_options.png[align="center"]
 
 image::sb_lab1_codewind_open_app.png[align="center"]
 
-**Note** - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
+NOTE: - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
 
 - To get the overview of your project, click on `Open Project Overview`.
 
@@ -455,7 +445,7 @@ image::sb_lab1_code_wind_project_options.png[align="center"]
 
 For Springboot project, you need to set up the Javametrics before accessing the application monitor.
 
-*Note* - For editing these files, you can use the option `Add Folder to Workspace` and open it in your VS code editor.
+NOTE: - For editing these files, you can use the option `Add Folder to Workspace` and open it in your VS code editor.
 
 - To the sample project you created earlier, add the below annotation.
 
@@ -546,7 +536,7 @@ image::sb_lab1_code_wind_perf_load_test_four.png[align="center"]
 
 image::sb_lab1_code_wind_perf_load_test_history.png[align="center"]
 
-*Note* - In codewind, for now the `Application Monitor` and `Performance Dashboard` shows up on first run. It does not load the metrics if you reload the dashboard.
+NOTE: - In codewind, for now the `Application Monitor` and `Performance Dashboard` shows up on first run. It does not load the metrics if you reload the dashboard.
 
 == Deploy the appsody application on Openshift for team development
 

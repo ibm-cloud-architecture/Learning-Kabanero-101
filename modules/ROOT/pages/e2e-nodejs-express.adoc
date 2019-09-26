@@ -6,17 +6,7 @@ v1.0, 2019-09-22
 
 == Prerequisites
 
-* https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift Cluster]
-** Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)
-*** Tekton Operator and TekTon Dashboard
-*** Knative Operator
-** Install Appsody Operator that watches on all namespaces https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0
-* Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac], https://docs.docker.com/docker-for-windows/install/[Windows]
-* The following command line (CLI) tools and configured:
-** docker - It comes with the Docker for Desktop installation.
-** https://www.okd.io/download.html[oc]
-** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
-** https://appsody.dev/docs/getting-started/installation[appsody]
+include::common/prerequisites.adoc[]
 
 == Add Kabanero Collection to appsody
 
@@ -379,7 +369,7 @@ image::sb_lab1_vscode_codewind_explorer.png[align="center"]
 
 image::sb_lab1_codewind_add_existing_project.png[align="center"]
 
-**Note** - Before doing this, copy your project to the codewind workspace, in the directory `codewind-workspaces/` in your HOME directory. At this point in time, codewind only accepts the projects that are available in the `codewind workspace`.
+NOTE: - Before doing this, copy your project to the codewind workspace, in the directory `codewind-workspaces/` in your HOME directory. At this point in time, codewind only accepts the projects that are available in the `codewind workspace`.
 
 - From the codewind workspace, select the project you created earlier.
 
@@ -407,7 +397,7 @@ image::js_lab1_codewind_project_options.png[align="center"]
 
 image::js_lab1_codewind_open_app.png[align="center"]
 
-**Note** - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
+NOTE: - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
 
 - To get the overview of your project, click on `Open Project Overview`.
 
@@ -457,7 +447,7 @@ image::js_lab1_app_performance_dashboard.png[]
 
 image::js_lab1_app_side_by_side_perf_test.png[]
 
-**Note** Profiling the node.js code is currently not working an https://github.com/eclipse/codewind-node-profiler/issues/5[issue] is opened on the github repo for the codewind node.js profiler extension
+NOTE: Profiling the node.js code is currently not working an https://github.com/eclipse/codewind-node-profiler/issues/5[issue] is opened on the github repo for the codewind node.js profiler extension
 
 == Deploy the appsody application on Openshift for team development
 
@@ -662,7 +652,7 @@ image::sb_lab1_webhook_settings_access_token_existing.png[align="center"]
 === Set up the pipeline
 
 - Enter the information for the Pipeline settings
-**Note** Replace <your_project> with the name of the target namespace in our case `kabanero-samples`
+NOTE: Replace <your_project> with the name of the target namespace in our case `kabanero-samples`
 
 ----
 Namespace - kabanero
