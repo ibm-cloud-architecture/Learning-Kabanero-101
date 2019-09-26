@@ -66,8 +66,8 @@ With these components deployed to a Kubernetes cluster, the Kabanero Foundation 
 
 The following sections contain concrete examples of how different roles would interact with Kabanero to achieve concrete goals.
 
-* xref:e2e-java-spring-boot2.adoc[E2E Spring Boot]
-* xref:e2e-java-microprofile.adoc[E2E Java Microprofile]
+* xref:e2e-java-spring-boot2.adoc[E2E Java Spring Boot]
+* xref:e2e-java-microprofile.adoc[E2E Java Liberty Microprofile]
 * xref:e2e-nodejs-express.adoc[E2E Node.js Express]
 
 .Application Developer and Application Architect workflows
