@@ -377,7 +377,7 @@ image::sb_lab1_vscode_codewind_explorer.png[align="center"]
 
 image::sb_lab1_codewind_add_existing_project.png[align="center"]
 
-**Note** - Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the `codewind workspace`.
+NOTE: - Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the `codewind workspace`.
 
 - From the codewind workspace, select the project you created earlier.
 
@@ -405,7 +405,7 @@ image::sb_lab1_code_wind_project_options.png[align="center"]
 
 image::sb_lab1_codewind_open_app.png[align="center"]
 
-**Note** - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
+NOTE: - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
 
 - To get the overview of your project, click on `Open Project Overview`.
 
