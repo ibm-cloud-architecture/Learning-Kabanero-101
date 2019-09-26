@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>End to end Microprofile Kabanero workflow :: Learning-Kabanero-101</title>
-    <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/java-microprofile/java-microprofile.html">
+    <title>End to end Node.js Express Kabanero workflow :: Learning-Kabanero-101</title>
+    <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/e2e-nodejs-express.html">
     <meta name="generator" content="Antora 2.0.1">
-    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
   </head>
   <body class="article">
 <header class="header" role="banner">
@@ -26,30 +26,69 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../kabanero/kabanero-overview.html">Learning Kabanero 101</a></h3>
+    <h3 class="title"><a href="kabanero-overview.html">Learning Kabanero 101</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../kabanero/kabanero-overview.html">Overview</a>
+    <a class="nav-link" href="kabanero-overview.html">Overview</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../java-spring-boot2/cloudpaks.html">E2E Spring Boot</a>
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Workflows</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="e2e-java-spring-boot2.html">E2E Spring Boot</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="java-microprofile.html">E2E Java Microprofile</a>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="e2e-java-microprofile.html">E2E Java Microprofile</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="e2e-nodejs-express.html">E2E Node.js Express</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../nodejs-express/nodejs-express.html">E2E Node.js Express</a>
+    <a class="nav-link" href="https://github.com/gcharters/kabanero-dev-getting-started">Workshop</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../tekton/create-pipeline.html">Create Tekton Pipeline</a>
+    <a class="nav-link" href="https://kabanero.io/guides">Guides</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../appsody/create-stack.html">Create Appsody Stack</a>
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Tasks</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="codewind-setup-appsody.html">Configure CodeWind</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md">Create Appsody Stack</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="appsody-extend-stack.html">Extend Appsody Stack</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tekton-create-pipeline.html">Extend Tekton Pipeline</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../codewind/setup_codewind_appsody.html">Configure CodeWind</a>
+    <span class="nav-text"><a href="https://kabanero.io" target="_blank" rel="noopener">Kabanero.io</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://appsody.dev" target="_blank" rel="noopener">Appsody.dev</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://www.eclipse.org/codewind" target="_blank" rel="noopener">Codewind.dev</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://github.com/tektoncd/pipeline#-tekton-pipelines" target="_blank" rel="noopener">Tekton Pipelines</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://knative.dev" target="_blank" rel="noopener">Knative</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/about-overview.html" target="_blank" rel="noopener">IBM Cloud Pak for Applications</a></span>
   </li>
 </ul>
   </li>
@@ -66,7 +105,7 @@
       <span class="title">Learning Kabanero 101</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../kabanero/kabanero-overview.html">1.0.0</a>
+          <a href="kabanero-overview.html">1.0.0</a>
         </li>
       </ul>
     </li>
@@ -78,34 +117,31 @@
 <main role="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../kabanero/kabanero-overview.html" class="home-link"></a>
+  <a href="kabanero-overview.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../kabanero/kabanero-overview.html">Learning Kabanero 101</a></li>
-    <li><a href="java-microprofile.html">E2E Java Microprofile</a></li>
+    <li><a href="kabanero-overview.html">Learning Kabanero 101</a></li>
+    <li>Workflows</li>
+    <li><a href="e2e-nodejs-express.html">E2E Node.js Express</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/java-microprofile/java-microprofile.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/e2e-nodejs-express.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">End to end Microprofile Kabanero workflow</h1>
+<h1 class="page">End to end Node.js Express Kabanero workflow</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_prerequisites">Prerequisites</a></li>
-<li><a href="#_introduction">Introduction</a>
-<ul class="sectlevel2">
 <li><a href="#_add_kabanero_collection_to_appsody">Add Kabanero Collection to appsody</a></li>
-</ul>
-</li>
 <li><a href="#_appsody_application">Appsody application</a>
 <ul class="sectlevel2">
 <li><a href="#_create_a_new_application">Create a new Application</a></li>
 <li><a href="#_build_the_application">Build the application</a></li>
 <li><a href="#_test_the_application">Test the Application</a></li>
 <li><a href="#_run_the_application">Run the Application</a></li>
-<li><a href="#_debug_the_application">Debug the Application</a></li>
 <li><a href="#_stop_the_application">Stop the Application</a></li>
+<li><a href="#_debug_the_application">Debug the Application</a></li>
 </ul>
 </li>
 <li><a href="#_appsody_tasks_on_vs_code">Appsody tasks on VS Code</a></li>
@@ -114,6 +150,7 @@
 <li><a href="#_getting_the_codewind_extension">Getting the Codewind extension</a></li>
 <li><a href="#_adding_the_application">Adding the application</a></li>
 <li><a href="#_project_options">Project Options</a></li>
+<li><a href="#_application_performance_monitor_profiling_with_codewind">Application Performance, Monitor, Profiling with Codewind</a></li>
 </ul>
 </li>
 <li><a href="#_deploy_the_appsody_application_on_openshift_for_team_development">Deploy the appsody application on Openshift for team development</a>
@@ -132,7 +169,7 @@
 <li><a href="#_deploy_the_application">Deploy the Application</a></li>
 </ul>
 </li>
-<li><a href="#_enabling_knative_in_your_application">Enabling knative in your application</a></li>
+<li><a href="#_serverless_autoscaling_the_application_with_knative">Serverless autoscaling the Application with Knative</a></li>
 </ul>
 </div>
 <div class="sect1">
@@ -145,7 +182,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)</p>
+<p><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html">Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)</a></p>
 <div class="ulist">
 <ul>
 <li>
@@ -190,14 +227,12 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
+<h2 id="_add_kabanero_collection_to_appsody"><a class="anchor" href="#_add_kabanero_collection_to_appsody"></a>Add Kabanero Collection to appsody</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_add_kabanero_collection_to_appsody"><a class="anchor" href="#_add_kabanero_collection_to_appsody"></a>Add Kabanero Collection to appsody</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>From the Cloud Pak for Applications landing page get the <code>Collection Hub</code> URL. For example in our example it is as follows.</p>
+<p>From the Cloud Pak for Applications landing page get the <code>Collection Hub</code> URL, for example:</p>
 </li>
 </ul>
 </div>
@@ -296,7 +331,6 @@ kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework 
 </div>
 </div>
 </div>
-</div>
 <div class="sect1">
 <h2 id="_appsody_application"><a class="anchor" href="#_appsody_application"></a>Appsody application</h2>
 <div class="sectionbody">
@@ -311,21 +345,21 @@ kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir appsody_sample_microprofile
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir appsody_sample_nodejs-express
 
-cd appsody_sample_microprofile/</code></pre>
+cd appsody_sample_nodejs-express/</code></pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Initialize the project using <code>appsody init</code> and select the desired stack ID.</p>
+<p>Initialize the project using <code>appsody init</code> by selecting the desired stack ID template <code>simple</code>.</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody init kabanero/java-microprofile</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody init kabanero/nodejs-express</code></pre>
 </div>
 </div>
 </div>
@@ -340,57 +374,27 @@ cd appsody_sample_microprofile/</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Once it runs successfully, you will see something like this.</p>
+<p>Once it builds successfully, you will see something like this.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[Docker] Status: Downloaded newer image for openliberty/open-liberty:microProfile3-ubi-min
-[Docker]  ---&gt; 95a094a1d39a
-[Docker] Step 23/25 : COPY --chown=1001:0 --from=0 /config/ /opt/ol/wlp/usr/servers/defaultServer/
-[Docker]  ---&gt; 05078636bc75
-[Docker] Step 24/25 : EXPOSE 9080
-[Docker]  ---&gt; Running in 46aac69bcbcb
-[Docker] Removing intermediate container 46aac69bcbcb
-[Docker]  ---&gt; 3caf45a12c01
-[Docker] Step 25/25 : EXPOSE 9443
-[Docker]  ---&gt; Running in 2a95250a992e
-[Docker] Removing intermediate container 2a95250a992e
-[Docker]  ---&gt; 5fbcdcf4cb8c
-[Docker] Successfully built 5fbcdcf4cb8c
-[Docker] Successfully tagged appsody-sample-microprofile:latest
-Built docker image appsody-sample-microprofile</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[Docker] Removing intermediate container 264b4dd86f2c
+[Docker]  ---&gt; 3a7e5ca613f2
+[Docker] Step 20/21 : EXPOSE 3000
+[Docker]  ---&gt; Running in fb7b734205a8
+[Docker] Removing intermediate container fb7b734205a8
+[Docker]  ---&gt; badce710593d
+[Docker] Step 21/21 : CMD ["npm", "start"]
+[Docker]  ---&gt; Running in 961a344e2c68
+[Docker] Removing intermediate container 961a344e2c68
+[Docker]  ---&gt; e417d7dfc54c
+[Docker] Successfully built e417d7dfc54c
+[Docker] Successfully tagged appsody-sample-nodejs-express:latest
+Built docker image appsody-sample-nodejs-express</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>It helps you to check that stack is stable and init is done correctly. You don&#8217;t need to run build to ever again for the rest of this guide.</p>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="title">Note</div>
-<div class="paragraph">
-<p>If you run into the following error:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>[Docker] Downloading from central: https://repo.maven.apache.org/maven2/dev/appsody/java-microprofile/0.2.9/java-microprofile-0.2.9.pom
-[Docker]  ERROR   ERROR  Some problems were encountered while processing the POMs:
-[Docker]  FATAL  Non-resolvable parent POM for dev.appsody.starter.java-microprofile:starter-app:1.0-SNAPSHOT: Could not find artifact dev.appsody:java-microprofile:pom:0.2.9 in central (https://repo.maven.apache.org/maven2) and 'parent.relativePath' points at wrong local POM @ line 8, column 13
-[Error] exit status 1</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To resolve it modify the <code>pom.xml</code> file with the following code near line 8.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;parent&gt;
-        &lt;groupId&gt;dev.appsody&lt;/groupId&gt;
-        &lt;artifactId&gt;java-microprofile&lt;/artifactId&gt;
-        &lt;version&gt;[0.2, 0.3)&lt;/version&gt;
-    &lt;/parent&gt;</code></pre>
-</div>
-</div>
-</div>
+<p>It helps you to check that stack is stable and init is done correctly. You do not need to run build directly ever again.</p>
 </div>
 </div>
 <div class="sect2">
@@ -413,29 +417,34 @@ Built docker image appsody-sample-microprofile</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Running test environment
-Running command: docker pull kabanero/java-microprofile:0.2
-Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/csantana23/.m2/repository:/mvn/repository -v /Users/csantana23/codewind-workspace/appsody_sample_microprofile/src:/project/user-app/src -v /Users/csantana23/codewind-workspace/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/csantana23/codewind-workspace/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=test
-[Container] Running APPSODY_PREP command: ../validate.sh &amp;&amp; mvn -B -Dmaven.repo.local=/mvn/repository install -DskipTests
-[Container] Installing parent dev.appsody:java-microprofile:0.2.14
-[Container] [INFO] Scanning for projects...
+Running command: docker pull kabanero/nodejs-express:0.2
+Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantanapr/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantanapr/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=test
+[Container] Running APPSODY_PREP command: npm install --prefix user-app
+added 170 packages from 578 contributors and audited 295 packages in 2.76s
 ...
-[Container] [INFO] -------------------------------------------------------
-[Container] [INFO]  T E S T S
-[Container] [INFO] -------------------------------------------------------
-[Container] [INFO] Running it.dev.appsody.starter.HealthEndpointTest
-[Container] [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.877 s - in it.dev.appsody.starter.HealthEndpointTest
-[Container] [INFO]
-[Container] [INFO] Results:
-[Container] [INFO]
-[Container] [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[Container] Running command:  npm test &amp;&amp; npm test --prefix user-app
+[Container]
+[Container] &gt; nodejs-express@0.2.6 test /project
+[Container] &gt; mocha
 ...
-[Container] [INFO] --- maven-failsafe-plugin:3.0.0-M1:verify (verify-results) @ starter-app ---
-[Container] [INFO] ------------------------------------------------------------------------
-[Container] [INFO] BUILD SUCCESS
-[Container] [INFO] ------------------------------------------------------------------------
-[Container] [INFO] Total time:  30.387 s
-[Container] [INFO] Finished at: 2019-09-25T01:46:59Z
-[Container] [INFO] ------------------------------------------------------------------------
+[Container] App started on PORT 3000
+...
+[Container]
+[Container]   7 passing (44ms)
+[Container]
+[Container]
+[Container] &gt; nodejs-express-simple@0.1.0 test /project/user-app
+[Container] &gt; mocha
+[Container]
+...
+[Container] App started on PORT 3000
+[Container]   Node.js Express Simple template
+[Container]     / endpoint
+[Container]       ✓ status
+[Container]
+[Container]
+[Container]   1 passing (40ms)
+[Container]
 [Container] The file watcher is not running because no APPSODY_RUN/TEST/DEBUG_ON_CHANGE action was specified or it has been disabled using the --no-watcher flag.</code></pre>
 </div>
 </div>
@@ -459,49 +468,43 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>Running development environment...
-Running command: docker pull kabanero/java-microprofile:0.2
-Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/&lt;user&gt;@ibm.com/.m2/repository:/mvn/repository -v /Users/&lt;user&gt;@ibm.com/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/&lt;user&gt;@ibm.com/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/&lt;user&gt;@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=run
-...
-[Container]  INFO  CWWKM2102I: Using serverName : defaultServer.
-[Container]  INFO  CWWKM2102I: Using serverDirectory : /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
-[Container]  INFO  CWWKM2112I: Re-using previously installed assembly.
-[Container]  INFO  Copying 1 file to /project/user-app/target/liberty/wlp/usr/servers/defaultServer
-[Container]  INFO  CWWKM2144I: Update server configuration file server.xml from /project/user-app/src/main/liberty/config/server.xml.
-[Container]  INFO  CWWKM2144I: Update server configuration file bootstrap.properties from inlined configuration.
-[Container]  INFO  CWWKM2001I: server.config.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
-[Container]  INFO  CWWKM2001I: server.output.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
-[Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, run, defaultServer .
-...
-[Container] [INFO] [AUDIT   ] CWWKT0016I: Web application available (default_host): http://f8623952d5f2:9080/
-[Container] [INFO] [AUDIT   ] CWWKZ0001I: Application starter-app started in 2.587 seconds.
-[Container] [INFO] [AUDIT   ] CWWKF0012I: The server installed the following features: [appSecurity-2.0, cdi-2.0, concurrent-1.0, distributedMap-1.0, jaxrs-2.1, jaxrsClient-2.1, jndi-1.0, json-1.0, jsonb-1.0, jsonp-1.1, jwt-1.0, microProfile-3.0, mpConfig-1.3, mpFaultTolerance-2.0, mpHealth-2.0, mpJwt-1.1, mpMetrics-2.0, mpOpenAPI-1.1, mpOpenTracing-1.3, mpRestClient-1.3, opentracing-1.3, servlet-4.0, ssl-1.0].
-[Container] [INFO] [AUDIT   ] CWWKF0011I: The defaultServer server is ready to run a smarter planet. The defaultServer server started in 11.307 seconds.</pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Running development environment...
+Running command: docker pull kabanero/nodejs-express:0.2
+Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantanapr/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantanapr/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=run
+[Container] Running APPSODY_PREP command: npm install --prefix user-app
+audited 295 packages in 1.546s
+[Container] found 0 vulnerabilities
+[Container]
+[Container] Running command:  npm start
+[Container]
+[Container] &gt; nodejs-express@0.2.6 start /project
+[Container] &gt; node server.js
+[Container]
+[Container] [Sun Sep 22 23:29:50 2019] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.0.5.201909191743 (Agent Core 4.0.5)
+[Container] [Sun Sep 22 23:29:51 2019] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
+[Container] App started on PORT 3000</code></pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Open the application using the web browser at <a href="http://localhost:9080" class="bare">http://localhost:9080</a>.</p>
+<p>Open the application using the web browser at <a href="http://localhost:3000" class="bare">http://localhost:3000</a> .</p>
 </li>
 <li>
 <p>By default, the template provides the below endpoints.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Health endpoint: <a href="http://localhost:9080/health" class="bare">http://localhost:9080/health</a></p>
+<p>Readiness endpoint: <a href="http://localhost:3000/ready" class="bare">http://localhost:3000/ready</a></p>
 </li>
 <li>
-<p>Liveness endpoint: <a href="http://localhost:9080/health/live" class="bare">http://localhost:9080/health/live</a></p>
+<p>Liveness endpoint: <a href="http://localhost:3000/live" class="bare">http://localhost:3000/live</a></p>
 </li>
 <li>
-<p>Metrics endpoint: <a href="http://localhost:9080/metrics" class="bare">http://localhost:9080/metrics</a> (login as admin user with adminpwd password)</p>
+<p>Health check endpoint: <a href="http://localhost:3000/health" class="bare">http://localhost:3000/health</a></p>
 </li>
 <li>
-<p>OpenAPI endpoint: <a href="http://localhost:9080/openapi" class="bare">http://localhost:9080/openapi</a></p>
-</li>
-<li>
-<p>Swagger UI endpoint: <a href="http://localhost:9080/openapi/ui" class="bare">http://localhost:9080/openapi/ui</a></p>
+<p>Metrics endpoint: <a href="http://localhost:3000/metrics" class="bare">http://localhost:3000/metrics</a></p>
 </li>
 </ul>
 </div>
@@ -509,124 +512,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </ul>
 </div>
 <div class="paragraph">
-<p>For more details, refer <a href="https://github.com/appsody/stacks/blob/master/incubator/java-microprofile/README.md">Java Microprofile Stack</a>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_debug_the_application"><a class="anchor" href="#_debug_the_application"></a>Debug the Application</h3>
-<div class="paragraph">
-<p>To debug the application including reloading the application on code changes run the below command.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody debug</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The output indicates the debug environment is being used</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody debug
-Running debug environment
-Running command: docker pull kabanero/java-microprofile:0.2
-Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/bakribbs/.m2/repository:/mvn/repository -v /Users/bakribbs/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/bakribbs/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/bakribbs/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=debug
-.......
-.......
-.......
-[Container]  INFO  --- liberty-maven-plugin:2.6.4:debug (default-cli) @ starter-app ---
-[Container]  INFO  CWWKM2102I: Using artifact based assembly archive : io.openliberty:openliberty-runtime:null:19.0.0.8:zip.
-[Container]  INFO  CWWKM2102I: Using installDirectory : /project/user-app/target/liberty/wlp.
-[Container]  INFO  CWWKM2102I: Using serverName : defaultServer.
-[Container]  INFO  CWWKM2102I: Using serverDirectory : /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
-[Container]  INFO  CWWKM2112I: Re-using previously installed assembly.
-[Container]  INFO  Copying 1 file to /project/user-app/target/liberty/wlp/usr/servers/defaultServer
-[Container]  INFO  CWWKM2144I: Update server configuration file server.xml from /project/user-app/src/main/liberty/config/server.xml.
-[Container]  INFO  CWWKM2144I: Update server configuration file bootstrap.properties from inlined configuration.
-[Container]  INFO  CWWKM2001I: server.config.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
-[Container]  INFO  CWWKM2001I: server.output.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
-[Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, debug, defaultServer .
-[Container]  INFO
-[Container]  INFO  Listening for transport dt_socket at address: 7777</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Open your editor. We are using <code>VS Code</code>. Add the project to your workspace.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/sb_lab1_open_project_vscode.png" alt="sb lab1 open project vscode">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Start the debugger in your editor.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/microprofile-debug.png" alt="microprofile debug">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Once you start it, you will see something like below.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/sb_lab1_vscode_debugger_window.png" alt="sb lab1 vscode debugger window">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Now you can open the application at <a href="http://localhost:9080/" class="bare">http://localhost:9080/</a>.</p>
-</li>
-<li>
-<p>Let us check the liveness probe at <a href="http://localhost:9080/health" class="bare">http://localhost:9080/health</a>.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/microprofile-health-up.png" alt="microprofile health up">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Let us make a code change. We want to change the isAlive() to return <code>false</code> instead of <code>true</code>.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/microprofile-code-change.png" alt="microprofile code change">
-</div>
-</div>
-<div class="paragraph">
-<p>Here, the debugger will reload the application for you.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Refresh the browser to see the changes.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/microprofile-health-down.png" alt="microprofile health down">
-</div>
+<p>For more details, refer <a href="https://github.com/appsody/stacks/blob/master/incubator/nodejs-express/README.md">Node.js Express Stack</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -634,7 +520,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 <div class="ulist">
 <ul>
 <li>
-<p>To stop the container, run this command.</p>
+<p>To stop the application container, run this command.</p>
 </li>
 </ul>
 </div>
@@ -649,6 +535,162 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 <p>Alternatively, you can also press <code>Ctrl+C</code>.</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_debug_the_application"><a class="anchor" href="#_debug_the_application"></a>Debug the Application</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Open your editor. We are using <code>VS Code</code>. Add the project to your workspace, or use the command <code>code .</code> .</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_vscode_project.png" alt="js lab1 vscode project">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open a new terminal window inside VS Code use <code>View&#8594;Terminal</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_vscode_terminal.png" alt="js lab1 vscode terminal">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To debug the application including reloading the application on code changes run the below command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody debug</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output indicates the debug environment is being used</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Running debug environment
+Running command: docker pull kabanero/nodejs-express:0.2
+Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantana23/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantana23/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=debug
+[Container] Running APPSODY_PREP command: npm install --prefix user-app
+audited 295 packages in 1.154s
+[Container] found 0 vulnerabilities
+[Container]
+[Container] Running command:  npm run debug
+[Container]
+[Container] &gt; nodejs-express@0.2.6 debug /project
+[Container] &gt; node --inspect=0.0.0.0 server.js
+[Container]
+[Container] Debugger listening on ws://0.0.0.0:9229/35c7d2cb-ced9-4c57-94f1-a58a5e078302
+[Container] For help, see: https://nodejs.org/en/docs/inspector
+[Container] [Sun Sep 22 23:38:35 2019] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.0.5.201909191743 (Agent Core 4.0.5)
+[Container] [Sun Sep 22 23:38:35 2019] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
+[Container] App started on PORT 3000</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Now you can open the application at <a href="http://localhost:3000/" class="bare">http://localhost:3000/</a></p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_endpoint.png" alt="js lab1 endpoint">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Let us make a code change.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_code_change.png" alt="js lab1 code change">
+</div>
+</div>
+<div class="paragraph">
+<p>Here, the debugger will reload the application for you.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Refresh the browser to see the changes.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_endpoint_test.png" alt="js lab1 endpoint test">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Stop the appication usig <code>Ctrl+C</code></p>
+</li>
+<li>
+<p>You can attach to the Node.js debugger using <code>VSCode</code></p>
+</li>
+<li>
+<p>To access the debug view use <code>View&#8594;Debug</code> or click Debug icon on left menu</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_vscode_debug.png" alt="js lab1 vscode debug">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add a breakpoint to the application, click to the left of the line number</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_vscode_breakpoint.png" alt="js lab1 vscode breakpoint">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on the debug task <code>Appsody: Attach node</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_vscode_attach.png" alt="js lab1 vscode attach">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Refresh the browser and watch how the debugger stops at the break point</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_vscode_attach_break.png" alt="js lab1 vscode attach break">
+</div>
 </div>
 </div>
 </div>
@@ -670,7 +712,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_build_task_menu.png" alt="sb lab1 build task menu">
+<img src="_images/js_lab1_build_task_menu.png" alt="js lab1 build task menu">
 </div>
 </div>
 <div class="ulist">
@@ -682,7 +724,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_build_task_list.png" alt="sb lab1 build task list">
+<img src="_images/js_lab1_build_task_list.png" alt="js lab1 build task list">
 </div>
 </div>
 <div class="ulist">
@@ -694,19 +736,31 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_build_task_run.png" alt="sb lab1 build task run">
+<img src="_images/js_lab1_build_task_run.png" alt="js lab1 build task run">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Once, it is successfully started, you can access the application at <a href="http://localhost:9080/" class="bare">http://localhost:9080/</a>.</p>
+<p>Once, it is successfully started, you can access the application at <a href="http://localhost:3000/" class="bare">http://localhost:3000/</a></p>
 </li>
 </ul>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/microprofile-home.png" alt="microprofile home">
+<img src="_images/js_lab1_endpoint.png" alt="js lab1 endpoint">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Run the <code>Appsody: stop</code> task</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_build_task_stop.png" alt="js lab1 build task stop">
 </div>
 </div>
 </div>
@@ -715,7 +769,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 <h2 id="_codewind_on_vs_code"><a class="anchor" href="#_codewind_on_vs_code"></a>Codewind on VS Code</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Codewind simplifies and enhances development in containers by extending industry standard IDEs with features to write, debug, and deploy cloud-native applications. It helps you to get started quickly with templates or samples, or you can also pull in your applications and let Codewind get them cloud ready.</p>
+<p>Codewind simplifies and enhances development in containers by extending industry-standard IDEs with features to write, debug, and deploy cloud-native applications. It helps you to get started quickly with templates or samples, or you can also pull in your applications and let Codewind get them cloud-ready.</p>
 </div>
 <div class="paragraph">
 <p>Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using VS Code as our IDE.</p>
@@ -728,17 +782,17 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 <p>To get codewind extension you need <a href="https://code.visualstudio.com/download">VS Code version 1.28 or later</a>.</p>
 </li>
 <li>
-<p>Go to the extensions view and install codewind from the VS code market place.</p>
+<p>Go to the extensions view and search for codewind from the VS code market place.</p>
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="../_images/sb_lab1_vscode_codewind_extension.png" alt="sb lab1 vscode codewind extension">
+<img src="_images/js_lab1_vscode_codewind_extension.png" alt="Codewind extensions" width="500">
 </div>
 </div>
 <div class="paragraph">
-<p>You will find <code>Codewind</code> and click <code>install</code> to get it. Also, if you want to use the IDE for Java applications, you need to install <code>Codewind Java Profiler</code>.</p>
+<p>You will find <code>Codewind</code> then click <code>install</code> to get it. Also, if you want to use Codewind for Node.js performance analysis, you need to install <code>Codewind Node.js Profiler</code>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -754,7 +808,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_vscode_view.png" alt="sb lab1 vscode view">
+<img src="_images/sb_lab1_vscode_view.png" alt="sb lab1 vscode view">
 </div>
 </div>
 <div class="ulist">
@@ -766,7 +820,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_vscode_code_explorer.png" alt="sb lab1 vscode code explorer">
+<img src="_images/sb_lab1_vscode_code_explorer.png" alt="sb lab1 vscode code explorer">
 </div>
 </div>
 <div class="ulist">
@@ -778,7 +832,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_vscode_codewind_explorer.png" alt="sb lab1 vscode codewind explorer">
+<img src="_images/sb_lab1_vscode_codewind_explorer.png" alt="sb lab1 vscode codewind explorer">
 </div>
 </div>
 </div>
@@ -796,11 +850,20 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_codewind_add_existing_project.png" alt="sb lab1 codewind add existing project">
+<img src="_images/sb_lab1_codewind_add_existing_project.png" alt="sb lab1 codewind add existing project">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>Note</strong> - Before doing this, copy your project to the codewind workspace. At this point in time, codewind only accepts the projects that are available in the <code>codewind workspace</code>.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+- Before doing this, copy your project to the codewind workspace, in the directory <code>codewind-workspaces/</code> in your HOME directory. At this point in time, codewind only accepts the projects that are available in the <code>codewind workspace</code>.
+</td>
+</tr>
+</table>
 </div>
 <div class="ulist">
 <ul>
@@ -811,7 +874,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/microprofile-add.png" alt="microprofile add">
+<img src="_images/js_lab1_add_existing_prj_from_workspace.png" alt="js lab1 add existing prj from workspace">
 </div>
 </div>
 <div class="ulist">
@@ -819,27 +882,9 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 <li>
 <p>The codewind extension asks you for confirmation as follows. Click <code>Yes</code>.</p>
 </li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/microprofile-confirm.png" alt="microprofile confirm">
-</div>
-</div>
-<div class="ulist">
-<ul>
 <li>
 <p>The project will be added.</p>
 </li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/microprofile-codewind-starting.png" alt="microprofile codewind starting">
-</div>
-</div>
-<div class="ulist">
-<ul>
 <li>
 <p>Once it is successfully built, it starts running.</p>
 </li>
@@ -847,7 +892,19 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/microprofile-codewind-running.png" alt="microprofile codewind running">
+<img src="_images/js_lab1_appsody_project_running.png" alt="js lab1 appsody project running">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can open the CodeWind workspace, right click on <code>Projects</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/js_lab1_codewind_open_workspace.png" alt="js lab1 codewind open workspace">
 </div>
 </div>
 </div>
@@ -862,7 +919,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/microprofile-codewind-options.png" alt="microprofile codewind options">
+<img src="_images/js_lab1_codewind_project_options.png" alt="js lab1 codewind project options">
 </div>
 </div>
 <div class="ulist">
@@ -874,11 +931,20 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/microprofile-codewind.png" alt="microprofile codewind">
+<img src="_images/js_lab1_codewind_open_app.png" alt="js lab1 codewind open app">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>Note</strong> - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+- Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
+</td>
+</tr>
+</table>
 </div>
 <div class="ulist">
 <ul>
@@ -889,7 +955,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/microprofile-overview.png" alt="microprofile overview">
+<img src="_images/js_lab1_codewind_project_overview.png" alt="js lab1 codewind project overview">
 </div>
 </div>
 <div class="ulist">
@@ -901,7 +967,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_codewind_container_shell.png" alt="sb lab1 codewind container shell">
+<img src="_images/js_lab1_codewind_container_shell.png" alt="js lab1 codewind container shell">
 </div>
 </div>
 <div class="ulist">
@@ -913,7 +979,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_codewind_project_logs.png" alt="sb lab1 codewind project logs">
+<img src="_images/js_lab1_codewind_project_logs.png" alt="js lab1 codewind project logs">
 </div>
 </div>
 <div class="ulist">
@@ -931,7 +997,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_codewind_project_restart_in_run_mode.png" alt="sb lab1 codewind project restart in run mode">
+<img src="_images/js_lab1_codewind_project_restart_in_run_mode.png" alt="js lab1 codewind project restart in run mode">
 </div>
 </div>
 <div class="paragraph">
@@ -939,7 +1005,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_restart_in_run_mode_app.png" alt="sb lab1 restart in run mode app">
+<img src="_images/js_lab1_restart_in_run_mode_app.png" alt="js lab1 restart in run mode app">
 </div>
 </div>
 <div class="ulist">
@@ -948,6 +1014,81 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 <p>Similarly, you can also do debugging by using <code>Restart in Debug Mode</code>.</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_application_performance_monitor_profiling_with_codewind"><a class="anchor" href="#_application_performance_monitor_profiling_with_codewind"></a>Application Performance, Monitor, Profiling with Codewind</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>You can launch the app monitor by selecting <code>Open Appplication Monitor</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/js_lab1_codewind_app_monitor.png" alt="js lab1 codewind app monitor">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The monitor dashboard will open in the browser</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/js_lab1_app_monitor_dashboard.png" alt="js lab1 app monitor dashboard">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can launch the app performance dashboard by selecting <code>Open Performance Dashboard</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/js_lab1_app_performance.png" alt="js lab1 app performance">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The performance dashboard will open in the browser</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/js_lab1_app_performance_dashboard.png" alt="js lab1 app performance dashboard">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can click Run Test and have Monitor and Performance dashboars side by side during the test.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/js_lab1_app_side_by_side_perf_test.png" alt="js lab1 app side by side perf test">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Profiling the node.js code is currently not working an <a href="https://github.com/eclipse/codewind-node-profiler/issues/5">issue</a> is opened on the github repo for the codewind node.js profiler extension
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -974,8 +1115,8 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc new-project kabanero-samples-java
-Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc new-project kabanero-samples
+Now using project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -1001,8 +1142,8 @@ to build a new example application in Ruby.</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project kabanero-samples-java
-Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project kabanero-samples
+Already on project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -1023,7 +1164,7 @@ Already on project "kabanero-samples-java" on server "https://c100-e.us-east.con
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project -q
-kabanero-samples-java</code></pre>
+kabanero-samples</code></pre>
 </div>
 </div>
 </div>
@@ -1042,51 +1183,52 @@ kabanero-samples-java</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This will generate you the below file.</p>
+<p>This will generate the file <code>app-deploy.yaml</code> with the following content:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-microprofile
+  name: appsody-sample-nodejs-express
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: appsody-sample-microprofile
-  stack: java-microprofile
+  applicationImage: appsody-sample-nodejs-express
+  stack: nodejs-express
   service:
     type: NodePort
-    port: 9080
+    port: 3000
     annotations:
       prometheus.io/scrape: 'true'
   readinessProbe:
     failureThreshold: 12
     httpGet:
-      path: /health/ready
-      port: 9080
+      path: /ready
+      port: 3000
     initialDelaySeconds: 5
     periodSeconds: 2
+    timeoutSeconds: 1
   livenessProbe:
     failureThreshold: 12
     httpGet:
-      path: /health/live
-      port: 9080
+      path: /live
+      port: 3000
     initialDelaySeconds: 5
     periodSeconds: 2
   expose: true</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>By default, the application is deployed in the <code>kabanero</code> namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called <code>kabanero-samples-java</code> and we can specify it under the metadata as below.</p>
+<p>By default, the application is deployed in the <code>kabanero</code> namespace. If you want to deploy the application in a different namespace, you need to specify it in this yaml file. In this lab, let&#8217;s use a namespace called <code>kabanero-samples</code> and we can specify it under the metadata as below.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-microprofile
-  namespace: kabanero-samples-java</code></pre>
+  name: appsody-sample-nodejs-express
+  namespace: kabanero-samples</code></pre>
 </div>
 </div>
 </div>
@@ -1143,7 +1285,7 @@ git push -u origin master</code></pre>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/microprofile-github-token.png" alt="microprofile github token">
+<img src="_images/js_lab1_github_token.png" alt="js lab1 github token">
 </div>
 </div>
 <div class="ulist">
@@ -1182,7 +1324,7 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </div>
 </div>
 <div class="paragraph">
-<p>You can access it at the <code>HOST/PORT</code> available. For instance here it will be <code>tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
+<p>You can access it at the <code>HOST/PORT</code> available. For instance, here it will be <code>tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1191,24 +1333,24 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="../_images/sb_lab1_kabanero_enterprise.png" alt="sb lab1 kabanero enterprise">
-</div>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/sb_lab1_kabanero_ent_dashboard.png" alt="sb lab1 kabanero ent dashboard">
+<img src="_images/sb_lab1_kabanero_enterprise.png" alt="Kabanero Menu" width="300">
 </div>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_kabanero_ent_instance.png" alt="sb lab1 kabanero ent instance">
+<img src="_images/sb_lab1_kabanero_ent_dashboard.png" alt="sb lab1 kabanero ent dashboard">
 </div>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_tekton_dashboard.png" alt="sb lab1 tekton dashboard">
+<img src="_images/sb_lab1_kabanero_ent_instance.png" alt="sb lab1 kabanero ent instance">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/sb_lab1_tekton_dashboard.png" alt="sb lab1 tekton dashboard">
 </div>
 </div>
 </div>
@@ -1221,9 +1363,9 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="../_images/sb_lab1_menu_webhooks.png" alt="sb lab1 menu webhooks">
+<img src="_images/sb_lab1_menu_webhooks.png" alt="Tekton Menu" width="300">
 </div>
 </div>
 <div class="ulist">
@@ -1235,7 +1377,7 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_add_webhook.png" alt="sb lab1 add webhook">
+<img src="_images/sb_lab1_add_webhook.png" alt="sb lab1 add webhook">
 </div>
 </div>
 <div class="ulist">
@@ -1247,7 +1389,7 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_webhook_settings.png" alt="sb lab1 webhook settings">
+<img src="_images/sb_lab1_webhook_settings.png" alt="sb lab1 webhook settings">
 </div>
 </div>
 <div class="listingblock">
@@ -1266,7 +1408,7 @@ Access Token - &lt;For this, you need to create a Github access token with permi
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_webhook_settings_access_token_create.png" alt="sb lab1 webhook settings access token create">
+<img src="_images/sb_lab1_webhook_settings_access_token_create.png" alt="sb lab1 webhook settings access token create">
 </div>
 </div>
 <div class="ulist">
@@ -1278,7 +1420,7 @@ Access Token - &lt;For this, you need to create a Github access token with permi
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_webhook_settings_access_token_existing.png" alt="sb lab1 webhook settings access token existing">
+<img src="_images/sb_lab1_webhook_settings_access_token_existing.png" alt="sb lab1 webhook settings access token existing">
 </div>
 </div>
 </div>
@@ -1287,21 +1429,22 @@ Access Token - &lt;For this, you need to create a Github access token with permi
 <div class="ulist">
 <ul>
 <li>
-<p>Enter the information for the Pipeline settings</p>
+<p>Enter the information for the Pipeline settings
+NOTE: Replace &lt;your_project&gt; with the name of the target namespace in our case <code>kabanero-samples</code></p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre>Namespace - kabanero
-Pipeline - java-microprofile-build-deploy-pipeline
+Pipeline - nodejs-express-build-deploy-pipeline
 Service account - kabaner-operator
 Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/microprofile-pipeline-settings.png" alt="microprofile pipeline settings">
+<img src="_images/js_lab1_pipeline_settings.png" alt="js lab1 pipeline settings">
 </div>
 </div>
 <div class="ulist">
@@ -1313,7 +1456,7 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_webhook.png" alt="sb lab1 webhook">
+<img src="_images/js_lab1_webhook.png" alt="js lab1 webhook">
 </div>
 </div>
 <div class="paragraph">
@@ -1334,12 +1477,12 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 <div class="ulist">
 <ul>
 <li>
-<p>Make a change to the application such as changing the <code>index.html</code> or any other things.</p>
+<p>Make a change to the application such as changing the <code>app.js</code> or any other things.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Let us change the <code>title</code> from <code>Hello from Appsody!</code> to <code>Hello from Cloud Paks !!!</code>.</p>
+<p>Let&#8217;s change from <code>Hello from Appsody Demo!</code> to <code>Hello from Cloud Paks !!!</code>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1353,7 +1496,7 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_pipeline_runs.png" alt="sb lab1 pipeline runs">
+<img src="_images/js_lab1_pipeline_runs.png" alt="js lab1 pipeline runs">
 </div>
 </div>
 <div class="ulist">
@@ -1371,7 +1514,7 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_application_route.png" alt="sb lab1 application route">
+<img src="_images/js_lab1_application_route.png" alt="js lab1 application route">
 </div>
 </div>
 <div class="ulist">
@@ -1391,19 +1534,19 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get routes -n kabanero-samples-java
-NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
-appsody-sample-microprofile   appsody-sample-microprofile-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-microprofile   8080                    None</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get routes -n kabanero-samples
+NAME                            HOST/PORT                                                                                                                               PATH      SERVICES                        PORT      TERMINATION   WILDCARD
+appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-nodejs-express   3000                    None</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You can now acccess the application at &lt;HOST/PORT&gt;, here it is <code>appsody-sample-microprofile-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
+<p>You can now acccess the application at &lt;HOST/PORT&gt;, here it is <code><a href="https://appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud" class="bare">https://appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</a></code>.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_enabling_knative_in_your_application"><a class="anchor" href="#_enabling_knative_in_your_application"></a>Enabling knative in your application</h2>
+<h2 id="_serverless_autoscaling_the_application_with_knative"><a class="anchor" href="#_serverless_autoscaling_the_application_with_knative"></a>Serverless autoscaling the Application with Knative</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -1420,17 +1563,102 @@ appsody-sample-microprofile   appsody-sample-microprofile-kabanero-samples-java.
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: my-appsody-app
+  name: appsody-sample-nodejs-express
+  namespace: kabanero-samples
 spec:
-  stack: java-microprofile
+  version: 1.0.0
+  applicationImage: appsody-sample-nodejs-express
+  stack: nodejs-express
   createKnativeService: true</code></pre>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Git push the change, and see tekton pipeline runs again.</p>
+</li>
+<li>
+<p>Show the Knative resource</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get service.serving.knative.dev/appsody-sample-nodejs-express
+
+NAME                            URL                                                                                                                                            LATESTCREATED                         LATESTREADY                           READY     REASON
+appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Show the Knative route</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get route.serving.knative.dev/appsody-sample-nodejs-expres
+
+NAME                            URL                                                                                                                                            READY     REASON
+appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Show the Knative configuration</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get configuration.serving.knative.dev/appsody-sample-nodejs-express
+
+NAME                            LATESTCREATED                         LATESTREADY                           READY     REASON
+appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Show the Knative latest ready revision</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get revision.serving.knative.dev/appsody-sample-nodejs-express-mtl4q
+
+NAME                                  SERVICE NAME                          GENERATION   READY     REASON
+appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   2            True</pre>
+</div>
+</div>
 <div class="paragraph">
-<p>Git push the change, tekton pipeline runs, show the app again running and inspect extra resource associated with Kantive
-Knative Service oc get ksvc
-Knative Configurations oc get configurations
-Knative Revisions oc get revisions</p>
+<p>Visit the Knative public url <code><a href="http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud" class="bare">http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</a></code> and list the pods</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods
+
+NAME                                                              READY     STATUS    RESTARTS   AGE
+appsody-sample-nodejs-express-mtl4q-deployment-7bf6dbddf6-rr89p   2/2       Running   0          27s</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Wait 1 minute and you will then see the pods are not longer running</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get pods
+
+No resources found.</pre>
+</div>
 </div>
 </div>
 </div>
@@ -1441,7 +1669,7 @@ Knative Revisions oc get revisions</p>
   <p>This page was built using the Antora default UI.</p>
   <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
 </footer>
-<script src="../../../_/js/site.js"></script>
-<script async src="../../../_/js/vendor/highlight.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>

@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Configure CodeWind with Appsody CLI :: Learning-Kabanero-101</title>
-    <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/codewind/setup_codewind_appsody.html">
+    <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/codewind-setup-appsody.html">
     <meta name="generator" content="Antora 2.0.1">
-    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
   </head>
   <body class="article">
 <header class="header" role="banner">
@@ -26,30 +26,69 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../kabanero/kabanero-overview.html">Learning Kabanero 101</a></h3>
+    <h3 class="title"><a href="kabanero-overview.html">Learning Kabanero 101</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../kabanero/kabanero-overview.html">Overview</a>
+    <a class="nav-link" href="kabanero-overview.html">Overview</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../java-spring-boot2/cloudpaks.html">E2E Spring Boot</a>
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Workflows</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="e2e-java-spring-boot2.html">E2E Spring Boot</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="e2e-java-microprofile.html">E2E Java Microprofile</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="e2e-nodejs-express.html">E2E Node.js Express</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../java-microprofile/java-microprofile.html">E2E Java Microprofile</a>
+    <a class="nav-link" href="https://github.com/gcharters/kabanero-dev-getting-started">Workshop</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../nodejs-express/nodejs-express.html">E2E Node.js Express</a>
+    <a class="nav-link" href="https://kabanero.io/guides">Guides</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../tekton/create-pipeline.html">Create Tekton Pipeline</a>
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Tasks</span>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="codewind-setup-appsody.html">Configure CodeWind</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md">Create Appsody Stack</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="appsody-extend-stack.html">Extend Appsody Stack</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tekton-create-pipeline.html">Extend Tekton Pipeline</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../appsody/create-stack.html">Create Appsody Stack</a>
+    <span class="nav-text"><a href="https://kabanero.io" target="_blank" rel="noopener">Kabanero.io</a></span>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="setup_codewind_appsody.html">Configure CodeWind</a>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://appsody.dev" target="_blank" rel="noopener">Appsody.dev</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://www.eclipse.org/codewind" target="_blank" rel="noopener">Codewind.dev</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://github.com/tektoncd/pipeline#-tekton-pipelines" target="_blank" rel="noopener">Tekton Pipelines</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://knative.dev" target="_blank" rel="noopener">Knative</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/about-overview.html" target="_blank" rel="noopener">IBM Cloud Pak for Applications</a></span>
   </li>
 </ul>
   </li>
@@ -66,7 +105,7 @@
       <span class="title">Learning Kabanero 101</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../kabanero/kabanero-overview.html">1.0.0</a>
+          <a href="kabanero-overview.html">1.0.0</a>
         </li>
       </ul>
     </li>
@@ -78,14 +117,15 @@
 <main role="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../kabanero/kabanero-overview.html" class="home-link"></a>
+  <a href="kabanero-overview.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../kabanero/kabanero-overview.html">Learning Kabanero 101</a></li>
-    <li><a href="setup_codewind_appsody.html">Configure CodeWind</a></li>
+    <li><a href="kabanero-overview.html">Learning Kabanero 101</a></li>
+    <li>Tasks</li>
+    <li><a href="codewind-setup-appsody.html">Configure CodeWind</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/codewind/setup_codewind_appsody.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/codewind-setup-appsody.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
 <h1 class="page">Configure CodeWind with Appsody CLI</h1>
@@ -172,7 +212,7 @@ REPO     	ID               	VERSION  	TEMPLATES        	DESCRIPTION
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../_images/codewind_restart.png" alt="codewind restart">
+<img src="_images/codewind_restart.png" alt="codewind restart">
 </div>
 </div>
 <div class="ulist">
@@ -184,7 +224,7 @@ REPO     	ID               	VERSION  	TEMPLATES        	DESCRIPTION
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../_images/codewind_new_project.png" alt="codewind new project">
+<img src="_images/codewind_new_project.png" alt="codewind new project">
 </div>
 </div>
 <div class="ulist">
@@ -196,7 +236,7 @@ REPO     	ID               	VERSION  	TEMPLATES        	DESCRIPTION
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../_images/codewind_new_project_list.png" alt="codewind new project list">
+<img src="_images/codewind_new_project_list.png" alt="codewind new project list">
 </div>
 </div>
 </article>
@@ -206,7 +246,7 @@ REPO     	ID               	VERSION  	TEMPLATES        	DESCRIPTION
   <p>This page was built using the Antora default UI.</p>
   <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
 </footer>
-<script src="../../../_/js/site.js"></script>
-<script async src="../../../_/js/vendor/highlight.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>

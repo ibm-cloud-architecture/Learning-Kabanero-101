@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>End to end Node.js Express Kabanero workflow :: Learning-Kabanero-101</title>
-    <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/nodejs-express/nodejs-express.html">
+    <title>End to end Spring Boot Kabanero workflow :: Learning-Kabanero-101</title>
+    <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/e2e-java-spring-boot2.html">
     <meta name="generator" content="Antora 2.0.1">
-    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
   </head>
   <body class="article">
 <header class="header" role="banner">
@@ -26,30 +26,69 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../kabanero/kabanero-overview.html">Learning Kabanero 101</a></h3>
+    <h3 class="title"><a href="kabanero-overview.html">Learning Kabanero 101</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../kabanero/kabanero-overview.html">Overview</a>
+    <a class="nav-link" href="kabanero-overview.html">Overview</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../java-spring-boot2/cloudpaks.html">E2E Spring Boot</a>
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Workflows</span>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="e2e-java-spring-boot2.html">E2E Spring Boot</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="e2e-java-microprofile.html">E2E Java Microprofile</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="e2e-nodejs-express.html">E2E Node.js Express</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../java-microprofile/java-microprofile.html">E2E Java Microprofile</a>
-  </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="nodejs-express.html">E2E Node.js Express</a>
+    <a class="nav-link" href="https://github.com/gcharters/kabanero-dev-getting-started">Workshop</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../tekton/create-pipeline.html">Create Tekton Pipeline</a>
+    <a class="nav-link" href="https://kabanero.io/guides">Guides</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../appsody/create-stack.html">Create Appsody Stack</a>
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Tasks</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="codewind-setup-appsody.html">Configure CodeWind</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md">Create Appsody Stack</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="appsody-extend-stack.html">Extend Appsody Stack</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tekton-create-pipeline.html">Extend Tekton Pipeline</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../codewind/setup_codewind_appsody.html">Configure CodeWind</a>
+    <span class="nav-text"><a href="https://kabanero.io" target="_blank" rel="noopener">Kabanero.io</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://appsody.dev" target="_blank" rel="noopener">Appsody.dev</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://www.eclipse.org/codewind" target="_blank" rel="noopener">Codewind.dev</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://github.com/tektoncd/pipeline#-tekton-pipelines" target="_blank" rel="noopener">Tekton Pipelines</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://knative.dev" target="_blank" rel="noopener">Knative</a></span>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/about-overview.html" target="_blank" rel="noopener">IBM Cloud Pak for Applications</a></span>
   </li>
 </ul>
   </li>
@@ -66,7 +105,7 @@
       <span class="title">Learning Kabanero 101</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../kabanero/kabanero-overview.html">1.0.0</a>
+          <a href="kabanero-overview.html">1.0.0</a>
         </li>
       </ul>
     </li>
@@ -78,17 +117,18 @@
 <main role="main">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../kabanero/kabanero-overview.html" class="home-link"></a>
+  <a href="kabanero-overview.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../kabanero/kabanero-overview.html">Learning Kabanero 101</a></li>
-    <li><a href="nodejs-express.html">E2E Node.js Express</a></li>
+    <li><a href="kabanero-overview.html">Learning Kabanero 101</a></li>
+    <li>Workflows</li>
+    <li><a href="e2e-java-spring-boot2.html">E2E Spring Boot</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/nodejs-express/nodejs-express.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/e2e-java-spring-boot2.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">End to end Node.js Express Kabanero workflow</h1>
+<h1 class="page">End to end Spring Boot Kabanero workflow</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -109,8 +149,8 @@
 <ul class="sectlevel2">
 <li><a href="#_getting_the_codewind_extension">Getting the Codewind extension</a></li>
 <li><a href="#_adding_the_application">Adding the application</a></li>
-<li><a href="#_project_options">Project Options</a></li>
-<li><a href="#_application_performance_monitor_profiling_with_codewind">Application Performance, Monitor, Profiling with Codewind</a></li>
+<li><a href="#_project_options_for_dev">Project options for dev</a></li>
+<li><a href="#_project_options_for_performance">Project options for performance</a></li>
 </ul>
 </li>
 <li><a href="#_deploy_the_appsody_application_on_openshift_for_team_development">Deploy the appsody application on Openshift for team development</a>
@@ -142,7 +182,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)</p>
+<p><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html">Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)</a></p>
 <div class="ulist">
 <ul>
 <li>
@@ -192,7 +232,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p>From the Cloud Pak for Applications landing page get the <code>Collection Hub</code> URL, for example:</p>
+<p>From the Cloud Pak for Applications landing page get the <code>Collection Hub</code> URL. For example in our example it is as follows.</p>
 </li>
 </ul>
 </div>
@@ -305,21 +345,21 @@ kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir appsody_sample_nodejs-express
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mkdir appsody_sample_springboot
 
-cd appsody_sample_nodejs-express/</code></pre>
+cd appsody_sample_springboot/</code></pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Initialize the project using <code>appsody init</code> by selecting the desired stack ID template <code>simple</code>.</p>
+<p>Initialize the project using <code>appsody init</code> and select the desired stack ID.</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody init kabanero/nodejs-express</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody init kabanero/java-spring-boot2</code></pre>
 </div>
 </div>
 </div>
@@ -334,27 +374,26 @@ cd appsody_sample_nodejs-express/</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Once it builds successfully, you will see something like this.</p>
+<p>Once it runs successfully, you will see something like this.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[Docker] Removing intermediate container 264b4dd86f2c
-[Docker]  ---&gt; 3a7e5ca613f2
-[Docker] Step 20/21 : EXPOSE 3000
-[Docker]  ---&gt; Running in fb7b734205a8
-[Docker] Removing intermediate container fb7b734205a8
-[Docker]  ---&gt; badce710593d
-[Docker] Step 21/21 : CMD ["npm", "start"]
-[Docker]  ---&gt; Running in 961a344e2c68
-[Docker] Removing intermediate container 961a344e2c68
-[Docker]  ---&gt; e417d7dfc54c
-[Docker] Successfully built e417d7dfc54c
-[Docker] Successfully tagged appsody-sample-nodejs-express:latest
-Built docker image appsody-sample-nodejs-express</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[Docker]  ---&gt; Running in 3edec1263e50
+[Docker] Removing intermediate container 3edec1263e50
+[Docker]  ---&gt; b738cc92f9e3
+[Docker] Step 33/34 : COPY --from=compile /project/user-app/target/app.jar /app.jar
+[Docker]  ---&gt; 2bb71966ba32
+[Docker] Step 34/34 : ENTRYPOINT [ "sh", "-c", "java $JVM_ARGS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+[Docker]  ---&gt; Running in d9c411bc4772
+[Docker] Removing intermediate container d9c411bc4772
+[Docker]  ---&gt; 4537506d45ab
+[Docker] Successfully built 4537506d45ab
+[Docker] Successfully tagged appsody-sample-springboot:latest
+Built docker image appsody-sample-springboot</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>It helps you to check that stack is stable and init is done correctly. You do not need to run build directly ever again.</p>
+<p>It helps you to check that stack is stable and init is done correctly. You need not run build to run the project ever again.</p>
 </div>
 </div>
 <div class="sect2">
@@ -362,7 +401,7 @@ Built docker image appsody-sample-nodejs-express</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>Test the application using appsody</p>
+<p>Test the application using appsody.</p>
 </li>
 </ul>
 </div>
@@ -376,36 +415,61 @@ Built docker image appsody-sample-nodejs-express</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Running test environment
-Running command: docker pull kabanero/nodejs-express:0.2
-Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantanapr/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantanapr/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=test
-[Container] Running APPSODY_PREP command: npm install --prefix user-app
-added 170 packages from 578 contributors and audited 295 packages in 2.76s
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody test
+Running test environment
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/user@ibm.com/codewind-workspace/appsody-sample-springboot/.:/project/user-app -v /Users/user@ibm.com/.m2/repository:/mvn/repository -v /Users/user@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=test]
+[Container] Running: /project/java-spring-boot2-build.sh test
+[Container] Installing parent dev.appsody:spring-boot2-stack:0.3.13
+[Container] &gt; mvn install -q -f /project/appsody-boot2-pom.xml
+[Container] Test project in the foreground
+[Container] &gt; mvn package test
+[Container] [INFO] Scanning for projects...
 ...
-[Container] Running command:  npm test &amp;&amp; npm test --prefix user-app
-[Container]
-[Container] &gt; nodejs-express@0.2.6 test /project
-[Container] &gt; mocha
 ...
-[Container] App started on PORT 3000
-...
-[Container]
-[Container]   7 passing (44ms)
-[Container]
-[Container]
-[Container] &gt; nodejs-express-simple@0.1.0 test /project/user-app
-[Container] &gt; mocha
-[Container]
-...
-[Container] App started on PORT 3000
-[Container]   Node.js Express Simple template
-[Container]     / endpoint
-[Container]       ✓ status
-[Container]
-[Container]
-[Container]   1 passing (40ms)
-[Container]
-[Container] The file watcher is not running because no APPSODY_RUN/TEST/DEBUG_ON_CHANGE action was specified or it has been disabled using the --no-watcher flag.</code></pre>
+[Container] 2019-09-23 22:25:18.476  INFO 194 --- [           main] i.j.internal.reporters.LoggingReporter   : Span reported: 50797d26c2920f16:50797d26c2920f16:0:1 - GET
+[Container] [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.564 s - in application.MainTests
+[Container] 2019-09-23 22:25:18.659  INFO 194 --- [      Thread-13] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+[Container] [INFO]
+[Container] [INFO] Results:
+[Container] [INFO]
+[Container] [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[Container] [INFO]
+[Container] [INFO]
+[Container] [INFO] --- maven-jar-plugin:3.1.2:jar (default-jar) @ application ---
+[Container] [INFO] Building jar: /project/user-app/target/app.jar
+[Container] [INFO]
+[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:repackage (default) @ application ---
+[Container] [INFO] Replacing main artifact with repackaged archive
+[Container] [INFO]
+[Container] [INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ application ---
+[Container] [INFO] Using 'UTF-8' encoding to copy filtered resources.
+[Container] [INFO] Copying 2 resources
+[Container] [INFO]
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ application ---
+[Container] [INFO] Nothing to compile - all classes are up to date
+[Container] [INFO]
+[Container] [INFO] --- maven-antrun-plugin:1.1:run (trigger-spring-restart) @ application ---
+[Container] [INFO] Executing tasks
+[Container]      [echo] Triggering Spring app restart.
+[Container] [INFO] Executed tasks
+[Container] [INFO]
+[Container] [INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ application ---
+[Container] [INFO] Using 'UTF-8' encoding to copy filtered resources.
+[Container] [INFO] skip non existing resourceDirectory /project/user-app/src/test/resources
+[Container] [INFO]
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
+[Container] [INFO] Nothing to compile - all classes are up to date
+[Container] [INFO]
+[Container] [INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ application ---
+[Container] [INFO] Skipping execution of surefire because it has already been run for this configuration
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] BUILD SUCCESS
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] Total time:  38.440 s
+[Container] [INFO] Finished at: 2019-09-23T22:25:26Z
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] Watcher is not running.</code></pre>
 </div>
 </div>
 </div>
@@ -428,43 +492,41 @@ added 170 packages from 578 contributors and audited 295 packages in 2.76s
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Running development environment...
-Running command: docker pull kabanero/nodejs-express:0.2
-Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantanapr/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantanapr/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=run
-[Container] Running APPSODY_PREP command: npm install --prefix user-app
-audited 295 packages in 1.546s
-[Container] found 0 vulnerabilities
-[Container]
-[Container] Running command:  npm start
-[Container]
-[Container] &gt; nodejs-express@0.2.6 start /project
-[Container] &gt; node server.js
-[Container]
-[Container] [Sun Sep 22 23:29:50 2019] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.0.5.201909191743 (Agent Core 4.0.5)
-[Container] [Sun Sep 22 23:29:51 2019] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
-[Container] App started on PORT 3000</code></pre>
+<pre>Running development environment...
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/&lt;user&gt;@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/&lt;user&gt;@ibm.com/.m2/repository:/mvn/repository -v /Users/&lt;user&gt;@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=run]
+......
+......
+......
+[Container] 2019-09-12 17:49:22.173  INFO 185 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
+[Container] 2019-09-12 17:49:22.377  INFO 185 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+[Container] 2019-09-12 17:49:22.386  INFO 185 --- [  restartedMain] application.Main                         : Started Main in 7.984 seconds (JVM running for 9.679)
+[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+[Container] 2019-09-12 17:58:42.805  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 27 ms
+[Container] 2019-09-12 17:58:43.044  INFO 185 --- [nio-8080-exec-1] i.j.internal.reporters.LoggingReporter   : Span reported: 445d02b19cea491:445d02b19cea491:0:1 - GET</pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Open the application using the web browser at <a href="http://localhost:3000" class="bare">http://localhost:3000</a> .</p>
+<p>Open the application using the web browser at <a href="http://localhost:8080" class="bare">http://localhost:8080</a>.</p>
 </li>
 <li>
 <p>By default, the template provides the below endpoints.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Readiness endpoint: <a href="http://localhost:3000/ready" class="bare">http://localhost:3000/ready</a></p>
+<p>Health endpoint: <a href="http://localhost:8080/actuator/health" class="bare">http://localhost:8080/actuator/health</a></p>
 </li>
 <li>
-<p>Liveness endpoint: <a href="http://localhost:3000/live" class="bare">http://localhost:3000/live</a></p>
+<p>Liveness endpoint: <a href="http://localhost:8080/actuator/liveness" class="bare">http://localhost:8080/actuator/liveness</a></p>
 </li>
 <li>
-<p>Health check endpoint: <a href="http://localhost:3000/health" class="bare">http://localhost:3000/health</a></p>
+<p>Metrics endpoint: <a href="http://localhost:8080/actuator/metrics" class="bare">http://localhost:8080/actuator/metrics</a></p>
 </li>
 <li>
-<p>Metrics endpoint: <a href="http://localhost:3000/metrics" class="bare">http://localhost:3000/metrics</a></p>
+<p>Prometheus endpoint: <a href="http://localhost:8080/actuator/prometheus" class="bare">http://localhost:8080/actuator/prometheus</a></p>
 </li>
 </ul>
 </div>
@@ -472,7 +534,7 @@ audited 295 packages in 1.546s
 </ul>
 </div>
 <div class="paragraph">
-<p>For more details, refer <a href="https://github.com/appsody/stacks/blob/master/incubator/nodejs-express/README.md">Node.js Express Stack</a>.</p>
+<p>For more details, refer <a href="https://github.com/appsody/stacks/blob/master/incubator/java-spring-boot2/README.md">Spring® Boot 2 Stack</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -480,7 +542,7 @@ audited 295 packages in 1.546s
 <div class="ulist">
 <ul>
 <li>
-<p>To stop the application container, run this command.</p>
+<p>To stop the container, run this command.</p>
 </li>
 </ul>
 </div>
@@ -502,25 +564,25 @@ audited 295 packages in 1.546s
 <div class="ulist">
 <ul>
 <li>
-<p>Open your editor. We are using <code>VS Code</code>. Add the project to your workspace, or use the command <code>code .</code> .</p>
+<p>Open your editor. We are using VS Code. Add the project to your workspace.</p>
 </li>
 </ul>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_vscode_project.png" alt="js lab1 vscode project">
+<img src="_images/sb_lab1_open_project_vscode.png" alt="sb lab1 open project vscode">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Open a new terminal window inside VS Code use <code>View&#8594;Terminal</code></p>
+<p>Open a new terminal window inside VS Code. Use <code>View→Terminal</code>.</p>
 </li>
 </ul>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_vscode_terminal.png" alt="js lab1 vscode terminal">
+<img src="_images/sb_lab1_open_terminal.png" alt="sb lab1 open terminal">
 </div>
 </div>
 <div class="ulist">
@@ -536,39 +598,69 @@ audited 295 packages in 1.546s
 </div>
 </div>
 <div class="paragraph">
-<p>The output indicates the debug environment is being used</p>
+<p>The output indicates the debug environment is being used.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Running debug environment
-Running command: docker pull kabanero/nodejs-express:0.2
-Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantana23/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantana23/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=debug
-[Container] Running APPSODY_PREP command: npm install --prefix user-app
-audited 295 packages in 1.154s
-[Container] found 0 vulnerabilities
-[Container]
-[Container] Running command:  npm run debug
-[Container]
-[Container] &gt; nodejs-express@0.2.6 debug /project
-[Container] &gt; node --inspect=0.0.0.0 server.js
-[Container]
-[Container] Debugger listening on ws://0.0.0.0:9229/35c7d2cb-ced9-4c57-94f1-a58a5e078302
-[Container] For help, see: https://nodejs.org/en/docs/inspector
-[Container] [Sun Sep 22 23:38:35 2019] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.0.5.201909191743 (Agent Core 4.0.5)
-[Container] [Sun Sep 22 23:38:35 2019] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
-[Container] App started on PORT 3000</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody debug
+Running debug environment
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/&lt;user&gt;@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/&lt;user&gt;@ibm.com/.m2/repository:/mvn/repository -v /Users/&lt;user&gt;@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=debug]
+.......
+.......
+.......
+[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
+[Container] [INFO] Changes detected - recompiling the module!
+[Container] [INFO] Compiling 1 source file to /project/user-app/target/test-classes
+[Container] [INFO]
+[Container] [INFO] &lt;&lt;&lt; spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) &lt; test-compile @ application &lt;&lt;&lt;
+[Container] [INFO]
+[Container] [INFO]
+[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:run (default-cli) @ application ---
+[Container] [INFO] Attaching agents: []
+[Container] Listening for transport dt_socket at address: 5005</code></pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Now you can open the application at <a href="http://localhost:3000/" class="bare">http://localhost:3000/</a></p>
+<p>Start the debugger in your editor.</p>
 </li>
 </ul>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_endpoint.png" alt="js lab1 endpoint">
+<img src="_images/sb_lab1_vscode_debugger.png" alt="sb lab1 vscode debugger">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once you start it, you will see something like below.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_vscode_debugger_window.png" alt="sb lab1 vscode debugger window">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Wait till the application starts.</p>
+</li>
+<li>
+<p>Now you can open the application at <a href="http://localhost:8080/" class="bare">http://localhost:8080/</a>.</p>
+</li>
+<li>
+<p>Let us check the liveness probe at <a href="http://localhost:8080/actuator/liveness" class="bare">http://localhost:8080/actuator/liveness</a>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_liveness.png" alt="sb lab1 liveness">
 </div>
 </div>
 <div class="ulist">
@@ -580,7 +672,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_code_change.png" alt="js lab1 code change">
+<img src="_images/sb_lab1_code_change.png" alt="sb lab1 code change">
 </div>
 </div>
 <div class="paragraph">
@@ -595,62 +687,15 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_endpoint_test.png" alt="js lab1 endpoint test">
+<img src="_images/sb_lab1_liveness_test.png" alt="sb lab1 liveness test">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Stop the appication usig <code>Ctrl+C</code></p>
-</li>
-<li>
-<p>You can attach to the Node.js debugger using <code>VSCode</code></p>
-</li>
-<li>
-<p>To access the debug view use <code>View&#8594;Debug</code> or click Debug icon on left menu</p>
+<p>Stop the appication usig <code>Ctrl+C</code>.</p>
 </li>
 </ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/js_lab1_vscode_debug.png" alt="js lab1 vscode debug">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Add a breakpoint to the application, click to the left of the line number</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/js_lab1_vscode_breakpoint.png" alt="js lab1 vscode breakpoint">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Click on the debug task <code>Appsody: Attach node</code></p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/js_lab1_vscode_attach.png" alt="js lab1 vscode attach">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Refresh the browser and watch how the debugger stops at the break point</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/js_lab1_vscode_attach_break.png" alt="js lab1 vscode attach break">
-</div>
 </div>
 </div>
 </div>
@@ -672,7 +717,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_build_task_menu.png" alt="js lab1 build task menu">
+<img src="_images/sb_lab1_build_task_menu.png" alt="sb lab1 build task menu">
 </div>
 </div>
 <div class="ulist">
@@ -684,7 +729,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_build_task_list.png" alt="js lab1 build task list">
+<img src="_images/sb_lab1_build_task_list.png" alt="sb lab1 build task list">
 </div>
 </div>
 <div class="ulist">
@@ -696,31 +741,19 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_build_task_run.png" alt="js lab1 build task run">
+<img src="_images/sb_lab1_build_task_run.png" alt="sb lab1 build task run">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Once, it is successfully started, you can access the application at <a href="http://localhost:3000/" class="bare">http://localhost:3000/</a></p>
+<p>Once, it is successfully started, you can access the application at <a href="http://localhost:8080/" class="bare">http://localhost:8080/</a>.</p>
 </li>
 </ul>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_endpoint.png" alt="js lab1 endpoint">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Run the <code>Appsody: stop</code> task</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="../_images/js_lab1_build_task_stop.png" alt="js lab1 build task stop">
+<img src="_images/sb_lab1_build_task_run_app.png" alt="sb lab1 build task run app">
 </div>
 </div>
 </div>
@@ -729,7 +762,7 @@ audited 295 packages in 1.154s
 <h2 id="_codewind_on_vs_code"><a class="anchor" href="#_codewind_on_vs_code"></a>Codewind on VS Code</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Codewind simplifies and enhances development in containers by extending industry-standard IDEs with features to write, debug, and deploy cloud-native applications. It helps you to get started quickly with templates or samples, or you can also pull in your applications and let Codewind get them cloud-ready.</p>
+<p>Codewind simplifies and enhances development in containers by extending industry standard IDEs with features to write, debug, and deploy cloud-native applications. It helps you to get started quickly with templates or samples, or you can also pull in your applications and let Codewind get them cloud ready.</p>
 </div>
 <div class="paragraph">
 <p>Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using VS Code as our IDE.</p>
@@ -742,17 +775,17 @@ audited 295 packages in 1.154s
 <p>To get codewind extension you need <a href="https://code.visualstudio.com/download">VS Code version 1.28 or later</a>.</p>
 </li>
 <li>
-<p>Go to the extensions view and search for codewind from the VS code market place.</p>
+<p>Go to the extensions view and install codewind from the VS code market place.</p>
 </li>
 </ul>
 </div>
-<div class="imageblock">
+<div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_vscode_codewind_extension.png" alt="Codewind extensions" width="500">
+<img src="_images/sb_lab1_vscode_codewind_extension.png" alt="sb lab1 vscode codewind extension">
 </div>
 </div>
 <div class="paragraph">
-<p>You will find <code>Codewind</code> then click <code>install</code> to get it. Also, if you want to use Codewind for Node.js performance analysis, you need to install <code>Codewind Node.js Profiler</code>.</p>
+<p>You will find <code>Codewind</code> and click <code>install</code> to get it. Also, if you want to use the IDE for Java applications, you need to install <code>Codewind Java Profiler</code>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -768,7 +801,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_vscode_view.png" alt="sb lab1 vscode view">
+<img src="_images/sb_lab1_vscode_view.png" alt="sb lab1 vscode view">
 </div>
 </div>
 <div class="ulist">
@@ -780,7 +813,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_vscode_code_explorer.png" alt="sb lab1 vscode code explorer">
+<img src="_images/sb_lab1_vscode_code_explorer.png" alt="sb lab1 vscode code explorer">
 </div>
 </div>
 <div class="ulist">
@@ -792,7 +825,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_vscode_codewind_explorer.png" alt="sb lab1 vscode codewind explorer">
+<img src="_images/sb_lab1_vscode_codewind_explorer.png" alt="sb lab1 vscode codewind explorer">
 </div>
 </div>
 </div>
@@ -810,11 +843,20 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_codewind_add_existing_project.png" alt="sb lab1 codewind add existing project">
+<img src="_images/sb_lab1_codewind_add_existing_project.png" alt="sb lab1 codewind add existing project">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>Note</strong> - Before doing this, copy your project to the codewind workspace, in the directory <code>codewind-workspaces/</code> in your HOME directory. At this point in time, codewind only accepts the projects that are available in the <code>codewind workspace</code>.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+- Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the <code>codewind workspace</code>.
+</td>
+</tr>
+</table>
 </div>
 <div class="ulist">
 <ul>
@@ -825,7 +867,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_add_existing_prj_from_workspace.png" alt="js lab1 add existing prj from workspace">
+<img src="_images/sb_lab1_add_existing_prj_from_workspace.png" alt="sb lab1 add existing prj from workspace">
 </div>
 </div>
 <div class="ulist">
@@ -833,34 +875,40 @@ audited 295 packages in 1.154s
 <li>
 <p>The codewind extension asks you for confirmation as follows. Click <code>Yes</code>.</p>
 </li>
-<li>
-<p>The project will be added.</p>
-</li>
-<li>
-<p>Once it is successfully built, it starts running.</p>
-</li>
 </ul>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_appsody_project_running.png" alt="js lab1 appsody project running">
+<img src="_images/sb_lab1_appsody_extension.png" alt="sb lab1 appsody extension">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You can open the CodeWind workspace, right click on <code>Projects</code></p>
+<p>The project will be added.</p>
 </li>
 </ul>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_codewind_open_workspace.png" alt="js lab1 codewind open workspace">
+<img src="_images/sb_lab1_appsody_project.png" alt="sb lab1 appsody project">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once it is successfully build, it starts running.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_appsody_project_running.png" alt="sb lab1 appsody project running">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_project_options"><a class="anchor" href="#_project_options"></a>Project Options</h3>
+<h3 id="_project_options_for_dev"><a class="anchor" href="#_project_options_for_dev"></a>Project options for dev</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -870,7 +918,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_codewind_project_options.png" alt="js lab1 codewind project options">
+<img src="_images/sb_lab1_code_wind_project_options.png" alt="sb lab1 code wind project options">
 </div>
 </div>
 <div class="ulist">
@@ -882,11 +930,20 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_codewind_open_app.png" alt="js lab1 codewind open app">
+<img src="_images/sb_lab1_codewind_open_app.png" alt="sb lab1 codewind open app">
 </div>
 </div>
-<div class="paragraph">
-<p><strong>Note</strong> - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+- Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
+</td>
+</tr>
+</table>
 </div>
 <div class="ulist">
 <ul>
@@ -897,7 +954,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_codewind_project_overview.png" alt="js lab1 codewind project overview">
+<img src="_images/sb_lab1_codewind_project_overview.png" alt="sb lab1 codewind project overview">
 </div>
 </div>
 <div class="ulist">
@@ -909,7 +966,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_codewind_container_shell.png" alt="js lab1 codewind container shell">
+<img src="_images/sb_lab1_codewind_container_shell.png" alt="sb lab1 codewind container shell">
 </div>
 </div>
 <div class="ulist">
@@ -921,7 +978,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_codewind_project_logs.png" alt="js lab1 codewind project logs">
+<img src="_images/sb_lab1_codewind_project_logs.png" alt="sb lab1 codewind project logs">
 </div>
 </div>
 <div class="ulist">
@@ -939,7 +996,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_codewind_project_restart_in_run_mode.png" alt="js lab1 codewind project restart in run mode">
+<img src="_images/sb_lab1_codewind_project_restart_in_run_mode.png" alt="sb lab1 codewind project restart in run mode">
 </div>
 </div>
 <div class="paragraph">
@@ -947,7 +1004,7 @@ audited 295 packages in 1.154s
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_restart_in_run_mode_app.png" alt="js lab1 restart in run mode app">
+<img src="_images/sb_lab1_restart_in_run_mode_app.png" alt="sb lab1 restart in run mode app">
 </div>
 </div>
 <div class="ulist">
@@ -959,69 +1016,231 @@ audited 295 packages in 1.154s
 </div>
 </div>
 <div class="sect2">
-<h3 id="_application_performance_monitor_profiling_with_codewind"><a class="anchor" href="#_application_performance_monitor_profiling_with_codewind"></a>Application Performance, Monitor, Profiling with Codewind</h3>
+<h3 id="_project_options_for_performance"><a class="anchor" href="#_project_options_for_performance"></a>Project options for performance</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>You can launch the app monitor by selecting <code>Open Appplication Monitor</code></p>
+<p>Go to the application and <code>right click</code> on it to access the various options available.</p>
 </li>
 </ul>
 </div>
-<div class="imageblock">
+<div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_codewind_app_monitor.png" alt="js lab1 codewind app monitor">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>The monitor dashboard will open in the browser</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../_images/js_lab1_app_monitor_dashboard.png" alt="js lab1 app monitor dashboard">
+<img src="_images/sb_lab1_code_wind_project_options.png" alt="sb lab1 code wind project options">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>You can launch the app performance dashboard by selecting <code>Open Performance Dashboard</code></p>
+<p>Click <code>Open Application Monitor</code> to access the application monitor.</p>
 </li>
 </ul>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../_images/js_lab1_app_performance.png" alt="js lab1 app performance">
+<div class="paragraph">
+<p><strong class="maroon">Enabling Javametrics</strong></p>
 </div>
+<div class="paragraph">
+<p>For Springboot project, you need to set up the Javametrics before accessing the application monitor.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+- For editing these files, you can use the option <code>Add Folder to Workspace</code> and open it in your VS code editor.
+</td>
+</tr>
+</table>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The performance dashboard will open in the browser</p>
+<p>To the sample project you created earlier, add the below annotation.</p>
 </li>
 </ul>
 </div>
-<div class="imageblock">
+<div class="listingblock">
 <div class="content">
-<img src="../_images/js_lab1_app_performance_dashboard.png" alt="js lab1 app performance dashboard">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>You can click Run Test and have Monitor and Performance dashboars side by side during the test.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../_images/js_lab1_app_side_by_side_perf_test.png" alt="js lab1 app side by side perf test">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@ComponentScan(basePackages = {"com.ibm.javametrics.spring", "&lt;your_package_name&gt;"})</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><strong>Note</strong> Profiling the node.js code is currently not working an <a href="https://github.com/eclipse/codewind-node-profiler/issues/5">issue</a> is opened on the github repo for the codewind node.js profiler extension</p>
+<p>For the sample application, your main class will be as follows.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package application;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootApplication
+@ComponentScan(basePackages = {"com.ibm.javametrics.spring", "application"})
+public class Main {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Main.class, args);
+	}
+
+}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add the below dependencies to your <code>pom.xml</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.ibm.runtimetools&lt;/groupId&gt;
+    &lt;artifactId&gt;javametrics-spring&lt;/artifactId&gt;
+    &lt;version&gt;1.4.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.ibm.runtimetools&lt;/groupId&gt;
+    &lt;artifactId&gt;javametrics-agent&lt;/artifactId&gt;
+    &lt;version&gt;1.4.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.glassfish&lt;/groupId&gt;
+    &lt;artifactId&gt;javax.json&lt;/artifactId&gt;
+    &lt;version&gt;1.0.4&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Now, restart your application using the option <code>Restart in Run Mode</code>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_code_wind_perf_restart_app.png" alt="sb lab1 code wind perf restart app">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once the application is restarted, you can access the application monitor and performance dashboard.</p>
+</li>
+<li>
+<p>Click on the <code>Open Application Monitor</code> to access the java metrics dashboard.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_code_wind_perf_app_monitor.png" alt="sb lab1 code wind perf app monitor">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_code_wind_perf_app_monitor_summary.png" alt="sb lab1 code wind perf app monitor summary">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To open the performance dashboard, click on <code>Open Performance Dashboard</code>.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Access the dashboard and then run the test.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_code_wind_perf_dashboard.png" alt="sb lab1 code wind perf dashboard">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a load test as follows. Then refresh your application to create load.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_code_wind_perf_load_test_create.png" alt="sb lab1 code wind perf load test create">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Run the test.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_code_wind_perf_load_test_run.png" alt="sb lab1 code wind perf load test run">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You will see something like below after the first test.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_code_wind_perf_load_test_one.png" alt="sb lab1 code wind perf load test one">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Run couple of tests and you should be able to see the results.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_code_wind_perf_load_test_two.png" alt="sb lab1 code wind perf load test two">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_code_wind_perf_load_test_four.png" alt="sb lab1 code wind perf load test four">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you scroll down, you can also see the test history details.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_code_wind_perf_load_test_history.png" alt="sb lab1 code wind perf load test history">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+- In codewind, for now the <code>Application Monitor</code> and <code>Performance Dashboard</code> shows up on first run. It does not load the metrics if you reload the dashboard.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1048,8 +1267,8 @@ audited 295 packages in 1.154s
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc new-project kabanero-samples
-Now using project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc new-project kabanero-samples-java
+Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -1075,8 +1294,8 @@ to build a new example application in Ruby.</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project kabanero-samples
-Already on project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project kabanero-samples-java
+Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -1097,7 +1316,7 @@ Already on project "kabanero-samples" on server "https://c100-e.us-east.containe
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project -q
-kabanero-samples</code></pre>
+kabanero-samples-java</code></pre>
 </div>
 </div>
 </div>
@@ -1116,52 +1335,78 @@ kabanero-samples</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This will generate the file <code>app-deploy.yaml</code> with the following content:</p>
+<p>This will generate you the below file.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-nodejs-express
+  name: appsody-sample-springboot
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: appsody-sample-nodejs-express
-  stack: nodejs-express
+  applicationImage: appsody-sample-springboot
+  stack: java-spring-boot2
   service:
     type: NodePort
-    port: 3000
+    port: 8080
     annotations:
       prometheus.io/scrape: 'true'
+      prometheus.io/path: '/actuator/prometheus'
   readinessProbe:
     failureThreshold: 12
     httpGet:
-      path: /ready
-      port: 3000
+      path: /actuator/health
+      port: 8080
     initialDelaySeconds: 5
     periodSeconds: 2
-    timeoutSeconds: 1
   livenessProbe:
     failureThreshold: 12
     httpGet:
-      path: /live
-      port: 3000
+      path: /actuator/liveness
+      port: 8080
     initialDelaySeconds: 5
     periodSeconds: 2
   expose: true</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>By default, the application is deployed in the <code>kabanero</code> namespace. If you want to deploy the application in a different namespace, you need to specify it in this yaml file. In this lab, let&#8217;s use a namespace called <code>kabanero-samples</code> and we can specify it under the metadata as below.</p>
+<p>By default, the application is deployed in the <code>kabanero</code> namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called <code>kabanero-samples-java</code> and we can specify it under the metadata as below.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-nodejs-express
-  namespace: kabanero-samples</code></pre>
+  name: appsody-sample-springboot
+  namespace: kabanero-samples-java
+spec:
+  # Add fields here
+  version: 1.0.0
+  applicationImage: appsody-sample-springboot
+  stack: java-spring-boot2
+  service:
+    type: NodePort
+    port: 8080
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path: '/actuator/prometheus'
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /actuator/health
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /actuator/liveness
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  expose: true</code></pre>
 </div>
 </div>
 </div>
@@ -1218,7 +1463,7 @@ git push -u origin master</code></pre>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_github_token.png" alt="js lab1 github token">
+<img src="_images/sb_lab1_github_token.png" alt="sb lab1 github token">
 </div>
 </div>
 <div class="ulist">
@@ -1257,7 +1502,7 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </div>
 </div>
 <div class="paragraph">
-<p>You can access it at the <code>HOST/PORT</code> available. For instance, here it will be <code>tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
+<p>You can access it at the <code>HOST/PORT</code> available. For instance here it will be <code>tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1266,24 +1511,24 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </li>
 </ul>
 </div>
-<div class="imageblock">
+<div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_kabanero_enterprise.png" alt="Kabanero Menu" width="300">
+<img src="_images/sb_lab1_kabanero_enterprise.png" alt="sb lab1 kabanero enterprise">
 </div>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_kabanero_ent_dashboard.png" alt="sb lab1 kabanero ent dashboard">
+<img src="_images/sb_lab1_kabanero_ent_dashboard.png" alt="sb lab1 kabanero ent dashboard">
 </div>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_kabanero_ent_instance.png" alt="sb lab1 kabanero ent instance">
+<img src="_images/sb_lab1_kabanero_ent_instance.png" alt="sb lab1 kabanero ent instance">
 </div>
 </div>
-<div class="imageblock">
+<div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_tekton_dashboard.png" alt="sb lab1 tekton dashboard">
+<img src="_images/sb_lab1_tekton_dashboard.png" alt="sb lab1 tekton dashboard">
 </div>
 </div>
 </div>
@@ -1296,9 +1541,9 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </li>
 </ul>
 </div>
-<div class="imageblock">
+<div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_menu_webhooks.png" alt="Tekton Menu" width="300">
+<img src="_images/sb_lab1_menu_webhooks.png" alt="sb lab1 menu webhooks">
 </div>
 </div>
 <div class="ulist">
@@ -1310,7 +1555,7 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_add_webhook.png" alt="sb lab1 add webhook">
+<img src="_images/sb_lab1_add_webhook.png" alt="sb lab1 add webhook">
 </div>
 </div>
 <div class="ulist">
@@ -1322,7 +1567,7 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_webhook_settings.png" alt="sb lab1 webhook settings">
+<img src="_images/sb_lab1_webhook_settings.png" alt="sb lab1 webhook settings">
 </div>
 </div>
 <div class="listingblock">
@@ -1341,7 +1586,7 @@ Access Token - &lt;For this, you need to create a Github access token with permi
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_webhook_settings_access_token_create.png" alt="sb lab1 webhook settings access token create">
+<img src="_images/sb_lab1_webhook_settings_access_token_create.png" alt="sb lab1 webhook settings access token create">
 </div>
 </div>
 <div class="ulist">
@@ -1353,7 +1598,7 @@ Access Token - &lt;For this, you need to create a Github access token with permi
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/sb_lab1_webhook_settings_access_token_existing.png" alt="sb lab1 webhook settings access token existing">
+<img src="_images/sb_lab1_webhook_settings_access_token_existing.png" alt="sb lab1 webhook settings access token existing">
 </div>
 </div>
 </div>
@@ -1362,22 +1607,21 @@ Access Token - &lt;For this, you need to create a Github access token with permi
 <div class="ulist">
 <ul>
 <li>
-<p>Enter the information for the Pipeline settings
-<strong>Note</strong> Replace &lt;your_project&gt; with the name of the target namespace in our case <code>kabanero-samples</code></p>
+<p>Enter the information for the Pipeline settings</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre>Namespace - kabanero
-Pipeline - nodejs-express-build-deploy-pipeline
+Pipeline - java-spring-boot2-build-deploy-pipeline
 Service account - kabaner-operator
 Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_pipeline_settings.png" alt="js lab1 pipeline settings">
+<img src="_images/sb_lab1_pipeline_settings.png" alt="sb lab1 pipeline settings">
 </div>
 </div>
 <div class="ulist">
@@ -1389,7 +1633,7 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_webhook.png" alt="js lab1 webhook">
+<img src="_images/sb_lab1_webhook.png" alt="sb lab1 webhook">
 </div>
 </div>
 <div class="paragraph">
@@ -1410,12 +1654,12 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 <div class="ulist">
 <ul>
 <li>
-<p>Make a change to the application such as changing the <code>app.js</code> or any other things.</p>
+<p>Make a change to the application such as changing the <code>index.html</code> or any other things.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s change from <code>Hello from Appsody Demo!</code> to <code>Hello from Cloud Paks !!!</code>.</p>
+<p>Let us change the <code>title</code> from <code>Hello from Appsody!</code> to <code>Hello from Cloud Paks !!!</code>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1429,7 +1673,7 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_pipeline_runs.png" alt="js lab1 pipeline runs">
+<img src="_images/sb_lab1_pipeline_runs.png" alt="sb lab1 pipeline runs">
 </div>
 </div>
 <div class="ulist">
@@ -1447,7 +1691,7 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="../_images/js_lab1_application_route.png" alt="js lab1 application route">
+<img src="_images/sb_lab1_application_route.png" alt="sb lab1 application route">
 </div>
 </div>
 <div class="ulist">
@@ -1467,13 +1711,13 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get routes -n kabanero-samples
-NAME                            HOST/PORT                                                                                                                               PATH      SERVICES                        PORT      TERMINATION   WILDCARD
-appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-nodejs-express   3000                    None</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get routes -n kabanero-samples-java
+NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
+appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-springboot   8080                    None</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You can now acccess the application at &lt;HOST/PORT&gt;, here it is <code><a href="https://appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud" class="bare">https://appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</a></code>.</p>
+<p>You can now acccess the application at &lt;HOST/PORT&gt;, here it is <code>appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
 </div>
 </div>
 </div>
@@ -1493,15 +1737,15 @@ appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.c
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">apiVersion: appsody.dev/v1beta1
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-nodejs-express
+  name: appsody-sample-springboot
   namespace: kabanero-samples
 spec:
   version: 1.0.0
-  applicationImage: appsody-sample-nodejs-express
-  stack: nodejs-express
+  applicationImage: appsody-sample-springboot
+  stack: java-spring-boot2
   createKnativeService: true</code></pre>
 </div>
 </div>
@@ -1511,86 +1755,82 @@ spec:
 <p>Git push the change, and see tekton pipeline runs again.</p>
 </li>
 <li>
-<p>Show the Knative resource</p>
+<p>Show the Knative resource.</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>oc get service.serving.knative.dev/appsody-sample-nodejs-express
-
-NAME                            URL                                                                                                                                            LATESTCREATED                         LATESTREADY                           READY     REASON
-appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True</pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get service.serving.knative.dev/appsody-sample-springboot
+NAME                        URL                                                                                                                                        LATESTCREATED                     LATESTREADY                       READY     REASON
+appsody-sample-springboot   http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   True</code></pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Show the Knative route</p>
+<p>Show the Knative route.</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>oc get route.serving.knative.dev/appsody-sample-nodejs-expres
-
-NAME                            URL                                                                                                                                            READY     REASON
-appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True</pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get route.serving.knative.dev/appsody-sample-springboot
+NAME                        URL                                                                                                                                        READY     REASON
+appsody-sample-springboot   http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True</code></pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Show the Knative configuration</p>
+<p>Show the Knative configuration.</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>oc get configuration.serving.knative.dev/appsody-sample-nodejs-express
-
-NAME                            LATESTCREATED                         LATESTREADY                           READY     REASON
-appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True</pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get configuration.serving.knative.dev/appsody-sample-springboot
+NAME                        LATESTCREATED                     LATESTREADY                       READY     REASON
+appsody-sample-springboot   appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   True</code></pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Show the Knative latest ready revision</p>
+<p>Show the Knative latest ready revision.</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>oc get revision.serving.knative.dev/appsody-sample-nodejs-express-mtl4q
-
-NAME                                  SERVICE NAME                          GENERATION   READY     REASON
-appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   2            True</pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get revision.serving.knative.dev/appsody-sample-springboot-cbq47
+NAME                              SERVICE NAME                      GENERATION   READY     REASON
+appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   2            True</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Visit the Knative public url <code><a href="http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud" class="bare">http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</a></code> and list the pods</p>
+<p>Visit the Knative public url <a href="http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud" class="bare">http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</a> and list the pods.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pods
 
-NAME                                                              READY     STATUS    RESTARTS   AGE
-appsody-sample-nodejs-express-mtl4q-deployment-7bf6dbddf6-rr89p   2/2       Running   0          27s</code></pre>
+NAME                                                          READY     STATUS    RESTARTS   AGE
+appsody-sample-springboot-cbq47-deployment-7dd6b4d559-phmv7   2/2       Running   0          1m</code></pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Wait 1 minute and you will then see the pods are not longer running</p>
+<p>Wait 1 minute and you will the see the pods are not longer running</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>oc get pods
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pods
 
-No resources found.</pre>
+No resources found.</code></pre>
 </div>
 </div>
 </div>
@@ -1602,7 +1842,7 @@ No resources found.</pre>
   <p>This page was built using the Antora default UI.</p>
   <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
 </footer>
-<script src="../../../_/js/site.js"></script>
-<script async src="../../../_/js/vendor/highlight.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>
