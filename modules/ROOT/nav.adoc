@@ -9,7 +9,7 @@
 ** xref:codewind-setup-appsody.adoc[Configure CodeWind]
 ** https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md[Create Appsody Stack]
 ** xref:appsody-extend-stack.adoc[Extend Appsody Stack]
-** xref:tekton-create-pipeline.adoc[Create Tekton Pipeline]
+** xref:tekton-create-pipeline.adoc[Extend Tekton Pipeline]
 * https://kabanero.io[Kabanero.io,window=_blank]
 * https://appsody.dev[Appsody.dev,window=_blank]
 * https://www.eclipse.org/codewind[Codewind.dev,window=_blank]
