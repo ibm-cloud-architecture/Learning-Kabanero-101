@@ -99,6 +99,47 @@ cd appsody_sample_springboot/
 appsody init kabanero/java-spring-boot2
 ----
 
+- The directory contains a minimal set of artifacts
+[source, bash]
+----
+.
+├── .appsody-config.yaml
+├── .gitignore
+├── .vscode
+│   ├── launch.json
+│   └── tasks.json
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── application
+    │   │       ├── LivenessEndpoint.java
+    │   │       └── Main.java
+    │   └── resources
+    │       ├── application.properties
+    │       └── public
+    │           └── index.html
+    └── test
+        └── java
+            └── application
+                └── MainTests.java
+----
+
+
+Main.java::
+Spring Application class
+LivenessEndpoint.java::
+An example Liveness Endpoint
+MainTests.java::
+A simple test class
+application.properties::
+Containing some configuration options for Spring
+index.html::
+A static file
+pom.xml:: 
+The project build file
+
+
 === Build the application
 
 This command will locally build a docker image of your appsody project.

@@ -100,6 +100,52 @@ cd appsody_sample_microprofile/
 appsody init kabanero/java-microprofile
 ----
 
+- The directory contains a minimal set of artifacts
+[source, bash]
+----
+.
+├── .appsody-config.yaml
+├── .gitignore
+├── .vscode
+│   ├── launch.json
+│   └── tasks.json
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── dev
+    │   │       └── appsody
+    │   │           └── starter
+    │   │               ├── StarterApplication.java
+    │   │               └── health
+    │   │                   ├── StarterLivenessCheck.java
+    │   │                   └── StarterReadinessCheck.java
+    │   ├── liberty
+    │   │   └── config
+    │   │       └── server.xml
+    │   └── webapp
+    │       ├── WEB-INF
+    │       │   └── beans.xml
+    │       └── index.html
+    └── test
+        └── java
+            └── it
+                └── dev
+                    └── appsody
+                        └── starter
+                            └── HealthEndpointTest.java
+----
+
+StarterApplication.java::
+A JAX-RS Application class
+server.xml:: 
+An Open Liberty server configuration file
+index.html:: 
+A static HTML file
+pom.xml:: 
+A project build file
+
+
 === Build the application
 
 This command will locally build a docker image of your appsody project.
