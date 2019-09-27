@@ -1,4 +1,4 @@
-= Appsody - Create a Stack
+= Appsody - Extending a Stack with Templates
 :toc:
 
 == Prerequisites
@@ -93,6 +93,8 @@ grep: skaffold: No such file or directory
 ----
 
 You can stop the build script with `control+c` and continue through the tutorial.
+
+====
 
 == Adding the Repository to Appsody
 
