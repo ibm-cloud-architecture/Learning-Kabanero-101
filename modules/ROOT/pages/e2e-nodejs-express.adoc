@@ -252,7 +252,7 @@ appsody stop
 
 === Debug the Application
 
-- Open your editor. We are using `VS Code`. Add the project to your workspace, or use the command `code .` .
+- Open your editor. We are using `VS Code`. Add the project to your workspace, or use the command `code .`
 
 image::js_lab1_vscode_project.png[align="center"]
 
@@ -305,8 +305,6 @@ Here, the debugger will reload the application for you.
 
 image::js_lab1_endpoint_test.png[align="center"]
 
-- Stop the appication usig `Ctrl+C`
-
 - You can attach to the Node.js debugger using `VSCode`
 
 - To access the debug view use `View->Debug` or click Debug icon on left menu
@@ -321,7 +319,7 @@ image::js_lab1_vscode_breakpoint.png[align="center"]
 
 image::js_lab1_vscode_attach.png[align="center"]
 
-- Refresh the browser and watch how the debugger stops at the break point
+- Refresh the browser and watch how the debugger stops at the breakpoint
 
 image::js_lab1_vscode_attach_break.png[align="center"]
 

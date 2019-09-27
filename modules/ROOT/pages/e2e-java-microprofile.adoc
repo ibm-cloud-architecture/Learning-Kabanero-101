@@ -289,9 +289,43 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 For more details, refer https://github.com/appsody/stacks/blob/master/incubator/java-microprofile/README.md[Java Microprofile Stack].
 
 
+=== Update the Application
+
+- Lets add a new endpoint API to our Application
++
+Add the following file `src/main/java/dev/appsody/starter/StarterResource.java` and populate with the following code:
++
+[source, java]
+----
+package dev.appsody.starter;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+@Path("/hello")
+public class StarterResource {
+    @GET
+    public String getRequest() {
+        return "Hello World";
+    }
+}
+----
+
+image::microprofile-code-change.png[]
+
+- Open the browser and navigate to the endpoint url http://localhost:9080/starter/hello
+
+image::microprofile-hello-endpoint.png[]
+
 === Debug the Application
 
-To debug the application including reloading the application on code changes run the below command.
+- Open your editor. We are using `VS Code`. Add the project to your workspace, or use the command `code .`
+
+image::microprofile_lab1_vscode_project.png[]
+
+- Open a new terminal window inside VS Code use `View->Terminal`
+
+image::microprofile_lab1_vscode_terminal.png[]
+
+ - To debug the application including reloading the application on code changes run the below command.
 
 [source, bash]
 ----
@@ -325,33 +359,25 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 [Container]  INFO  Listening for transport dt_socket at address: 7777
 ----
 
-- Open your editor. We are using `VS Code`. Add the project to your workspace.
 
-image::sb_lab1_open_project_vscode.png[align="center"]
+- You can attach to the debugger using `VSCode`
 
-- Start the debugger in your editor.
+- To access the debug view use `View->Debug` or click Debug icon on left menu
 
-image::microprofile-debug.png[align="center"]
+image::microprofile_lab1_vscode_debug.png[]
 
-- Once you start it, you will see something like below.
+- Add a breakpoint to the application, click to the left of the line number
 
-image::sb_lab1_vscode_debugger_window.png[align="center"]
+image::microprofile_lab1_vscode_breakpoint.png[]
 
-- Now you can open the application at http://localhost:9080/.
+- Click on the debug task `Appsody: Attach node`
 
-- Let us check the liveness probe at http://localhost:9080/health.
+image::microprofile_lab1_vscode_attach.png[]
 
-image::microprofile-health-up.png[align="center"]
+- Open the browser on the new endpoint http://localhost:9080/starter/hello and watch how the debugger stops at the breakpoint.
 
-- Let us make a code change. We want to change the isAlive() to return `false` instead of `true`.
+image::microprofile_lab1_vscode_attach_break.png[]
 
-image::microprofile-code-change.png[align="center"]
-
-Here, the debugger will reload the application for you.
-
-- Refresh the browser to see the changes.
-
-image::microprofile-health-down.png[align="center"]
 
 === Stop the Application
 
