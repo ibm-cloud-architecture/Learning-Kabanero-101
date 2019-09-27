@@ -2,7 +2,7 @@
 :imagesdir: images
 :toc:
 
-image::kabanero.jpg[]
+image::kabanero.jpg[kabanero hero image, 300]
 
 Kabanero is designed to deliver an integrated workflow for application architects, application developers, and operations teams, allowing them to focus more intently in their respective area of expertise.
 

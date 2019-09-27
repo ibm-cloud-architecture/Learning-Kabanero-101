@@ -1,18 +1,18 @@
 * xref:kabanero-overview.adoc[Overview]
+
 * Workflows
 ** xref:e2e-java-spring-boot2.adoc[E2E Java Spring Boot]
 ** xref:e2e-java-microprofile.adoc[E2E Java Liberty Microprofile]
 ** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
+
 * Tasks
 ** xref:codewind-setup-appsody.adoc[Configure CodeWind]
-** https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md[Create Appsody Stack]
 ** xref:appsody-extend-stack.adoc[Extend Appsody Stack]
 ** xref:tekton-create-pipeline.adoc[Extend Tekton Pipeline]
-* https://github.com/gcharters/kabanero-dev-getting-started[Workshop^]
-* https://kabanero.io/guides[Kabanero.io^]
-* https://appsody.dev[Appsody.dev^]
-* https://www.eclipse.org/codewind[Codewind.dev^]
-* https://github.com/tektoncd/pipeline#-tekton-pipelines[Tekton.dev^]
-* https://knative.dev[Knative.dev^]
-* https://www.ibm.com/support/knowledgecenter/en/SSCSJL/about-overview.html[IBM Cloud Pak for Applications^]
+
+* External Resources
+** https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md[Create Appsody Stack ↗^]
+** https://github.com/gcharters/kabanero-dev-getting-started[Java MicroProfile Tutorial ↗^]
+
+* xref:references.adoc[References]
 

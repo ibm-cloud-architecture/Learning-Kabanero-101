@@ -1,0 +1,33 @@
+= References
+
+https://kabanero.io[Kabanero.io^]::
+Kabanero is an open source project focused on bringing together foundational open source technologies into a modern microservices-based framework.
++
+https://kabanero.io/guides[Kabanero Guides^]
++
+https://kabanero.io/docs[Kabanero Docs^]
++
+https://kabanero.io/blog[Kabanero Blogs^]
+
+
+
+https://appsody.dev[Appsody.dev^]::
+Appsody is designed to help you develop containerized applications for the cloud.
+
+https://www.eclipse.org/codewind[Codewind.dev^]::
+Codewind simplifies and enhances development in containers by extending industry standard IDEs.
+
+https://github.com/tektoncd/pipeline#-tekton-pipelines[Tekton.dev^]::
+The Tekton Pipelines project provides k8s-style resources for declaring CI/CD-style pipelines.
+
+https://knative.dev[Knative.dev^]::
+Run serverless containers on Kubernetes with ease, Knative takes care of the details of networking, autoscaling (even to zero).
+
+https://github.com/gcharters/kabanero-dev-getting-started[Java MicroProfile Tutorial^]::
+This tutorial will give you an introduction to the Kabanero developer experience. You'll create and deploy a Java MicroProfile based cloud-native application.
+
+https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md[Create new Appsody Stack Tutorial^]::
+This tutorial will take you through the creation of a brand new stack, showing what you need to do, as a stack developer, to allow users to run, build and deploy applications based upon it.
+
+https://www.ibm.com/support/knowledgecenter/en/SSCSJL/about-overview.html[IBM Cloud Pak™ for Applications^]::
+Provides a complete and consistent experience to speed development of applications built for Kubernetes, using agile DevOps processes.

@@ -1,6 +1,4 @@
 = Configure CodeWind with Appsody CLI
-Carlos Santana <csantana@us.ibm.com>
-v1.0, 2019-09-24
 :toc:
 :imagesdir: images
 

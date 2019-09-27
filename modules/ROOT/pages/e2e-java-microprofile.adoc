@@ -1,6 +1,4 @@
 = End to End Java Liberty Microprofile Kabanero workflow
-Bryan Kribbs <bakribbs@us.ibm.com>
-v1.0, 2019-09-24
 :toc:
 
 == Prerequisites
