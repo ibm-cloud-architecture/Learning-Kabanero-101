@@ -123,5 +123,7 @@ Once the building is complete you can run the application with the following:
 appsody run
 ----
 
+A new instance of the application will start in a docker container and you can see your updated applcation code by navigating to http://localhost:9080/test in your web browser
 
 
+image::appsody-running.png[align="center"]
