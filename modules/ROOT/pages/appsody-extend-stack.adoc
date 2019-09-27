@@ -66,3 +66,62 @@ Save the file and thats it for the changes.
 == Building the Stack
 
 Now it's time to add the new template into the stack. To do that we need to first zip up the template into a `tar.gz` file.
+
+
+== Adding the Repository to Appsody
+
+Once the building of the new template is completed, we need to add the custom repository to appsody for it to run.
+
+First lets check to see what repositories are currently available.
+
+[source, bash]
+----
+appsody list
+----
+
+image::stack-appsody-list.png[align="center"]
+
+Next we need to add the repository to the list by runnning:
+
+[source, bash]
+----
+appsody repo add custom-stack <URL to the Stack index.yaml>
+----
+
+# Stack Add Code 
+image::stack-appsody-list.png[align="center"]
+
+Verify that the addition of the stack was successful by re-running:
+
+[source, bash]
+----
+appsody list
+----
+
+# Stack verified
+image::stack-appsody-list.png[align="center"]
+
+Now we are ready to run the application using your new template.
+
+== Running the Application
+
+To run the application we need to create a new directory and create a new appsody application inside it using the custom template.
+
+[source, bash]
+----
+mkdir custom-nodejs
+cd custom-nodejs
+appsody init custom-stack/nodejs-express simple/sample
+----
+
+A new application will be pulled and built into the new directory for you to be able to run.
+
+Once the building is complete you can run the application with the following:
+
+[source, bash]
+----
+appsody run
+----
+
+
+
