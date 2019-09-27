@@ -1,6 +1,4 @@
 = End to End Java Liberty Microprofile Kabanero workflow
-Bryan Kribbs <bakribbs@us.ibm.com>
-v1.0, 2019-09-24
 :toc:
 
 == Prerequisites
@@ -99,6 +97,52 @@ cd appsody_sample_microprofile/
 ----
 appsody init kabanero/java-microprofile
 ----
+
+- The directory contains a minimal set of artifacts
+[source, bash]
+----
+.
+├── .appsody-config.yaml
+├── .gitignore
+├── .vscode
+│   ├── launch.json
+│   └── tasks.json
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── dev
+    │   │       └── appsody
+    │   │           └── starter
+    │   │               ├── StarterApplication.java
+    │   │               └── health
+    │   │                   ├── StarterLivenessCheck.java
+    │   │                   └── StarterReadinessCheck.java
+    │   ├── liberty
+    │   │   └── config
+    │   │       └── server.xml
+    │   └── webapp
+    │       ├── WEB-INF
+    │       │   └── beans.xml
+    │       └── index.html
+    └── test
+        └── java
+            └── it
+                └── dev
+                    └── appsody
+                        └── starter
+                            └── HealthEndpointTest.java
+----
+
+StarterApplication.java::
+A JAX-RS Application class
+server.xml:: 
+An Open Liberty server configuration file
+index.html:: 
+A static HTML file
+pom.xml:: 
+A project build file
+
 
 === Build the application
 
@@ -242,10 +286,58 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 
 For more details, refer https://github.com/appsody/stacks/blob/master/incubator/java-microprofile/README.md[Java Microprofile Stack].
 
+=== Stop the Application
+
+- To stop the container, run this command.
+
+[source, bash]
+----
+appsody stop
+----
+
+- Alternatively, you can also press `Ctrl+C`.
+
+=== Update the Application
+
+- Lets add a new endpoint API to our Application
++
+Add the following file `src/main/java/dev/appsody/starter/StarterResource.java` and populate with the following code:
++
+[source, java]
+----
+package dev.appsody.starter;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+@Path("/hello")
+public class StarterResource {
+    @GET
+    public String getRequest() {
+        return "Hello World";
+    }
+}
+----
+
+image::microprofile-code-change.png[]
+
+- Open the browser and navigate to the endpoint url http://localhost:9080/starter/hello
+
+image::microprofile-hello-endpoint.png[]
+
+- Make a change to the application and refresh the browser for example `Hello World Demo`
+
+image::microprofile-hello-refresh.png[]
 
 === Debug the Application
 
-To debug the application including reloading the application on code changes run the below command.
+- Open your editor. We are using `VS Code`. Add the project to your workspace, or use the command `code .`
+
+image::microprofile_lab1_vscode_project.png[]
+
+- Open a new terminal window inside VS Code. Use `View->Terminal`
+
+image::microprofile_lab1_vscode_terminal.png[]
+
+ - To debug the application including reloading the application on code changes run the below command.
 
 [source, bash]
 ----
@@ -279,44 +371,25 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 [Container]  INFO  Listening for transport dt_socket at address: 7777
 ----
 
-- Open your editor. We are using `VS Code`. Add the project to your workspace.
 
-image::sb_lab1_open_project_vscode.png[align="center"]
+- You can attach to the debugger using `VSCode`
 
-- Start the debugger in your editor.
+- To access the debug view use `View->Debug` or click Debug icon on left menu
 
-image::microprofile-debug.png[align="center"]
+image::microprofile_lab1_vscode_debug.png[]
 
-- Once you start it, you will see something like below.
+- Add a breakpoint to the application, click to the left of the line number
 
-image::sb_lab1_vscode_debugger_window.png[align="center"]
+image::microprofile_lab1_vscode_breakpoint.png[]
 
-- Now you can open the application at http://localhost:9080/.
+- Click on the debug task `Appsody: Attach java debugger`
 
-- Let us check the liveness probe at http://localhost:9080/health.
+image::microprofile_lab1_vscode_attach.png[]
 
-image::microprofile-health-up.png[align="center"]
+- Open the browser on the new endpoint http://localhost:9080/starter/hello and watch how the debugger stops at the breakpoint.
 
-- Let us make a code change. We want to change the isAlive() to return `false` instead of `true`.
+image::microprofile_lab1_vscode_attach_break.png[]
 
-image::microprofile-code-change.png[align="center"]
-
-Here, the debugger will reload the application for you.
-
-- Refresh the browser to see the changes.
-
-image::microprofile-health-down.png[align="center"]
-
-=== Stop the Application
-
-- To stop the container, run this command.
-
-[source, bash]
-----
-appsody stop
-----
-
-- Alternatively, you can also press `Ctrl+C`.
 
 == Appsody tasks on VS Code
 
@@ -326,19 +399,19 @@ appsody stop
 Terminal > Run Build Task...
 ----
 
-image::sb_lab1_build_task_menu.png[align="center"]
+image::sb_lab1_build_task_menu.png[]
 
 - You will see a list of available tasks.
 
-image::sb_lab1_build_task_list.png[align="center"]
+image::sb_lab1_build_task_list.png[]
 
 - Click on `Appsody: run` and this will run the application.
 
-image::sb_lab1_build_task_run.png[align="center"]
+image::sb_lab1_build_task_run.png[]
 
 - Once, it is successfully started, you can access the application at http://localhost:9080/.
 
-image::microprofile-home.png[align="center"]
+image::microprofile-home.png[]
 
 == Codewind on VS Code
 
@@ -352,7 +425,7 @@ Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using V
 
 - Go to the extensions view and install codewind from the VS code market place.
 
-image::sb_lab1_vscode_codewind_extension.png[align="center"]
+image::sb_lab1_vscode_codewind_extension.png[]
 
 You will find `Codewind` and click `install` to get it. Also, if you want to use the IDE for Java applications, you need to install `Codewind Java Profiler`.
 
@@ -362,15 +435,15 @@ You will find `Codewind` and click `install` to get it. Also, if you want to use
 View > Open View...
 ----
 
-image::sb_lab1_vscode_view.png[align="center"]
+image::sb_lab1_vscode_view.png[]
 
 - It gives you you a list of options. Select `Codewind`.
 
-image::sb_lab1_vscode_code_explorer.png[align="center"]
+image::sb_lab1_vscode_code_explorer.png[]
 
 - This opens the `Codewind`.
 
-image::sb_lab1_vscode_codewind_explorer.png[align="center"]
+image::sb_lab1_vscode_codewind_explorer.png[]
 
 === Adding the application
 
@@ -378,49 +451,49 @@ image::sb_lab1_vscode_codewind_explorer.png[align="center"]
 
 - Right click on `Projects` under Codewind. Select `Add Existing Project` in the menu.
 
-image::sb_lab1_codewind_add_existing_project.png[align="center"]
+image::sb_lab1_codewind_add_existing_project.png[]
 
 NOTE: - Before doing this, copy your project to the codewind workspace. At this point in time, codewind only accepts the projects that are available in the `codewind workspace`.
 
 - From the codewind workspace, select the project you created earlier.
 
-image::microprofile-add.png[align="center"]
+image::microprofile-add.png[]
 
 - The codewind extension asks you for confirmation as follows. Click `Yes`.
 
-image::microprofile-confirm.png[align="center"]
+image::microprofile-confirm.png[]
 
 - The project will be added.
 
-image::microprofile-codewind-starting.png[align="center"]
+image::microprofile-codewind-starting.png[]
 
 - Once it is successfully built, it starts running.
 
-image::microprofile-codewind-running.png[align="center"]
+image::microprofile-codewind-running.png[]
 
 === Project Options
 
 - Go to the application and `right click` on it to access the various options available.
 
-image::microprofile-codewind-options.png[align="center"]
+image::microprofile-codewind-options.png[]
 
 - Click `Open App` to access the application.
 
-image::microprofile-codewind.png[align="center"]
+image::microprofile-codewind.png[]
 
 NOTE: - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
 
 - To get the overview of your project, click on `Open Project Overview`.
 
-image::microprofile-overview.png[align="center"]
+image::microprofile-overview.png[]
 
 - You can access the container shell directly from the IDE by using `Open Container Shell`.
 
-image::sb_lab1_codewind_container_shell.png[align="center"]
+image::sb_lab1_codewind_container_shell.png[]
 
 - To access the logs of the application, click on `Show all logs`.
 
-image::sb_lab1_codewind_project_logs.png[align="center"]
+image::sb_lab1_codewind_project_logs.png[]
 
 - You can also hide the logs if you want to by using `Hide all logs` option.
 
@@ -428,11 +501,11 @@ image::sb_lab1_codewind_project_logs.png[align="center"]
 
 - You can also run the application by using `Restart in Run Mode`.
 
-image::sb_lab1_codewind_project_restart_in_run_mode.png[align="center"]
+image::sb_lab1_codewind_project_restart_in_run_mode.png[]
 
 Once it is restarted, you can access the application by clicking on the button as shown below.
 
-image::sb_lab1_restart_in_run_mode_app.png[align="center"]
+image::sb_lab1_restart_in_run_mode_app.png[]
 
 - Similarly, you can also do debugging by using `Restart in Debug Mode`.
 
@@ -573,7 +646,7 @@ git push -u origin master
 - Select `Generate new token`.
 - Create a Github access token with permission `admin:repo_hook`
 
-image::microprofile-github-token.png[align="center"]
+image::microprofile-github-token.png[]
 
 - Then finally click `Generate token` to create one.
 
@@ -599,27 +672,27 @@ You can access it at the `HOST/PORT` available. For instance here it will be `te
 
 - You can also access it on the Cloud Pak Landing page. You will find a `Tekton Dashboard`.
 
-image::sb_lab1_kabanero_enterprise.png[align="center"]
+image::sb_lab1_kabanero_enterprise.png[]
 
-image::sb_lab1_kabanero_ent_dashboard.png[align="center"]
+image::sb_lab1_kabanero_ent_dashboard.png[]
 
-image::sb_lab1_kabanero_ent_instance.png[align="center"]
+image::sb_lab1_kabanero_ent_instance.png[]
 
-image::sb_lab1_tekton_dashboard.png[align="center"]
+image::sb_lab1_tekton_dashboard.png[]
 
 === Create Tekton webhook for git repo
 
 - Click on Webhooks in the menu.
 
-image::sb_lab1_menu_webhooks.png[align="center"]
+image::sb_lab1_menu_webhooks.png[]
 
 - Click on `Add Webhook`.
 
-image::sb_lab1_add_webhook.png[align="center"]
+image::sb_lab1_add_webhook.png[]
 
 - Enter the information for the Webhook settings.
 
-image::sb_lab1_webhook_settings.png[align="center"]
+image::sb_lab1_webhook_settings.png[]
 
 ----
 Name - <Name for webhook>
@@ -629,11 +702,11 @@ Access Token - <For this, you need to create a Github access token with permissi
 
 - Create a new token as follows.
 
-image::sb_lab1_webhook_settings_access_token_create.png[align="center"]
+image::sb_lab1_webhook_settings_access_token_create.png[]
 
 - You can also use an existing token if it is already created.
 
-image::sb_lab1_webhook_settings_access_token_existing.png[align="center"]
+image::sb_lab1_webhook_settings_access_token_existing.png[]
 
 === Set up the pipeline
 
@@ -646,11 +719,11 @@ Service account - kabaner-operator
 Docker Registry - docker-registry.default.svc:5000/<your_project>
 ----
 
-image::microprofile-pipeline-settings.png[align="center"]
+image::microprofile-pipeline-settings.png[]
 
 - Click Create, a new webhook is created.
 
-image::sb_lab1_webhook.png[align="center"]
+image::sb_lab1_webhook.png[]
 
 Also, a new Gitub webhook is created on the project repository.
 
@@ -670,7 +743,7 @@ Let us change the `title` from `Hello from Appsody!` to `Hello from Cloud Paks !
 
 - This will trigger the Tekton Pipeline. To see the status of the Pipeline click on `PipelineRuns` on the menu of the dashboard.
 
-image::sb_lab1_pipeline_runs.png[align="center"]
+image::sb_lab1_pipeline_runs.png[]
 
 - When the application is built and deployed the application will be available via the expose `Route`.
 
@@ -678,7 +751,7 @@ image::sb_lab1_pipeline_runs.png[align="center"]
 
 You will see a route for your application, click on the url to open your application.
 
-image::sb_lab1_application_route.png[align="center"]
+image::sb_lab1_application_route.png[]
 
 - Or you can also get the route from the oc CLI.
 

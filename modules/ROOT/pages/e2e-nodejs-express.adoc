@@ -1,6 +1,4 @@
 = End to end Node.js Express Kabanero workflow
-Carlos Santana <csantana@us.ibm.com>
-v1.0, 2019-09-22
 :toc:
 :imagesdir: images
 
@@ -98,6 +96,30 @@ cd appsody_sample_nodejs-express/
 ----
 appsody init kabanero/nodejs-express
 ----
+
+- The directory contains a minimal set of artifacts
+[source, bash]
+----
+.
+├── .appsody-config.yaml
+├── .gitignore
+├── .vscode
+│   ├── launch.json
+│   └── tasks.json
+├── app.js
+├── package-lock.json
+├── package.json
+└── test
+    └── test.js
+----
+
+app.js::
+Node.js application module
+package.json::
+NPM package JSON file
+test.js::
+A simple test module
+
 
 === Build the application
 
@@ -228,7 +250,7 @@ appsody stop
 
 === Debug the Application
 
-- Open your editor. We are using `VS Code`. Add the project to your workspace, or use the command `code .` .
+- Open your editor. We are using `VS Code`. Add the project to your workspace, or use the command `code .`
 
 image::js_lab1_vscode_project.png[align="center"]
 
@@ -281,8 +303,6 @@ Here, the debugger will reload the application for you.
 
 image::js_lab1_endpoint_test.png[align="center"]
 
-- Stop the appication usig `Ctrl+C`
-
 - You can attach to the Node.js debugger using `VSCode`
 
 - To access the debug view use `View->Debug` or click Debug icon on left menu
@@ -297,7 +317,7 @@ image::js_lab1_vscode_breakpoint.png[align="center"]
 
 image::js_lab1_vscode_attach.png[align="center"]
 
-- Refresh the browser and watch how the debugger stops at the break point
+- Refresh the browser and watch how the debugger stops at the breakpoint
 
 image::js_lab1_vscode_attach_break.png[align="center"]
 
@@ -524,7 +544,7 @@ metadata:
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: appsody-sample-nodejs-express 
+  applicationImage: appsody-sample-nodejs-express
   stack: nodejs-express
   service:
     type: NodePort
@@ -749,9 +769,9 @@ appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-sa
 [source, bash]
 ----
 oc get route.serving.knative.dev/appsody-sample-nodejs-expres
-                                                         
+
 NAME                            URL                                                                                                                                            READY     REASON
-appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True 
+appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True
 ----
 
 - Show the Knative configuration
@@ -760,7 +780,7 @@ appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-sa
 oc get configuration.serving.knative.dev/appsody-sample-nodejs-express
 
 NAME                            LATESTCREATED                         LATESTREADY                           READY     REASON
-appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True 
+appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True
 ----
 
 - Show the Knative latest ready revision
@@ -769,7 +789,7 @@ appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sa
 oc get revision.serving.knative.dev/appsody-sample-nodejs-express-mtl4q
 
 NAME                                  SERVICE NAME                          GENERATION   READY     REASON
-appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   2            True   
+appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   2            True
 ----
 
 Visit the Knative public url `http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud` and list the pods
