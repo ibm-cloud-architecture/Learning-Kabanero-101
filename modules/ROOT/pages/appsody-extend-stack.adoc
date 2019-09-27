@@ -17,9 +17,9 @@ cd stacks
 
 The stacks repository provides us with all the stacks provided by Appsody as well as a sample stack in the `/samples/sample-stack` directory.  The `sample stack` directory gives us the basic skeleton for starting a stack from scratch.
 
-== Modifiying a Stack's Template Code
+== Creating a New Stack Template
 
-For this walkthrough however we are going to modify one of the existing stacks templates.  In this case we are going to modify the `nodejs-express` stack's `simple` template.  We are going to modify the `app.js` and the `README.md` files.
+For this walkthrough however we are going to create a new stack template based on an existing template.  In this case we are going to modify the `nodejs-express` stack's `simple` template.  We are going to modify the `app.js` and the `README.md` files.
 
 Let's start by navigating to the `nodejs-express simple template` directory.
 
