@@ -315,6 +315,10 @@ image::microprofile-code-change.png[]
 
 image::microprofile-hello-endpoint.png[]
 
+- Make a change to the application and refresh the browser for example `Hello World Demo`
+
+image::microprofile-hello-refresh.png[]
+
 === Debug the Application
 
 - Open your editor. We are using `VS Code`. Add the project to your workspace, or use the command `code .`
