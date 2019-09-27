@@ -1,6 +1,4 @@
 = End to End Java Spring Boot Kabanero workflow
-Hemankita Perabathini <Hemankita.Perabathini@ibm.com>
-v1.0, 2019-09-17
 :toc:
 :imagesdir: images
 

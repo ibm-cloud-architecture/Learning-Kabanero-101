@@ -1,6 +1,4 @@
 = End to end Node.js Express Kabanero workflow
-Carlos Santana <csantana@us.ibm.com>
-v1.0, 2019-09-22
 :toc:
 :imagesdir: images
 
