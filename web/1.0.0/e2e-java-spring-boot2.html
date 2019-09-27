@@ -138,6 +138,7 @@
 <li><a href="#_test_the_application">Test the Application</a></li>
 <li><a href="#_run_the_application">Run the Application</a></li>
 <li><a href="#_stop_the_application">Stop the Application</a></li>
+<li><a href="#_update_the_application">Update the Application</a></li>
 <li><a href="#_debug_the_application">Debug the Application</a></li>
 </ul>
 </li>
@@ -359,6 +360,66 @@ cd appsody_sample_springboot/</code></pre>
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody init kabanero/java-spring-boot2</code></pre>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>The directory contains a minimal set of artifacts</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>.
+├── .appsody-config.yaml
+├── .gitignore
+├── .vscode
+│   ├── launch.json
+│   └── tasks.json
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── application
+    │   │       ├── LivenessEndpoint.java
+    │   │       └── Main.java
+    │   └── resources
+    │       ├── application.properties
+    │       └── public
+    │           └── index.html
+    └── test
+        └── java
+            └── application
+                └── MainTests.java</pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Main.java</dt>
+<dd>
+<p>Spring Application class</p>
+</dd>
+<dt class="hdlist1">LivenessEndpoint.java</dt>
+<dd>
+<p>An example Liveness Endpoint</p>
+</dd>
+<dt class="hdlist1">MainTests.java</dt>
+<dd>
+<p>A simple test class</p>
+</dd>
+<dt class="hdlist1">application.properties</dt>
+<dd>
+<p>Containing some configuration options for Spring</p>
+</dd>
+<dt class="hdlist1">index.html</dt>
+<dd>
+<p>A static file</p>
+</dd>
+<dt class="hdlist1">pom.xml</dt>
+<dd>
+<p>The project build file</p>
+</dd>
+</dl>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_build_the_application"><a class="anchor" href="#_build_the_application"></a>Build the application</h3>
@@ -557,15 +618,74 @@ Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729
 </div>
 </div>
 <div class="sect2">
+<h3 id="_update_the_application"><a class="anchor" href="#_update_the_application"></a>Update the Application</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Lets add a new endpoint API to our Application</p>
+<div class="paragraph">
+<p>Add the following file <code>src/main/java/application/ExampleEndpoint.java</code> and populate with the following code:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package application;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ExampleEndpoint {
+
+    @RequestMapping("/starter/hello")
+    public String example() {
+        return "Hello World";
+    }
+}</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/sb_lab1_code_change.png" alt="sb lab1 code change">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open the browser and navigate to the endpoint url <a href="http://localhost:8080/starter/hello" class="bare">http://localhost:8080/starter/hello</a></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/sb_lab1_hello_endpoint.png" alt="sb lab1 hello endpoint">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Make a change to the application and refresh the browser for example <code>Hello World Demo</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/sb_lab1_hello_refresh.png" alt="sb lab1 hello refresh">
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_debug_the_application"><a class="anchor" href="#_debug_the_application"></a>Debug the Application</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>Open your editor. We are using VS Code. Add the project to your workspace.</p>
+<p>Open your editor. We are using <code>VS Code</code>. Add the project to your workspace, or use the command <code>code .</code></p>
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_open_project_vscode.png" alt="sb lab1 open project vscode">
 </div>
@@ -573,11 +693,11 @@ Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729
 <div class="ulist">
 <ul>
 <li>
-<p>Open a new terminal window inside VS Code. Use <code>View→Terminal</code>.</p>
+<p>Open a new terminal window inside VS Code. Use <code>View&#8594;Terminal</code>.</p>
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_open_terminal.png" alt="sb lab1 open terminal">
 </div>
@@ -621,78 +741,53 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 <div class="ulist">
 <ul>
 <li>
-<p>Start the debugger in your editor.</p>
+<p>You can attach to the debugger using <code>VSCode</code></p>
+</li>
+<li>
+<p>To access the debug view use <code>View&#8594;Debug</code> or click Debug icon on left menu</p>
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="_images/sb_lab1_vscode_debugger.png" alt="sb lab1 vscode debugger">
+<img src="_images/sb_lab1_vscode_debug.png" alt="sb lab1 vscode debug">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Once you start it, you will see something like below.</p>
+<p>Add a breakpoint to the application, click to the left of the line number</p>
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="_images/sb_lab1_vscode_debugger_window.png" alt="sb lab1 vscode debugger window">
+<img src="_images/sb_lab1_vscode_breakpoint.png" alt="sb lab1 vscode breakpoint">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Wait till the application starts.</p>
-</li>
-<li>
-<p>Now you can open the application at <a href="http://localhost:8080/" class="bare">http://localhost:8080/</a>.</p>
-</li>
-<li>
-<p>Let us check the liveness probe at <a href="http://localhost:8080/actuator/liveness" class="bare">http://localhost:8080/actuator/liveness</a>.</p>
+<p>Click on the debug task <code>Appsody: Attach java debugger</code></p>
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="_images/sb_lab1_liveness.png" alt="sb lab1 liveness">
+<img src="_images/sb_lab1_vscode_attach.png" alt="sb lab1 vscode attach">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Let us make a code change.</p>
+<p>Open the browser on the new endpoint <a href="http://localhost:8080/starter/hello" class="bare">http://localhost:8080/starter/hello</a> and watch how the debugger stops at the breakpoint.</p>
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="_images/sb_lab1_code_change.png" alt="sb lab1 code change">
+<img src="_images/sb_lab1_vscode_attach_break.png" alt="sb lab1 vscode attach break">
 </div>
-</div>
-<div class="paragraph">
-<p>Here, the debugger will reload the application for you.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Refresh the browser to see the changes.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="_images/sb_lab1_liveness_test.png" alt="sb lab1 liveness test">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Stop the appication usig <code>Ctrl+C</code>.</p>
-</li>
-</ul>
 </div>
 </div>
 </div>
@@ -712,7 +807,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 <pre>Terminal &gt; Run Build Task...</pre>
 </div>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_build_task_menu.png" alt="sb lab1 build task menu">
 </div>
@@ -724,7 +819,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_build_task_list.png" alt="sb lab1 build task list">
 </div>
@@ -736,7 +831,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_build_task_run.png" alt="sb lab1 build task run">
 </div>
@@ -748,7 +843,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_build_task_run_app.png" alt="sb lab1 build task run app">
 </div>
@@ -776,7 +871,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_vscode_codewind_extension.png" alt="sb lab1 vscode codewind extension">
 </div>
@@ -796,7 +891,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 <pre>View &gt; Open View...</pre>
 </div>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_vscode_view.png" alt="sb lab1 vscode view">
 </div>
@@ -808,7 +903,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_vscode_code_explorer.png" alt="sb lab1 vscode code explorer">
 </div>
@@ -820,7 +915,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_vscode_codewind_explorer.png" alt="sb lab1 vscode codewind explorer">
 </div>
@@ -838,7 +933,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_codewind_add_existing_project.png" alt="sb lab1 codewind add existing project">
 </div>
@@ -862,7 +957,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_add_existing_prj_from_workspace.png" alt="sb lab1 add existing prj from workspace">
 </div>
@@ -874,7 +969,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_appsody_extension.png" alt="sb lab1 appsody extension">
 </div>
@@ -886,7 +981,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_appsody_project.png" alt="sb lab1 appsody project">
 </div>
@@ -898,7 +993,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_appsody_project_running.png" alt="sb lab1 appsody project running">
 </div>
@@ -913,7 +1008,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_project_options.png" alt="sb lab1 code wind project options">
 </div>
@@ -925,7 +1020,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_codewind_open_app.png" alt="sb lab1 codewind open app">
 </div>
@@ -949,7 +1044,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_codewind_project_overview.png" alt="sb lab1 codewind project overview">
 </div>
@@ -961,7 +1056,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_codewind_container_shell.png" alt="sb lab1 codewind container shell">
 </div>
@@ -973,7 +1068,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_codewind_project_logs.png" alt="sb lab1 codewind project logs">
 </div>
@@ -991,7 +1086,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_codewind_project_restart_in_run_mode.png" alt="sb lab1 codewind project restart in run mode">
 </div>
@@ -999,7 +1094,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 <div class="paragraph">
 <p>Once it is restarted, you can access the application by clicking on the button as shown below.</p>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_restart_in_run_mode_app.png" alt="sb lab1 restart in run mode app">
 </div>
@@ -1021,7 +1116,7 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_project_options.png" alt="sb lab1 code wind project options">
 </div>
@@ -1118,7 +1213,7 @@ public class Main {
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_perf_restart_app.png" alt="sb lab1 code wind perf restart app">
 </div>
@@ -1133,12 +1228,12 @@ public class Main {
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_perf_app_monitor.png" alt="sb lab1 code wind perf app monitor">
 </div>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_perf_app_monitor_summary.png" alt="sb lab1 code wind perf app monitor summary">
 </div>
@@ -1157,7 +1252,7 @@ public class Main {
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_perf_dashboard.png" alt="sb lab1 code wind perf dashboard">
 </div>
@@ -1169,7 +1264,7 @@ public class Main {
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_perf_load_test_create.png" alt="sb lab1 code wind perf load test create">
 </div>
@@ -1181,7 +1276,7 @@ public class Main {
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_perf_load_test_run.png" alt="sb lab1 code wind perf load test run">
 </div>
@@ -1193,7 +1288,7 @@ public class Main {
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_perf_load_test_one.png" alt="sb lab1 code wind perf load test one">
 </div>
@@ -1205,12 +1300,12 @@ public class Main {
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_perf_load_test_two.png" alt="sb lab1 code wind perf load test two">
 </div>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_perf_load_test_four.png" alt="sb lab1 code wind perf load test four">
 </div>
@@ -1222,7 +1317,7 @@ public class Main {
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_code_wind_perf_load_test_history.png" alt="sb lab1 code wind perf load test history">
 </div>
@@ -1458,7 +1553,7 @@ git push -u origin master</code></pre>
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_github_token.png" alt="sb lab1 github token">
 </div>
@@ -1508,22 +1603,22 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_kabanero_enterprise.png" alt="sb lab1 kabanero enterprise">
 </div>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_kabanero_ent_dashboard.png" alt="sb lab1 kabanero ent dashboard">
 </div>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_kabanero_ent_instance.png" alt="sb lab1 kabanero ent instance">
 </div>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_tekton_dashboard.png" alt="sb lab1 tekton dashboard">
 </div>
@@ -1538,7 +1633,7 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_menu_webhooks.png" alt="sb lab1 menu webhooks">
 </div>
@@ -1550,7 +1645,7 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_add_webhook.png" alt="sb lab1 add webhook">
 </div>
@@ -1562,7 +1657,7 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_webhook_settings.png" alt="sb lab1 webhook settings">
 </div>
@@ -1581,7 +1676,7 @@ Access Token - &lt;For this, you need to create a Github access token with permi
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_webhook_settings_access_token_create.png" alt="sb lab1 webhook settings access token create">
 </div>
@@ -1593,7 +1688,7 @@ Access Token - &lt;For this, you need to create a Github access token with permi
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_webhook_settings_access_token_existing.png" alt="sb lab1 webhook settings access token existing">
 </div>
@@ -1616,7 +1711,7 @@ Service account - kabaner-operator
 Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_pipeline_settings.png" alt="sb lab1 pipeline settings">
 </div>
@@ -1628,7 +1723,7 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_webhook.png" alt="sb lab1 webhook">
 </div>
@@ -1668,7 +1763,7 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_pipeline_runs.png" alt="sb lab1 pipeline runs">
 </div>
@@ -1686,7 +1781,7 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 <div class="paragraph">
 <p>You will see a route for your application, click on the url to open your application.</p>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_application_route.png" alt="sb lab1 application route">
 </div>

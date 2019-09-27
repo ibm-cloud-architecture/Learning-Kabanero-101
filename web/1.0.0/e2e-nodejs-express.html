@@ -359,6 +359,44 @@ cd appsody_sample_nodejs-express/</code></pre>
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody init kabanero/nodejs-express</code></pre>
 </div>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>The directory contains a minimal set of artifacts</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>.
+├── .appsody-config.yaml
+├── .gitignore
+├── .vscode
+│   ├── launch.json
+│   └── tasks.json
+├── app.js
+├── package-lock.json
+├── package.json
+└── test
+    └── test.js</pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">app.js</dt>
+<dd>
+<p>Node.js application module</p>
+</dd>
+<dt class="hdlist1">package.json</dt>
+<dd>
+<p>NPM package JSON file</p>
+</dd>
+<dt class="hdlist1">test.js</dt>
+<dd>
+<p>A simple test module</p>
+</dd>
+</dl>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_build_the_application"><a class="anchor" href="#_build_the_application"></a>Build the application</h3>
@@ -539,7 +577,7 @@ audited 295 packages in 1.546s
 <div class="ulist">
 <ul>
 <li>
-<p>Open your editor. We are using <code>VS Code</code>. Add the project to your workspace, or use the command <code>code .</code> .</p>
+<p>Open your editor. We are using <code>VS Code</code>. Add the project to your workspace, or use the command <code>code .</code></p>
 </li>
 </ul>
 </div>
@@ -638,9 +676,6 @@ audited 295 packages in 1.154s
 <div class="ulist">
 <ul>
 <li>
-<p>Stop the appication usig <code>Ctrl+C</code></p>
-</li>
-<li>
 <p>You can attach to the Node.js debugger using <code>VSCode</code></p>
 </li>
 <li>
@@ -680,7 +715,7 @@ audited 295 packages in 1.154s
 <div class="ulist">
 <ul>
 <li>
-<p>Refresh the browser and watch how the debugger stops at the break point</p>
+<p>Refresh the browser and watch how the debugger stops at the breakpoint</p>
 </li>
 </ul>
 </div>
