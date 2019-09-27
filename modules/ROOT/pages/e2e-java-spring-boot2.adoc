@@ -288,15 +288,50 @@ appsody stop
 
 - Alternatively, you can also press `Ctrl+C`.
 
+
+=== Update the Application
+
+- Lets add a new endpoint API to our Application
++
+Add the following file `src/main/java/application/ExampleEndpoint.java` and populate with the following code:
++
+[source, java]
+----
+package application;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ExampleEndpoint {
+
+    @RequestMapping("/starter/hello")
+    public String example() {
+        return "Hello World";
+    }
+}
+----
+
+image::sb_lab1_code_change.png[]
+
+- Open the browser and navigate to the endpoint url http://localhost:8080/starter/hello
+
+image::sb_lab1_hello_endpoint.png[]
+
+- Make a change to the application and refresh the browser for example `Hello World Demo`
+
+image::sb_lab1_hello_refresh.png[]
+
+
 === Debug the Application
 
-- Open your editor. We are using VS Code. Add the project to your workspace.
+- Open your editor. We are using `VS Code`. Add the project to your workspace, or use the command `code .`
 
-image::sb_lab1_open_project_vscode.png[align="center"]
+image::sb_lab1_open_project_vscode.png[]
 
-- Open a new terminal window inside VS Code. Use `View→Terminal`.
+- Open a new terminal window inside VS Code. Use `View->Terminal`.
 
-image::sb_lab1_open_terminal.png[align="center"]
+image::sb_lab1_open_terminal.png[]
 
 - To debug the application including reloading the application on code changes run the below command.
 
@@ -328,33 +363,23 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 [Container] Listening for transport dt_socket at address: 5005
 ----
 
-- Start the debugger in your editor.
+- You can attach to the debugger using `VSCode`
 
-image::sb_lab1_vscode_debugger.png[align="center"]
+- To access the debug view use `View->Debug` or click Debug icon on left menu
 
-- Once you start it, you will see something like below.
+image::sb_lab1_vscode_debug.png[]
 
-image::sb_lab1_vscode_debugger_window.png[align="center"]
+- Add a breakpoint to the application, click to the left of the line number
 
-- Wait till the application starts.
+image::sb_lab1_vscode_breakpoint.png[]
 
-- Now you can open the application at http://localhost:8080/.
+- Click on the debug task `Appsody: Attach java debugger`
 
-- Let us check the liveness probe at http://localhost:8080/actuator/liveness.
+image::sb_lab1_vscode_attach.png[]
 
-image::sb_lab1_liveness.png[align="center"]
+- Open the browser on the new endpoint http://localhost:8080/starter/hello and watch how the debugger stops at the breakpoint.
 
-- Let us make a code change.
-
-image::sb_lab1_code_change.png[align="center"]
-
-Here, the debugger will reload the application for you.
-
-- Refresh the browser to see the changes.
-
-image::sb_lab1_liveness_test.png[align="center"]
-
-- Stop the appication usig `Ctrl+C`.
+image::sb_lab1_vscode_attach_break.png[]
 
 == Appsody tasks on VS Code
 
@@ -364,19 +389,19 @@ image::sb_lab1_liveness_test.png[align="center"]
 Terminal > Run Build Task...
 ----
 
-image::sb_lab1_build_task_menu.png[align="center"]
+image::sb_lab1_build_task_menu.png[]
 
 - You will see a list of available tasks.
 
-image::sb_lab1_build_task_list.png[align="center"]
+image::sb_lab1_build_task_list.png[]
 
 - Click on `Appsody: run` and this will run the application.
 
-image::sb_lab1_build_task_run.png[align="center"]
+image::sb_lab1_build_task_run.png[]
 
 - Once, it is successfully started, you can access the application at http://localhost:8080/.
 
-image::sb_lab1_build_task_run_app.png[align="center"]
+image::sb_lab1_build_task_run_app.png[]
 
 == Codewind on VS Code
 
@@ -390,7 +415,7 @@ Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using V
 
 - Go to the extensions view and install codewind from the VS code market place.
 
-image::sb_lab1_vscode_codewind_extension.png[align="center"]
+image::sb_lab1_vscode_codewind_extension.png[]
 
 You will find `Codewind` and click `install` to get it. Also, if you want to use the IDE for Java applications, you need to install `Codewind Java Profiler`.
 
@@ -400,15 +425,15 @@ You will find `Codewind` and click `install` to get it. Also, if you want to use
 View > Open View...
 ----
 
-image::sb_lab1_vscode_view.png[align="center"]
+image::sb_lab1_vscode_view.png[]
 
 - It gives you you a list of options. Select `Codewind`.
 
-image::sb_lab1_vscode_code_explorer.png[align="center"]
+image::sb_lab1_vscode_code_explorer.png[]
 
 - This opens the `Codewind`.
 
-image::sb_lab1_vscode_codewind_explorer.png[align="center"]
+image::sb_lab1_vscode_codewind_explorer.png[]
 
 === Adding the application
 
@@ -416,49 +441,49 @@ image::sb_lab1_vscode_codewind_explorer.png[align="center"]
 
 - Right click on `Projects` under Codewind. Select `Add Existing Project` in the menu.
 
-image::sb_lab1_codewind_add_existing_project.png[align="center"]
+image::sb_lab1_codewind_add_existing_project.png[]
 
 NOTE: - Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the `codewind workspace`.
 
 - From the codewind workspace, select the project you created earlier.
 
-image::sb_lab1_add_existing_prj_from_workspace.png[align="center"]
+image::sb_lab1_add_existing_prj_from_workspace.png[]
 
 - The codewind extension asks you for confirmation as follows. Click `Yes`.
 
-image::sb_lab1_appsody_extension.png[align="center"]
+image::sb_lab1_appsody_extension.png[]
 
 - The project will be added.
 
-image::sb_lab1_appsody_project.png[align="center"]
+image::sb_lab1_appsody_project.png[]
 
 - Once it is successfully build, it starts running.
 
-image::sb_lab1_appsody_project_running.png[align="center"]
+image::sb_lab1_appsody_project_running.png[]
 
 === Project options for dev
 
 - Go to the application and `right click` on it to access the various options available.
 
-image::sb_lab1_code_wind_project_options.png[align="center"]
+image::sb_lab1_code_wind_project_options.png[]
 
 - Click `Open App` to access the application.
 
-image::sb_lab1_codewind_open_app.png[align="center"]
+image::sb_lab1_codewind_open_app.png[]
 
 NOTE: - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
 
 - To get the overview of your project, click on `Open Project Overview`.
 
-image::sb_lab1_codewind_project_overview.png[align="center"]
+image::sb_lab1_codewind_project_overview.png[]
 
 - You can access the container shell directly from the IDE by using `Open Container Shell`.
 
-image::sb_lab1_codewind_container_shell.png[align="center"]
+image::sb_lab1_codewind_container_shell.png[]
 
 - To access the logs of the application, click on `Show all logs`.
 
-image::sb_lab1_codewind_project_logs.png[align="center"]
+image::sb_lab1_codewind_project_logs.png[]
 
 - You can also hide the logs if you want to by using `Hide all logs` option.
 
@@ -466,11 +491,11 @@ image::sb_lab1_codewind_project_logs.png[align="center"]
 
 - You can also run the application by using `Restart in Run Mode`.
 
-image::sb_lab1_codewind_project_restart_in_run_mode.png[align="center"]
+image::sb_lab1_codewind_project_restart_in_run_mode.png[]
 
 Once it is restarted, you can access the application by clicking on the button as shown below.
 
-image::sb_lab1_restart_in_run_mode_app.png[align="center"]
+image::sb_lab1_restart_in_run_mode_app.png[]
 
 - Similarly, you can also do debugging by using `Restart in Debug Mode`.
 
@@ -478,7 +503,7 @@ image::sb_lab1_restart_in_run_mode_app.png[align="center"]
 
 - Go to the application and `right click` on it to access the various options available.
 
-image::sb_lab1_code_wind_project_options.png[align="center"]
+image::sb_lab1_code_wind_project_options.png[]
 
 - Click `Open Application Monitor` to access the application monitor.
 
@@ -539,43 +564,43 @@ public class Main {
 
 - Now, restart your application using the option `Restart in Run Mode`.
 
-image::sb_lab1_code_wind_perf_restart_app.png[align="center"]
+image::sb_lab1_code_wind_perf_restart_app.png[]
 
 - Once the application is restarted, you can access the application monitor and performance dashboard.
 
 - Click on the `Open Application Monitor` to access the java metrics dashboard.
 
-image::sb_lab1_code_wind_perf_app_monitor.png[align="center"]
+image::sb_lab1_code_wind_perf_app_monitor.png[]
 
-image::sb_lab1_code_wind_perf_app_monitor_summary.png[align="center"]
+image::sb_lab1_code_wind_perf_app_monitor_summary.png[]
 
 - To open the performance dashboard, click on `Open Performance Dashboard`.
 
 ** Access the dashboard and then run the test.
 
-image::sb_lab1_code_wind_perf_dashboard.png[align="center"]
+image::sb_lab1_code_wind_perf_dashboard.png[]
 
 ** Create a load test as follows. Then refresh your application to create load.
 
-image::sb_lab1_code_wind_perf_load_test_create.png[align="center"]
+image::sb_lab1_code_wind_perf_load_test_create.png[]
 
 ** Run the test.
 
-image::sb_lab1_code_wind_perf_load_test_run.png[align="center"]
+image::sb_lab1_code_wind_perf_load_test_run.png[]
 
 ** You will see something like below after the first test.
 
-image::sb_lab1_code_wind_perf_load_test_one.png[align="center"]
+image::sb_lab1_code_wind_perf_load_test_one.png[]
 
 ** Run couple of tests and you should be able to see the results.
 
-image::sb_lab1_code_wind_perf_load_test_two.png[align="center"]
+image::sb_lab1_code_wind_perf_load_test_two.png[]
 
-image::sb_lab1_code_wind_perf_load_test_four.png[align="center"]
+image::sb_lab1_code_wind_perf_load_test_four.png[]
 
 ** If you scroll down, you can also see the test history details.
 
-image::sb_lab1_code_wind_perf_load_test_history.png[align="center"]
+image::sb_lab1_code_wind_perf_load_test_history.png[]
 
 NOTE: - In codewind, for now the `Application Monitor` and `Performance Dashboard` shows up on first run. It does not load the metrics if you reload the dashboard.
 
@@ -743,7 +768,7 @@ git push -u origin master
 - Select `Generate new token`.
 - Create a Github access token with permission `admin:repo_hook`
 
-image::sb_lab1_github_token.png[align="center"]
+image::sb_lab1_github_token.png[]
 
 - Then finally click `Generate token` to create one.
 
@@ -769,27 +794,27 @@ You can access it at the `HOST/PORT` available. For instance here it will be `te
 
 - You can also access it on the Cloud Pak Landing page. You will find a `Tekton Dashboard`.
 
-image::sb_lab1_kabanero_enterprise.png[align="center"]
+image::sb_lab1_kabanero_enterprise.png[]
 
-image::sb_lab1_kabanero_ent_dashboard.png[align="center"]
+image::sb_lab1_kabanero_ent_dashboard.png[]
 
-image::sb_lab1_kabanero_ent_instance.png[align="center"]
+image::sb_lab1_kabanero_ent_instance.png[]
 
-image::sb_lab1_tekton_dashboard.png[align="center"]
+image::sb_lab1_tekton_dashboard.png[]
 
 === Create Tekton webhook for git repo
 
 - Click on Webhooks in the menu.
 
-image::sb_lab1_menu_webhooks.png[align="center"]
+image::sb_lab1_menu_webhooks.png[]
 
 - Click on `Add Webhook`.
 
-image::sb_lab1_add_webhook.png[align="center"]
+image::sb_lab1_add_webhook.png[]
 
 - Enter the information for the Webhook settings.
 
-image::sb_lab1_webhook_settings.png[align="center"]
+image::sb_lab1_webhook_settings.png[]
 
 ----
 Name - <Name for webhook>
@@ -799,11 +824,11 @@ Access Token - <For this, you need to create a Github access token with permissi
 
 - Create a new token as follows.
 
-image::sb_lab1_webhook_settings_access_token_create.png[align="center"]
+image::sb_lab1_webhook_settings_access_token_create.png[]
 
 - You can also use an existing token if it is already created.
 
-image::sb_lab1_webhook_settings_access_token_existing.png[align="center"]
+image::sb_lab1_webhook_settings_access_token_existing.png[]
 
 === Set up the pipeline
 
@@ -816,11 +841,11 @@ Service account - kabaner-operator
 Docker Registry - docker-registry.default.svc:5000/<your_project>
 ----
 
-image::sb_lab1_pipeline_settings.png[align="center"]
+image::sb_lab1_pipeline_settings.png[]
 
 - Click Create, a new webhook is created.
 
-image::sb_lab1_webhook.png[align="center"]
+image::sb_lab1_webhook.png[]
 
 Also, a new Gitub webhook is created on the project repository.
 
@@ -840,7 +865,7 @@ Let us change the `title` from `Hello from Appsody!` to `Hello from Cloud Paks !
 
 - This will trigger the Tekton Pipeline. To see the status of the Pipeline click on `PipelineRuns` on the menu of the dashboard.
 
-image::sb_lab1_pipeline_runs.png[align="center"]
+image::sb_lab1_pipeline_runs.png[]
 
 - When the application is built and deployed the application will be available via the expose `Route`.
 
@@ -848,7 +873,7 @@ image::sb_lab1_pipeline_runs.png[align="center"]
 
 You will see a route for your application, click on the url to open your application.
 
-image::sb_lab1_application_route.png[align="center"]
+image::sb_lab1_application_route.png[]
 
 - Or you can also get the route from the oc CLI.
 
