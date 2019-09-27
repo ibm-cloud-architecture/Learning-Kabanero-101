@@ -1,18 +1,9 @@
 = Appsody - Create a Stack
-Bryan Kribbs <bakribbs@us.ibm.com>
-v1.0, 2019-09-24
 :toc:
 
 == Prerequisites
 
-* https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift Cluster]
-** Install Appsody Operator that watches on all namespaces https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0
-* Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac], https://docs.docker.com/docker-for-windows/install/[Windows]
-* The following command line (CLI) tools and configured:
-** docker - It comes with the Docker for Desktop installation.
-** https://www.okd.io/download.html[oc]
-** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
-** https://appsody.dev/docs/getting-started/installation[appsody]
+include::common/prerequisites.adoc[]
 
 == Getting Started
 
@@ -20,29 +11,25 @@ First we need to clone the stacks repository provided by appsody.
 
 ----
 git clone https://github.com/appsody/stacks.git
-cd stacks/samples/sample-stack
+cd stacks
 ----
 
-The stacks repository provides us with the basic structure for a stack.
+The stacks repository provides us with all the stacks provided by Appsody as well as a sample stack in the `/samples/sample-stack` directory.  The `sample stack` directory gives us the basic skeleton for starting a stack from scratch.
 
-== Stack Structure
+== Modifiying a Stack's Template Code
 
-The structure of a stack repository is relative simple.  There is a `image` directory which holds everything that is needed for the stack's image to run. A `templates` directory which contains the different templates for the stack and each template has it's own directory. Finally there is a `README.md` and `stack.yaml` file in the parent directory. The `README.md` is for basic information about the stack and the `stack.yaml` provides information to appsody about the stack.
+For this walkthrough however we are going to modify one of the existing stacks templates.  In this case we are going to modify the `nodejs-express` stack's `simple` template.  We are going to modify the `app.js` and the `README.md` files.
 
-### Appsody Stack Directory Layout
+Let's start by navigating to the `nodejs-express simple template` directory.
 
-    .
-    ├── /image                
-        ├── /config           
-        ├── /project
-            ├── /test            
-        ├── dockerfile-stack   
-        ├── LICENSE
-    ├── /templates            
-        ├── <Name of Template 1> 
-        ├── <Name of Template 2> 
-    ├── Stack.yaml
-    └── README.md
+----
+cd incubator/nodejs-express/templates/simple
+----
 
+Now we can copy the simple template into a new directory, to create a new template.
 
-== C
+----
+cp 
+----
+
+== Building and Testing the Stack
