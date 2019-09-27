@@ -65,8 +65,34 @@ Save the file and thats it for the changes for the template.
 
 == Building the Stack
 
-Now it's time to add the new template into the stack. To do that we need to first zip up the template into a `tar.gz` file.
+Now it's time to add the new template into the stack. All we need to do is run the following command to start the build process. 
 
+[source, bash]
+----
+./ci/build.sh . incubator/nodejs-express
+----
+
+[IMPORTANT]
+.Build Errors
+====
+
+----
+If you run into the following error:
+
+> appsody run -P --name nodejs-express-simple
+simple-sample
+skaffold
+
+Waiting for container to start
+grep: simple-sample: No such file or directory
+grep: skaffold: No such file or directory
+.grep: simple-sample: No such file or directory
+grep: skaffold: No such file or directory
+.grep: simple-sample: No such file or directory
+grep: skaffold: No such file or directory
+----
+
+You can stop the build script with `control+c` and continue through the tutorial.
 
 == Adding the Repository to Appsody
 
@@ -79,7 +105,7 @@ First lets check to see what repositories are currently available.
 appsody list
 ----
 
-image::stack-appsody-list.png[align="center"]
+image::extend_stack_app_list.png[align="center"]
 
 Next we need to add the repository to the list by runnning:
 
@@ -89,7 +115,7 @@ appsody repo add custom-stack <URL to the Stack index.yaml>
 ----
 
 # Stack Add Code 
-image::stack-appsody-list.png[align="center"]
+image::extend_stack_app_code.png[align="center"]
 
 Verify that the addition of the stack was successful by re-running:
 
@@ -99,7 +125,7 @@ appsody list
 ----
 
 # Stack verified
-image::stack-appsody-list.png[align="center"]
+image::extend_stack_custom.png[align="center"]
 
 Now we are ready to run the application using your new template.
 
@@ -111,7 +137,7 @@ To run the application we need to create a new directory and create a new appsod
 ----
 mkdir custom-nodejs
 cd custom-nodejs
-appsody init custom-stack/nodejs-express simple/sample
+appsody init custom-stack/nodejs-express simple-sample
 ----
 
 A new application will be pulled and built into the new directory for you to be able to run.
@@ -123,7 +149,7 @@ Once the building is complete you can run the application with the following:
 appsody run
 ----
 
-A new instance of the application will start in a docker container and you can see your updated applcation code by navigating to http://localhost:9080/test in your web browser
+A new instance of the application will start in a docker container and you can see your updated applcation code by navigating to http://localhost:3000/test in your web browser
 
 
-image::appsody-running.png[align="center"]
+image::extend_stack_appsody_running.png[align="center"]
