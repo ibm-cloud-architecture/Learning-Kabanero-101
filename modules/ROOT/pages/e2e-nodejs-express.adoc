@@ -546,7 +546,7 @@ metadata:
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: appsody-sample-nodejs-express 
+  applicationImage: appsody-sample-nodejs-express
   stack: nodejs-express
   service:
     type: NodePort
@@ -771,9 +771,9 @@ appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-sa
 [source, bash]
 ----
 oc get route.serving.knative.dev/appsody-sample-nodejs-expres
-                                                         
+
 NAME                            URL                                                                                                                                            READY     REASON
-appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True 
+appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True
 ----
 
 - Show the Knative configuration
@@ -782,7 +782,7 @@ appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-sa
 oc get configuration.serving.knative.dev/appsody-sample-nodejs-express
 
 NAME                            LATESTCREATED                         LATESTREADY                           READY     REASON
-appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True 
+appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True
 ----
 
 - Show the Knative latest ready revision
@@ -791,7 +791,7 @@ appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sa
 oc get revision.serving.knative.dev/appsody-sample-nodejs-express-mtl4q
 
 NAME                                  SERVICE NAME                          GENERATION   READY     REASON
-appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   2            True   
+appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   2            True
 ----
 
 Visit the Knative public url `http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud` and list the pods
