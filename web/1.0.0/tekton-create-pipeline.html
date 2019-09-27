@@ -129,14 +129,879 @@
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_prerequisites">Prerequisites</a></li>
+<li><a href="#_prerequisites">Prerequisites</a>
+<ul class="sectlevel2">
+<li><a href="#_nodejs_express">Nodejs express</a></li>
+<li><a href="#_java_sprinboot">Java Sprinboot</a></li>
+</ul>
+</li>
+<li><a href="#_create_a_pipeline">Create a Pipeline</a></li>
+<li><a href="#_nodejs_express_2">Nodejs express</a>
+<ul class="sectlevel2">
+<li><a href="#_custom_task">Custom Task</a></li>
+<li><a href="#_custom_pipeline">Custom Pipeline</a></li>
+<li><a href="#_create_a_webhook">Create a webhook</a></li>
+<li><a href="#_verify_the_pipeline">Verify the pipeline</a></li>
+</ul>
+</li>
+<li><a href="#_java_springboot">Java Springboot</a>
+<ul class="sectlevel2">
+<li><a href="#_custom_task_2">Custom Task</a></li>
+<li><a href="#_custom_pipeline_2">Custom Pipeline</a></li>
+<li><a href="#_create_a_webhook_2">Create a webhook</a></li>
+<li><a href="#_verify_the_pipeline_2">Verify the pipeline</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="sect1">
 <h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_nodejs_express"><a class="anchor" href="#_nodejs_express"></a>Nodejs express</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>You need to create an appsody sample application and configure the tekton pipeline.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For instructions on how to create a nodejs express appsody sample, checkout <a href="e2e-nodejs-express.html#_create_a_new_application" class="page">Create a new appsody nodejs express application</a>.</p>
+</li>
+<li>
+<p>For instructions on how to deploy nodejs express application on openshift, checkout <a href="e2e-nodejs-express.html#_deploy_the_appsody_application_on_openshift_for_team_development" class="page">Deploy the appsody application on Openshift</a>.</p>
+</li>
+<li>
+<p>For instructions on how to access tekton pipeline, checkout <a href="e2e-nodejs-express.html#_accessing_tekton_dashboard" class="page">Accessing Tekton dashboard</a>.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_java_sprinboot"><a class="anchor" href="#_java_sprinboot"></a>Java Sprinboot</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>You need to create an appsody sample application and configure the tekton pipeline.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>For instructions on how to create a java springboot appsody sample, checkout <a href="e2e-java-spring-boot2.html#_create_a_new_application" class="page">Create a new appsody java springboot express application</a>.</p>
+</li>
+<li>
+<p>For instructions on how to deploy java springboot application on openshift, checkout <a href="e2e-java-spring-boot2.html#_deploy_the_appsody_application_on_openshift_for_team_development" class="page">Deploy the appsody application on Openshift</a>.</p>
+</li>
+<li>
+<p>For instructions on how to access tekton pipeline, checkout <a href="e2e-java-spring-boot2.html#_accessing_tekton_dashboard" class="page">Accessing Tekton dashboard</a>.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_a_pipeline"><a class="anchor" href="#_create_a_pipeline"></a>Create a Pipeline</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>TODO</p>
+<p>With kabanero, every collection comes with a default <code>build task</code>, <code>deploy task</code> and <code>build deploy pipeline</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Run this command to see the available pipelines.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pipeline</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You will see something similar to this.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline
+NAME                                           AGE
+java-microprofile-build-deploy-pipeline        15d
+java-spring-boot2-build-deploy-pipeline        15d
+nodejs-build-deploy-pipeline                   15d
+nodejs-express-build-deploy-pipeline           15d
+nodejs-loopback-build-deploy-pipeline          15d
+pipeline0                                      15d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also access them on the tekton dashboard.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_lab1_tekton_home.png" alt="sb lab1 tekton home">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To see the available tasks, use this command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get task</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You will see something similar to this.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task
+NAME                             AGE
+collections-build-task           13d
+java-microprofile-build-task     15d
+java-microprofile-deploy-task    15d
+java-spring-boot2-build-task     15d
+java-spring-boot2-deploy-task    15d
+monitor-result-task              15d
+nodejs-build-task                15d
+nodejs-deploy-task               15d
+nodejs-express-build-task        15d
+nodejs-express-deploy-task       15d
+nodejs-loopback-build-task       15d
+nodejs-loopback-deploy-task      15d
+pipeline0-task                   15d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let us now see how to define more tasks or create new pipelines for appsody sample applications.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nodejs_express_2"><a class="anchor" href="#_nodejs_express_2"></a>Nodejs express</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before defining a new task or pipeline, make sure, you do the following steps.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a Nodejs express appsody sample application.</p>
+</li>
+<li>
+<p>Push the code to a github repo.</p>
+</li>
+<li>
+<p>Create a github access token.</p>
+</li>
+<li>
+<p>Access tekton dashboard.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you did not perform any of the above steps, go to the links provided in the prerequisites.</p>
+</div>
+<div class="sect2">
+<h3 id="_custom_task"><a class="anchor" href="#_custom_task"></a>Custom Task</h3>
+<div class="paragraph">
+<p>Let us include <code>npm test</code> as one of the steps in our new task along with the ones that come by default.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In this task, we are adding the below step additionally to the ones that come by default.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: npm-test
+  securityContext:
+    privileged: true
+  image: kabanero/nodejs-express:0.2
+  command: ["/bin/bash","-c","cd extracted/user-app &amp;&amp; ls &amp;&amp; npm install --prefix user-app &amp;&amp; npm install -g mocha &amp;&amp; cd .. &amp;&amp; npm test &amp;&amp; npm test --prefix user-app"]
+  env:
+    - name: gitsource
+      value: git-source
+  volumeMounts:
+    - mountPath: /var/lib/containers
+      name: varlibcontainers</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To do this, create <code>test-build-task.yaml</code> as follows.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: nodejs-express-test-build-task
+spec:
+  inputs:
+    resources:
+      - name: git-source
+        type: git
+    params:
+      - name: pathToDockerFile
+        default: /workspace/extracted/Dockerfile
+      - name: pathToContext
+        default: /workspace/extracted
+  outputs:
+    resources:
+      - name: docker-image
+        type: image
+  steps:
+    - name: assemble-extract
+      securityContext:
+        privileged: true
+      image: appsody/appsody-buildah
+      command: ["/bin/bash"]
+      args:
+        - -c
+        - "/extract.sh"
+      env:
+        - name: gitsource
+          value: git-source
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+    - name: npm-test
+      securityContext:
+        privileged: true
+      image: kabanero/nodejs-express:0.2
+      command: ["/bin/bash","-c","cd extracted/user-app &amp;&amp; ls &amp;&amp; npm install --prefix user-app &amp;&amp; npm install -g mocha &amp;&amp; cd .. &amp;&amp; npm test &amp;&amp; npm test --prefix user-app"]
+      env:
+        - name: gitsource
+          value: git-source
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+    - name: build-bud
+      securityContext:
+        privileged: true
+      image: appsody/appsody-buildah
+      command: ['buildah', 'bud', '--tls-verify=false', '--format=docker', '-f', '${inputs.params.pathToDockerFile}', '-t', '${outputs.resources.docker-image.url}', '${inputs.params.pathToContext}']
+      env:
+        - name: gitsource
+          value: git-source
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+    - name: build-push
+      securityContext:
+        privileged: true
+      image: appsody/appsody-buildah
+      command: ['buildah', 'push', '--tls-verify=false', '${outputs.resources.docker-image.url}', 'docker://${outputs.resources.docker-image.url}']
+      env:
+        - name: gitsource
+          value: git-source
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+  volumes:
+    - name: varlibcontainers
+      emptyDir: {}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once you create this yaml, create a task in <code>kabanero</code> namespace as follows.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f test-build-task.yaml -n kabanero</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once you created it successfully, you will see something like below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc create -f test-build-task.yaml -n kabanero
+task.tekton.dev/nodejs-express-test-build-task created</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify it by using the below command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task
+NAME                             AGE
+collections-build-task           13d
+java-microprofile-build-task     15d
+java-microprofile-deploy-task    15d
+java-spring-boot2-build-task     15d
+java-spring-boot2-deploy-task    15d
+monitor-result-task              15d
+nodejs-build-task                15d
+nodejs-deploy-task               15d
+nodejs-express-build-task        15d
+nodejs-express-deploy-task       15d
+nodejs-express-test-build-task   1h
+nodejs-loopback-build-task       15d
+nodejs-loopback-deploy-task      15d
+pipeline0-task                   15d</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_custom_pipeline"><a class="anchor" href="#_custom_pipeline"></a>Custom Pipeline</h3>
+<div class="paragraph">
+<p>Let us now create a new pipeline that includes the task we created earlier. We are replacing the default <code>build task</code> with the previous task in the new pipeline.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create <code>nodejs-express-test-build-deploy-pipeline.yaml</code> as follows.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: nodejs-express-test-build-deploy-pipeline
+spec:
+  resources:
+    - name: git-source
+      type: git
+    - name: docker-image
+      type: image
+  tasks:
+    - name: nodejs-express-test-build-task
+      taskRef:
+        name: nodejs-express-test-build-task
+      resources:
+        inputs:
+        - name: git-source
+          resource: git-source
+        outputs:
+        - name: docker-image
+          resource: docker-image
+    - name: deploy-task
+      taskRef:
+        name: nodejs-express-deploy-task
+      runAfter: [nodejs-express-test-build-task]
+      resources:
+        inputs:
+        - name: git-source
+          resource: git-source
+        - name: docker-image
+          resource: docker-image</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once you create this yaml, create a new pipeline in <code>kabanero</code> namespace as follows.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f nodejs-express-test-build-deploy-pipeline.yaml -n kabanero</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once you created it successfully, you will see something like below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc create -f nodejs-express-test-build-deploy-pipeline.yaml -n kabanero
+pipeline.tekton.dev/nodejs-express-test-build-deploy-pipeline created</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify it by using the below command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline
+NAME                                           AGE
+java-microprofile-build-deploy-pipeline        15d
+java-spring-boot2-build-deploy-pipeline        15d
+nodejs-build-deploy-pipeline                   15d
+nodejs-express-build-deploy-pipeline           15d
+nodejs-express-test-build-deploy-pipeline      1h
+nodejs-loopback-build-deploy-pipeline          15d
+pipeline0                                      15d</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_webhook"><a class="anchor" href="#_create_a_webhook"></a>Create a webhook</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Access the tekton dashboard and now you should be able to see the new pipeline in the list.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_tekton_home.png" alt="sb custom pipeline tekton home">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Configure the github webhook to your repo. Go to <code>Webhooks</code> &gt; <code>Add Webhook</code> and then create the webhook.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_tekton_webhook.png" alt="sb custom pipeline tekton webhook">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify if it is created successfully.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_tekton_webhooks.png" alt="sb custom pipeline tekton webhooks">
+</div>
+</div>
+<div class="paragraph">
+<p>For more detailed instructions on how to create webhook, refer <a href="e2e-nodejs-express.html#_create_tekton_webhook_for_git_repo" class="page">Create Tekton webhook for git repo</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verify_the_pipeline"><a class="anchor" href="#_verify_the_pipeline"></a>Verify the pipeline</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Make any changes to your app and push it to github.</p>
+</li>
+<li>
+<p>This will trigger the tekton pipleine.</p>
+</li>
+<li>
+<p>Go to the tekton dashboard and access the new pipeline we created.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_tekton_home.png" alt="sb custom pipeline tekton home">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Wait till the task is completed and then click on the Pipeline Run.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_tekton_pipeline_run.png" alt="sb custom pipeline tekton pipeline run">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once the tasks are all completed, you will see something like below.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_tekton_pipeline_run_tasks.png" alt="sb custom pipeline tekton pipeline run tasks">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_java_springboot"><a class="anchor" href="#_java_springboot"></a>Java Springboot</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before defining a new task or pipeline, make sure, you do the following steps.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a java springboot appsody sample application.</p>
+</li>
+<li>
+<p>Push the code to a github repo.</p>
+</li>
+<li>
+<p>Create a github access token.</p>
+</li>
+<li>
+<p>Access tekton dashboard.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you did not perform any of the above steps, go to the links provided in the prerequisites.</p>
+</div>
+<div class="sect2">
+<h3 id="_custom_task_2"><a class="anchor" href="#_custom_task_2"></a>Custom Task</h3>
+<div class="paragraph">
+<p>Let us include <code>mvn test</code> as one of the steps in our new task along with the ones that come by default.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In this task, we are adding the below step additionally to the ones that come by default.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: mvn-test
+  securityContext:
+    privileged: true
+  image: kabanero/java-spring-boot2:0.3
+  command: ["/bin/bash","-c","cd extracted &amp;&amp; mvn test -f appsody-boot2-pom.xml"]
+  env:
+    - name: gitsource
+      value: git-source
+  volumeMounts:
+    - mountPath: /var/lib/containers
+      name: varlibcontainers</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To do this, create <code>test-build-task.yaml</code> as follows.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: java-spring-boot2-test-build-task
+spec:
+  inputs:
+    resources:
+      - name: git-source
+        type: git
+    params:
+      - name: pathToDockerFile
+        default: /workspace/extracted/Dockerfile
+      - name: pathToContext
+        default: /workspace/extracted
+  outputs:
+    resources:
+      - name: docker-image
+        type: image
+  steps:
+    - name: assemble-extract
+      securityContext:
+        privileged: true
+      image: appsody/appsody-buildah
+      command: ["/bin/bash"]
+      args:
+        - -c
+        - "/extract.sh"
+      env:
+        - name: gitsource
+          value: git-source
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+    - name: mvn-test
+      securityContext:
+        privileged: true
+      image: kabanero/java-spring-boot2:0.3
+      command: ["/bin/bash","-c","cd extracted &amp;&amp; mvn test -f appsody-boot2-pom.xml"]
+      env:
+        - name: gitsource
+          value: git-source
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+    - name: build-bud
+      securityContext:
+        privileged: true
+      image: appsody/appsody-buildah
+      command: ['buildah', 'bud', '--tls-verify=false', '--format=docker', '-f', '${inputs.params.pathToDockerFile}', '-t', '${outputs.resources.docker-image.url}', '${inputs.params.pathToContext}']
+      env:
+        - name: gitsource
+          value: git-source
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+    - name: build-push
+      securityContext:
+        privileged: true
+      image: appsody/appsody-buildah
+      command: ['buildah', 'push', '--tls-verify=false', '${outputs.resources.docker-image.url}', 'docker://${outputs.resources.docker-image.url}']
+      env:
+        - name: gitsource
+          value: git-source
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+  volumes:
+    - name: varlibcontainers
+      emptyDir: {}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once you create this yaml, create a task in <code>kabanero</code> namespace as follows.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f test-build-task.yaml -n kabanero</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once you created it successfully, you will see something like below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc create -f test-build-task.yaml -n kabanero
+task.tekton.dev/java-spring-boot2-test-build-task created</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify it by using the below command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task
+NAME                                AGE
+collections-build-task              13d
+java-microprofile-build-task        15d
+java-microprofile-deploy-task       15d
+java-spring-boot2-build-task        15d
+java-spring-boot2-deploy-task       15d
+java-spring-boot2-test-build-task   9m
+monitor-result-task                 15d
+nodejs-build-task                   15d
+nodejs-deploy-task                  15d
+nodejs-express-build-task           15d
+nodejs-express-deploy-task          15d
+nodejs-express-test-build-task      2h
+nodejs-loopback-build-task          15d
+nodejs-loopback-deploy-task         15d
+pipeline0-task                      15d</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_custom_pipeline_2"><a class="anchor" href="#_custom_pipeline_2"></a>Custom Pipeline</h3>
+<div class="paragraph">
+<p>Let us now create a new pipeline that includes the task we created earlier. We are replacing the default <code>build task</code> with the previous task in the new pipeline.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create <code>java-spring-boot2-build-deploy-pipeline.yaml</code> as follows.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: java-spring-boot2-test-build-deploy-pipeline
+spec:
+  resources:
+    - name: git-source
+      type: git
+    - name: docker-image
+      type: image
+  tasks:
+    - name: java-spring-boot2-test-build-task
+      taskRef:
+        name: java-spring-boot2-test-build-task
+      resources:
+        inputs:
+        - name: git-source
+          resource: git-source
+        outputs:
+        - name: docker-image
+          resource: docker-image
+    - name: deploy-task
+      taskRef:
+        name: java-spring-boot2-deploy-task
+      runAfter: [java-spring-boot2-test-build-task]
+      resources:
+        inputs:
+        - name: git-source
+          resource: git-source
+        - name: docker-image
+          resource: docker-image</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Once you create this yaml, create a new pipeline in <code>kabanero</code> namespace as follows.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f java-spring-boot2-build-deploy-pipeline.yaml -n kabanero</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once you created it successfully, you will see something like below.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc create -f java-spring-boot2-build-deploy-pipeline.yaml -n kabanero
+pipeline.tekton.dev/java-spring-boot2-test-build-deploy-pipeline created</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify it by using the below command.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline
+NAME                                           AGE
+java-microprofile-build-deploy-pipeline        15d
+java-spring-boot2-build-deploy-pipeline        15d
+java-spring-boot2-test-build-deploy-pipeline   37m
+nodejs-build-deploy-pipeline                   15d
+nodejs-express-build-deploy-pipeline           15d
+nodejs-express-test-build-deploy-pipeline      2h
+nodejs-loopback-build-deploy-pipeline          15d
+pipeline0                                      15d</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_webhook_2"><a class="anchor" href="#_create_a_webhook_2"></a>Create a webhook</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Access the tekton dashboard and now you should be able to see the new pipeline in the list.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_tekton_java_sb2.png" alt="sb custom pipeline tekton java sb2">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Configure the github webhook to your repo. Go to <code>Webhooks</code> &gt; <code>Add Webhook</code> and then create the webhook.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_tekton_webhook_java_sb2.png" alt="sb custom pipeline tekton webhook java sb2">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify if it is created successfully.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_tekton_webhooks_java_sb2.png" alt="sb custom pipeline tekton webhooks java sb2">
+</div>
+</div>
+<div class="paragraph">
+<p>For more detailed instructions on how to create webhook, refer <a href="e2e-java-spring-boot2.html#_create_tekton_webhook_for_git_repo" class="page">Create Tekton webhook for git repo</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_verify_the_pipeline_2"><a class="anchor" href="#_verify_the_pipeline_2"></a>Verify the pipeline</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Make any changes to your app and push it to github.</p>
+</li>
+<li>
+<p>This will trigger the tekton pipleine.</p>
+</li>
+<li>
+<p>Go to the tekton dashboard and access the new pipeline we created.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_tekton_java_sb2.png" alt="sb custom pipeline tekton java sb2">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Wait till the task is completed and then click on the Pipeline Run.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/sb_custom_pipeline_task_java_sb2.png" alt="sb custom pipeline task java sb2">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For java-spring-boot2, <code>mvn test</code> only works on the pom defined for stack and it fails on the application pom. The issue is tracked <a href="https://github.com/kabanero-io/collections/issues/96">here</a>.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
