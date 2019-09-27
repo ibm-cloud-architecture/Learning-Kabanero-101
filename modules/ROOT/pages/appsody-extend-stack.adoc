@@ -113,10 +113,9 @@ Next we need to add the repository to the list by runnning:
 
 [source, bash]
 ----
-appsody repo add custom-stack <URL to the Stack index.yaml>
+appsody repo add custom-stack <URL to the Stack incubator-index-local.yaml>
 ----
 
-# Stack Add Code 
 image::extend_stack_app_code.png[align="center"]
 
 Verify that the addition of the stack was successful by re-running:
@@ -126,10 +125,9 @@ Verify that the addition of the stack was successful by re-running:
 appsody list
 ----
 
-# Stack verified
 image::extend_stack_custom.png[align="center"]
 
-Now we are ready to run the application using your new template.
+Now we are ready to run the application using the new template.
 
 == Running the Application
 
