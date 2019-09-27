@@ -25,7 +25,7 @@ Let's start by navigating to the `nodejs-express simple template` directory.
 
 [source, bash]
 ----
-cd incubator/nodejs-express/templates/simple
+cd incubator/nodejs-express/templates
 ----
 
 Now we can copy the simple template into a new directory, to create a new template.
@@ -61,7 +61,7 @@ Next, add some content to `README` file. Copy and paste the following into the `
 This template uses Node.js with express.
 ----
 
-Save the file and thats it for the changes.
+Save the file and thats it for the changes for the template.
 
 == Building the Stack
 
