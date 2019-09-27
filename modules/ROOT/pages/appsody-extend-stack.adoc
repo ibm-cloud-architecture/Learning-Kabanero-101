@@ -9,6 +9,7 @@ include::common/prerequisites.adoc[]
 
 First we need to clone the stacks repository provided by appsody.
 
+[source, bash]
 ----
 git clone https://github.com/appsody/stacks.git
 cd stacks
@@ -22,14 +23,46 @@ For this walkthrough however we are going to modify one of the existing stacks t
 
 Let's start by navigating to the `nodejs-express simple template` directory.
 
+[source, bash]
 ----
 cd incubator/nodejs-express/templates/simple
 ----
 
 Now we can copy the simple template into a new directory, to create a new template.
 
+[source, bash]
 ----
-cp 
+cp -r simple/ simple-sample
+cd simple-sample
 ----
 
-== Building and Testing the Stack
+Once in the simple-sample directory. Open the `App.js` file and add the following code to create a new endpoint for the application.
+
+[source, node]
+----
+app.get('/test', (req, res) => {
+  res.send("Testing a new Template in Appsody!!");
+});
+----
+
+Save the file and now we need to create a `README` file.
+
+[source, bash]
+----
+touch README.md
+----
+
+Next, add some content to `README` file. Copy and paste the following into the `README`.
+
+[source, markdown]
+----
+# Simple-Sample Template
+
+This template uses Node.js with express.
+----
+
+Save the file and thats it for the changes.
+
+== Building the Stack
+
+Now it's time to add the new template into the stack. To do that we need to first zip up the template into a `tar.gz` file.
