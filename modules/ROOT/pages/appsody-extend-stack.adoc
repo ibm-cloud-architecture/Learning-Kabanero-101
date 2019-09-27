@@ -1,7 +1,155 @@
-= Appsody - Create a Stack
+= Appsody - Extending a Stack with Templates
 :toc:
-:imagesdir: images
 
 == Prerequisites
 
-TODO
+include::common/prerequisites.adoc[]
+
+== Getting Started
+
+First we need to clone the stacks repository provided by appsody.
+
+[source, bash]
+----
+git clone https://github.com/appsody/stacks.git
+cd stacks
+----
+
+The stacks repository provides us with all the stacks provided by Appsody as well as a sample stack in the `/samples/sample-stack` directory.  The `sample stack` directory gives us the basic skeleton for starting a stack from scratch.
+
+== Creating a New Stack Template
+
+For this walkthrough however we are going to create a new stack template based on an existing template.  In this case we are going to modify the `nodejs-express` stack's `simple` template.  We are going to modify the `app.js` and the `README.md` files.
+
+Let's start by navigating to the `nodejs-express simple template` directory.
+
+[source, bash]
+----
+cd incubator/nodejs-express/templates
+----
+
+Now we can copy the simple template into a new directory, to create a new template.
+
+[source, bash]
+----
+cp -r simple/ simple-sample
+cd simple-sample
+----
+
+Once in the simple-sample directory. Open the `App.js` file and add the following code to create a new endpoint for the application.
+
+[source, node]
+----
+app.get('/test', (req, res) => {
+  res.send("Testing a new Template in Appsody!!");
+});
+----
+
+Save the file and now we need to create a `README` file.
+
+[source, bash]
+----
+touch README.md
+----
+
+Next, add some content to `README` file. Copy and paste the following into the `README`.
+
+[source, markdown]
+----
+# Simple-Sample Template
+
+This template uses Node.js with express.
+----
+
+Save the file and thats it for the changes for the template.
+
+== Building the Stack
+
+Now it's time to add the new template into the stack. All we need to do is run the following command to start the build process. 
+
+[source, bash]
+----
+./ci/build.sh . incubator/nodejs-express
+----
+
+[IMPORTANT]
+.Build Errors
+====
+
+----
+If you run into the following error:
+
+> appsody run -P --name nodejs-express-simple
+simple-sample
+skaffold
+
+Waiting for container to start
+grep: simple-sample: No such file or directory
+grep: skaffold: No such file or directory
+.grep: simple-sample: No such file or directory
+grep: skaffold: No such file or directory
+.grep: simple-sample: No such file or directory
+grep: skaffold: No such file or directory
+----
+
+You can stop the build script with `control+c` and continue through the tutorial.
+
+====
+
+== Adding the Repository to Appsody
+
+Once the building of the new template is completed, we need to add the custom repository to appsody for it to run.
+
+First lets check to see what repositories are currently available.
+
+[source, bash]
+----
+appsody list
+----
+
+image::extend_stack_app_list.png[align="center"]
+
+Next we need to add the repository to the list by runnning:
+
+[source, bash]
+----
+appsody repo add custom-stack <URL to the Stack incubator-index-local.yaml>
+----
+
+image::extend_stack_app_code.png[align="center"]
+
+Verify that the addition of the stack was successful by re-running:
+
+[source, bash]
+----
+appsody list
+----
+
+image::extend_stack_custom.png[align="center"]
+
+Now we are ready to run the application using the new template.
+
+== Running the Application
+
+To run the application we need to create a new directory and create a new appsody application inside it using the custom template.
+
+[source, bash]
+----
+mkdir custom-nodejs
+cd custom-nodejs
+appsody init custom-stack/nodejs-express simple-sample
+----
+
+A new application will be pulled and built into the new directory for you to be able to run.
+
+Once the building is complete you can run the application with the following:
+
+[source, bash]
+----
+appsody run
+----
+
+A new instance of the application will start in a docker container and you can see your updated applcation code by navigating to http://localhost:3000/test in your web browser
+
+
+image::extend_stack_appsody_running.png[align="center"]
