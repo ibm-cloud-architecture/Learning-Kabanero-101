@@ -3,7 +3,9 @@
 
 == Prerequisites
 
-include::common/prerequisites.adoc[]
+* The following command line (CLI) tools and configured:
+** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
+** https://appsody.dev/docs/getting-started/installation[appsody]
 
 == Getting Started
 
@@ -11,11 +13,12 @@ First we need to clone the stacks repository provided by appsody.
 
 [source, bash]
 ----
-git clone https://github.com/appsody/stacks.git
-cd stacks
+git clone https://github.com/kabanero-io/collections.git
+cd collections
+git checkout v0.1.2
 ----
 
-The stacks repository provides us with all the stacks provided by Appsody as well as a sample stack in the `/samples/sample-stack` directory.  The `sample stack` directory gives us the basic skeleton for starting a stack from scratch.
+The stacks repository provides us with all the stacks provided by Appsody as well as a sample stack in the `samples/sample-stack` directory.  The `sample stack` directory gives us the basic skeleton for starting a stack from scratch.
 
 == Creating a New Stack Template
 
@@ -25,7 +28,7 @@ Let's start by navigating to the `nodejs-express simple template` directory.
 
 [source, bash]
 ----
-cd incubator/nodejs-express/templates
+pushd incubator/nodejs-express/templates
 ----
 
 Now we can copy the simple template into a new directory, to create a new template.
@@ -36,7 +39,7 @@ cp -r simple/ simple-sample
 cd simple-sample
 ----
 
-Once in the simple-sample directory. Open the `App.js` file and add the following code to create a new endpoint for the application.
+Once in the simple-sample directory. Open the `simple-sample/app.js` file and add the following code to create a new endpoint for the application.
 
 [source, node]
 ----
@@ -45,14 +48,14 @@ app.get('/test', (req, res) => {
 });
 ----
 
-Save the file and now we need to create a `README` file.
+Save the file and now we need to create a `simple-sample/README` file.
 
 [source, bash]
 ----
-touch README.md
+touch simple-sample/README.md
 ----
 
-Next, add some content to `README` file. Copy and paste the following into the `README`.
+Next, add some content to `/simple-sample/README.md` file. Copy and paste the following into the `simple-sample/README.md`.
 
 [source, markdown]
 ----
@@ -63,71 +66,59 @@ This template uses Node.js with express.
 
 Save the file and thats it for the changes for the template.
 
-== Building the Stack
-
-Now it's time to add the new template into the stack. All we need to do is run the following command to start the build process. 
+Return to the root of the project
 
 [source, bash]
 ----
-./ci/build.sh . incubator/nodejs-express
+popd
 ----
 
-[IMPORTANT]
-.Build Errors
-====
 
+== Building the Stack
+
+Now it's time to add the new template into the stack. All we need to do is run the following command to start the package process. 
+
+[source, bash]
 ----
-If you run into the following error:
-
-> appsody run -P --name nodejs-express-simple
-simple-sample
-skaffold
-
-Waiting for container to start
-grep: simple-sample: No such file or directory
-grep: skaffold: No such file or directory
-.grep: simple-sample: No such file or directory
-grep: skaffold: No such file or directory
-.grep: simple-sample: No such file or directory
-grep: skaffold: No such file or directory
+STACKS_LIST=incubator/nodejs-express ./ci/package.sh
 ----
 
-You can stop the build script with `control+c` and continue through the tutorial.
+You should see at the end of the build process success messages
+[source, bash]
+----
+Successfully built ccc85e795e33
+Successfully tagged appsody/appsody-index:latest
+Successfully tagged appsody/appsody-index:SNAPSHOT
+created appsody/appsody-index:SNAPSHOT
+----
 
-====
 
 == Adding the Repository to Appsody
 
 Once the building of the new template is completed, we need to add the custom repository to appsody for it to run.
 
-First lets check to see what repositories are currently available.
-
-[source, bash]
-----
-appsody list
-----
-
-image::extend_stack_app_list.png[align="center"]
-
-Next we need to add the repository to the list by runnning:
+Add the repository to the list by runnning:
 
 [source, bash]
 ----
 appsody repo add custom-stack <URL to the Stack incubator-index-local.yaml>
 ----
 
-image::extend_stack_app_code.png[align="center"]
+Use the full qualified directory path to the file `incubator-index-local.yaml`
+[source, bash]
+----
+appsody repo add custom-stack file://${PWD}/ci/assets/incubator-index-local.yaml
+----
 
-Verify that the addition of the stack was successful by re-running:
+Verify that the new template `simple` for the stack `nodejs-express` using the repository `custom-stack` is available:
 
 [source, bash]
 ----
-appsody list
+appsody list custom-stack                                                       
+
+REPO            ID              VERSION         TEMPLATES                               DESCRIPTION                      
+custom-stack    nodejs-express  0.2.6           *simple, simple-sample, skaffold        Express web framework for Node.js
 ----
-
-image::extend_stack_custom.png[align="center"]
-
-Now we are ready to run the application using the new template.
 
 == Running the Application
 
@@ -140,7 +131,7 @@ cd custom-nodejs
 appsody init custom-stack/nodejs-express simple-sample
 ----
 
-A new application will be pulled and built into the new directory for you to be able to run.
+A new application is initialized into the new directory for you to be able to run.
 
 Once the building is complete you can run the application with the following:
 
