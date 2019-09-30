@@ -107,7 +107,7 @@ Let us include `npm test` as one of the steps in our new task along with the one
   securityContext:
     privileged: true
   image: kabanero/nodejs-express:0.2
-  command: ["/bin/bash","-c","cd extracted/user-app && ls && npm install --prefix user-app && npm install -g mocha && cd .. && npm test && npm test --prefix user-app"]
+  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext}/user-app && ls && npm install --prefix user-app && npm install -g mocha && cd .. && npm test && npm test --prefix user-app"]
   env:
     - name: gitsource
       value: git-source
@@ -160,7 +160,7 @@ spec:
       securityContext:
         privileged: true
       image: kabanero/nodejs-express:0.2
-      command: ["/bin/bash","-c","cd extracted/user-app && ls && npm install --prefix user-app && npm install -g mocha && cd .. && npm test && npm test --prefix user-app"]
+      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext}/user-app && ls && npm install --prefix user-app && npm install -g mocha && cd .. && npm test && npm test --prefix user-app"]
       env:
         - name: gitsource
           value: git-source
@@ -342,7 +342,7 @@ Let us include `mvn test` as one of the steps in our new task along with the one
   securityContext:
     privileged: true
   image: kabanero/java-spring-boot2:0.3
-  command: ["/bin/bash","-c","cd extracted && mvn test -f appsody-boot2-pom.xml"]
+  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} && mvn test -f appsody-boot2-pom.xml"]
   env:
     - name: gitsource
       value: git-source
@@ -392,7 +392,7 @@ spec:
       securityContext:
         privileged: true
       image: kabanero/java-spring-boot2:0.3
-      command: ["/bin/bash","-c","cd extracted && mvn test -f appsody-boot2-pom.xml"]
+      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} && mvn test -f appsody-boot2-pom.xml"]
       env:
         - name: gitsource
           value: git-source
@@ -576,7 +576,7 @@ Let us include `mvn test` as one of the steps in our new task along with the one
   securityContext:
     privileged: true
   image: kabanero/java-microprofile:0.2
-  command: ["/bin/bash","-c","cd extracted && mvn test"]
+  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} && mvn test"]
   env:
     - name: gitsource
       value: git-source
@@ -626,7 +626,7 @@ spec:
       securityContext:
         privileged: true
       image: kabanero/java-microprofile:0.2
-      command: ["/bin/bash","-c","cd extracted && mvn test"]
+      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} && mvn test"]
       env:
         - name: gitsource
           value: git-source
