@@ -40,7 +40,7 @@ You will see something similar to this.
 
 [source, bash]
 ----
-$ oc get pipeline -kabanero
+$ oc get pipeline -n kabanero
 NAME                                           AGE
 java-microprofile-build-deploy-pipeline        15d
 java-spring-boot2-build-deploy-pipeline        15d
