@@ -18,7 +18,7 @@ cd collections
 git checkout v0.1.2
 ----
 
-The stacks repository provides us with all the stacks provided by Appsody as well as a sample stack in the `samples/sample-stack` directory.  The `sample stack` directory gives us the basic skeleton for starting a stack from scratch.
+The Kabanero Collections repository provides us with all the stacks provided by Appsody as well as a sample stack in the `samples/sample-stack` directory.  The `sample stack` directory gives us the basic skeleton for starting a stack from scratch.
 
 == Creating a New Stack Template
 
