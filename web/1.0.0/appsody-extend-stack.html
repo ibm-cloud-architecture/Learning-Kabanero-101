@@ -134,41 +134,9 @@
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://cloud.ibm.com/kubernetes/catalog/openshiftcluster">Openshift Cluster</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html">Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Tekton Operator and TekTon Dashboard</p>
-</li>
-<li>
-<p>Knative Operator</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Install Appsody Operator that watches on all namespaces <a href="https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0" class="bare">https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0</a></p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Docker for Desktop - <a href="https://docs.docker.com/docker-for-mac/install/">Mac</a>, <a href="https://docs.docker.com/docker-for-windows/install/">Windows</a></p>
-</li>
-<li>
 <p>The following command line (CLI) tools and configured:</p>
 <div class="ulist">
 <ul>
-<li>
-<p>docker - It comes with the Docker for Desktop installation.</p>
-</li>
-<li>
-<p><a href="https://www.okd.io/download.html">oc</a></p>
-</li>
 <li>
 <p><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a></p>
 </li>
@@ -190,12 +158,13 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone https://github.com/appsody/stacks.git
-cd stacks</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone https://github.com/kabanero-io/collections.git
+cd collections
+git checkout v0.1.2</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The stacks repository provides us with all the stacks provided by Appsody as well as a sample stack in the <code>/samples/sample-stack</code> directory.  The <code>sample stack</code> directory gives us the basic skeleton for starting a stack from scratch.</p>
+<p>The Kabanero Collections repository provides us with all the stacks provided by Appsody as well as a sample stack in the <code>samples/sample-stack</code> directory.  The <code>sample stack</code> directory gives us the basic skeleton for starting a stack from scratch.</p>
 </div>
 </div>
 </div>
@@ -210,7 +179,7 @@ cd stacks</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd incubator/nodejs-express/templates</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">pushd incubator/nodejs-express/templates</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -223,7 +192,7 @@ cd simple-sample</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Once in the simple-sample directory. Open the <code>App.js</code> file and add the following code to create a new endpoint for the application.</p>
+<p>Once in the simple-sample directory. Open the <code>simple-sample/app.js</code> file and add the following code to create a new endpoint for the application.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -233,15 +202,15 @@ cd simple-sample</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Save the file and now we need to create a <code>README</code> file.</p>
+<p>Save the file and now we need to create a <code>simple-sample/README</code> file.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">touch README.md</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">touch simple-sample/README.md</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Next, add some content to <code>README</code> file. Copy and paste the following into the <code>README</code>.</p>
+<p>Next, add some content to <code>/simple-sample/README.md</code> file. Copy and paste the following into the <code>simple-sample/README.md</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -253,50 +222,37 @@ This template uses Node.js with express.</code></pre>
 <div class="paragraph">
 <p>Save the file and thats it for the changes for the template.</p>
 </div>
+<div class="paragraph">
+<p>Return to the root of the project</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">popd</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_building_the_stack"><a class="anchor" href="#_building_the_stack"></a>Building the Stack</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Now it&#8217;s time to add the new template into the stack. All we need to do is run the following command to start the build process.</p>
+<p>Now it&#8217;s time to add the new template into the stack. All we need to do is run the following command to start the package process.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">./ci/build.sh . incubator/nodejs-express</code></pre>
-</div>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="title">Build Errors</div>
-<div class="listingblock">
-<div class="content">
-<pre>If you run into the following error:
-
-&gt; appsody run -P --name nodejs-express-simple
-simple-sample
-skaffold
-
-Waiting for container to start
-grep: simple-sample: No such file or directory
-grep: skaffold: No such file or directory
-.grep: simple-sample: No such file or directory
-grep: skaffold: No such file or directory
-.grep: simple-sample: No such file or directory
-grep: skaffold: No such file or directory</pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">STACKS_LIST=incubator/nodejs-express ./ci/package.sh</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You can stop the build script with <code>control+c</code> and continue through the tutorial.</p>
+<p>You should see at the end of the build process success messages</p>
 </div>
-</td>
-</tr>
-</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Successfully built ccc85e795e33
+Successfully tagged appsody/appsody-index:latest
+Successfully tagged appsody/appsody-index:SNAPSHOT
+created appsody/appsody-index:SNAPSHOT</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -307,46 +263,31 @@ grep: skaffold: No such file or directory</pre>
 <p>Once the building of the new template is completed, we need to add the custom repository to appsody for it to run.</p>
 </div>
 <div class="paragraph">
-<p>First lets check to see what repositories are currently available.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody list</code></pre>
-</div>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="_images/extend_stack_app_list.png" alt="extend stack app list">
-</div>
-</div>
-<div class="paragraph">
-<p>Next we need to add the repository to the list by runnning:</p>
+<p>Add the repository to the list by runnning:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo add custom-stack &lt;URL to the Stack incubator-index-local.yaml&gt;</code></pre>
 </div>
 </div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="_images/extend_stack_app_code.png" alt="extend stack app code">
-</div>
-</div>
 <div class="paragraph">
-<p>Verify that the addition of the stack was successful by re-running:</p>
+<p>Use the full qualified directory path to the file <code>incubator-index-local.yaml</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody list</code></pre>
-</div>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="_images/extend_stack_custom.png" alt="extend stack custom">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo add custom-stack file://${PWD}/ci/assets/incubator-index-local.yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Now we are ready to run the application using the new template.</p>
+<p>Verify that the new template <code>simple</code> for the stack <code>nodejs-express</code> using the repository <code>custom-stack</code> is available:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody list custom-stack
+
+REPO            ID              VERSION         TEMPLATES                               DESCRIPTION
+custom-stack    nodejs-express  0.2.6           *simple, simple-sample, skaffold        Express web framework for Node.js</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -364,7 +305,7 @@ appsody init custom-stack/nodejs-express simple-sample</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>A new application will be pulled and built into the new directory for you to be able to run.</p>
+<p>A new application is initialized into the new directory for you to be able to run.</p>
 </div>
 <div class="paragraph">
 <p>Once the building is complete you can run the application with the following:</p>
