@@ -9,6 +9,9 @@
 ** xref:codewind-setup-appsody.adoc[Configure CodeWind]
 ** xref:appsody-extend-stack.adoc[Extend Appsody Stack]
 ** xref:tekton-create-pipeline.adoc[Extend Tekton Pipeline]
+** xref:tekton-credentials-github.adoc[Configure Github Credentials]
+** xref:tekton-credentials-docker.adoc[Configure Docker Credentials]
+
 
 * External Resources
 ** https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md[Create Appsody Stack ↗^]
