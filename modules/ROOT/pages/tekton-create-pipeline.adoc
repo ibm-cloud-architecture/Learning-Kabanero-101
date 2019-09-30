@@ -33,14 +33,14 @@ With kabanero, every collection comes with a default `build task`, `deploy task`
 
 [source, bash]
 ----
-oc get pipeline
+oc get pipeline -n kabanero
 ----
 
 You will see something similar to this.
 
 [source, bash]
 ----
-$ oc get pipeline
+$ oc get pipeline -n kabanero
 NAME                                           AGE
 java-microprofile-build-deploy-pipeline        15d
 java-spring-boot2-build-deploy-pipeline        15d
@@ -58,14 +58,14 @@ image::sb_lab1_tekton_home.png[align="center"]
 
 [source, bash]
 ----
-oc get task
+oc get task -n kabanero
 ----
 
 You will see something similar to this.
 
 [source, bash]
 ----
-$ oc get task
+$ oc get task -n kabanero
 NAME                             AGE
 collections-build-task           13d
 java-microprofile-build-task     15d
@@ -107,7 +107,7 @@ Let us include `npm test` as one of the steps in our new task along with the one
   securityContext:
     privileged: true
   image: kabanero/nodejs-express:0.2
-  command: ["/bin/bash","-c","cd extracted/user-app && ls && npm install --prefix user-app && npm install -g mocha && cd .. && npm test && npm test --prefix user-app"]
+  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext}/user-app && ls && npm install --prefix user-app && npm install -g mocha && cd .. && npm test && npm test --prefix user-app"]
   env:
     - name: gitsource
       value: git-source
@@ -117,6 +117,9 @@ Let us include `npm test` as one of the steps in our new task along with the one
 ----
 
 - To do this, create `test-build-task.yaml` as follows.
+
+IMPORTANT:
+Do not name your task too long or you will get errors about Kubernetes resources has invalid names. Keep task and pipeline names less than 40 characters long.
 
 [source, yaml]
 ----
@@ -157,7 +160,7 @@ spec:
       securityContext:
         privileged: true
       image: kabanero/nodejs-express:0.2
-      command: ["/bin/bash","-c","cd extracted/user-app && ls && npm install --prefix user-app && npm install -g mocha && cd .. && npm test && npm test --prefix user-app"]
+      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext}/user-app && ls && npm install --prefix user-app && npm install -g mocha && cd .. && npm test && npm test --prefix user-app"]
       env:
         - name: gitsource
           value: git-source
@@ -210,22 +213,10 @@ task.tekton.dev/nodejs-express-test-build-task created
 
 [source, bash]
 ----
-$ oc get task
+$ oc get task -n kabanero
 NAME                             AGE
-collections-build-task           13d
-java-microprofile-build-task     15d
-java-microprofile-deploy-task    15d
-java-spring-boot2-build-task     15d
-java-spring-boot2-deploy-task    15d
-monitor-result-task              15d
-nodejs-build-task                15d
-nodejs-deploy-task               15d
-nodejs-express-build-task        15d
-nodejs-express-deploy-task       15d
 nodejs-express-test-build-task   1h
-nodejs-loopback-build-task       15d
-nodejs-loopback-deploy-task      15d
-pipeline0-task                   15d
+...
 ----
 
 === Custom Pipeline
@@ -288,15 +279,10 @@ pipeline.tekton.dev/nodejs-express-test-build-deploy-pipeline created
 
 [source, bash]
 ----
-$ oc get pipeline
+$ oc get pipeline  -n kabanero
 NAME                                           AGE
-java-microprofile-build-deploy-pipeline        15d
-java-spring-boot2-build-deploy-pipeline        15d
-nodejs-build-deploy-pipeline                   15d
-nodejs-express-build-deploy-pipeline           15d
 nodejs-express-test-build-deploy-pipeline      1h
-nodejs-loopback-build-deploy-pipeline          15d
-pipeline0                                      15d
+...
 ----
 
 === Create a webhook
@@ -356,7 +342,7 @@ Let us include `mvn test` as one of the steps in our new task along with the one
   securityContext:
     privileged: true
   image: kabanero/java-spring-boot2:0.3
-  command: ["/bin/bash","-c","cd extracted && mvn test -f appsody-boot2-pom.xml"]
+  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} && mvn test -f appsody-boot2-pom.xml"]
   env:
     - name: gitsource
       value: git-source
@@ -406,7 +392,7 @@ spec:
       securityContext:
         privileged: true
       image: kabanero/java-spring-boot2:0.3
-      command: ["/bin/bash","-c","cd extracted && mvn test -f appsody-boot2-pom.xml"]
+      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} && mvn test -f appsody-boot2-pom.xml"]
       env:
         - name: gitsource
           value: git-source
@@ -459,23 +445,9 @@ task.tekton.dev/java-spring-boot2-test-build-task created
 
 [source, bash]
 ----
-$ oc get task
+$ oc get task -n kabanero
 NAME                                AGE
-collections-build-task              13d
-java-microprofile-build-task        15d
-java-microprofile-deploy-task       15d
-java-spring-boot2-build-task        15d
-java-spring-boot2-deploy-task       15d
 java-spring-boot2-test-build-task   9m
-monitor-result-task                 15d
-nodejs-build-task                   15d
-nodejs-deploy-task                  15d
-nodejs-express-build-task           15d
-nodejs-express-deploy-task          15d
-nodejs-express-test-build-task      2h
-nodejs-loopback-build-task          15d
-nodejs-loopback-deploy-task         15d
-pipeline0-task                      15d
 ----
 
 === Custom Pipeline
@@ -538,16 +510,9 @@ pipeline.tekton.dev/java-spring-boot2-test-build-deploy-pipeline created
 
 [source, bash]
 ----
-$ oc get pipeline
+$ oc get pipeline -n kabanero
 NAME                                           AGE
-java-microprofile-build-deploy-pipeline        15d
-java-spring-boot2-build-deploy-pipeline        15d
 java-spring-boot2-test-build-deploy-pipeline   37m
-nodejs-build-deploy-pipeline                   15d
-nodejs-express-build-deploy-pipeline           15d
-nodejs-express-test-build-deploy-pipeline      2h
-nodejs-loopback-build-deploy-pipeline          15d
-pipeline0                                      15d
 ----
 
 === Create a webhook
@@ -611,7 +576,7 @@ Let us include `mvn test` as one of the steps in our new task along with the one
   securityContext:
     privileged: true
   image: kabanero/java-microprofile:0.2
-  command: ["/bin/bash","-c","cd extracted && mvn test"]
+  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} && mvn test"]
   env:
     - name: gitsource
       value: git-source
@@ -661,7 +626,7 @@ spec:
       securityContext:
         privileged: true
       image: kabanero/java-microprofile:0.2
-      command: ["/bin/bash","-c","cd extracted && mvn test"]
+      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} && mvn test"]
       env:
         - name: gitsource
           value: git-source
@@ -706,7 +671,7 @@ Once you created it successfully, you will see something like below.
 
 [source, bash]
 ----
-$ oc create -f test-build-task.yaml
+oc create -f test-build-task.yaml -n kabanero
 task.tekton.dev/java-microprofile-test-build-task created
 ----
 
@@ -714,24 +679,9 @@ task.tekton.dev/java-microprofile-test-build-task created
 
 [source, bash]
 ----
-$ oc get task
+oc get task -n kabanero
 NAME                                AGE
-collections-build-task              13d
-java-microprofile-build-task        16d
-java-microprofile-deploy-task       16d
 java-microprofile-test-build-task   23m
-java-spring-boot2-build-task        16d
-java-spring-boot2-deploy-task       16d
-java-spring-boot2-test-build-task   1h
-monitor-result-task                 16d
-nodejs-build-task                   16d
-nodejs-deploy-task                  16d
-nodejs-express-build-task           16d
-nodejs-express-deploy-task          16d
-nodejs-express-test-build-task      21h
-nodejs-loopback-build-task          16d
-nodejs-loopback-deploy-task         16d
-pipeline0-task                      16d
 ----
 
 === Custom Pipeline
@@ -794,17 +744,9 @@ pipeline.tekton.dev/java-microprofile-test-build-deploy-pipeline created
 
 [source, bash]
 ----
-$ oc get pipeline
+$ oc get pipeline -n kabanero
 NAME                                           AGE
-java-microprofile-build-deploy-pipeline        16d
 java-microprofile-test-build-deploy-pipeline   27m
-java-spring-boot2-build-deploy-pipeline        16d
-java-spring-boot2-test-build-deploy-pipeline   13h
-nodejs-build-deploy-pipeline                   16d
-nodejs-express-build-deploy-pipeline           16d
-nodejs-express-test-build-deploy-pipeline      21h
-nodejs-loopback-build-deploy-pipeline          16d
-pipeline0                                      16d
 ----
 
 === Create a webhook
