@@ -243,7 +243,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pipeline</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pipeline -n kabanero</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -251,7 +251,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline -n kabanero
 NAME                                           AGE
 java-microprofile-build-deploy-pipeline        15d
 java-spring-boot2-build-deploy-pipeline        15d
@@ -278,7 +278,7 @@ pipeline0                                      15d</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get task</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get task -n kabanero</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -286,7 +286,7 @@ pipeline0                                      15d</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task -n kabanero
 NAME                             AGE
 collections-build-task           13d
 java-microprofile-build-task     15d
@@ -351,7 +351,7 @@ pipeline0-task                   15d</code></pre>
   securityContext:
     privileged: true
   image: kabanero/nodejs-express:0.2
-  command: ["/bin/bash","-c","cd extracted/user-app &amp;&amp; ls &amp;&amp; npm install --prefix user-app &amp;&amp; npm install -g mocha &amp;&amp; cd .. &amp;&amp; npm test &amp;&amp; npm test --prefix user-app"]
+  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext}/user-app &amp;&amp; ls &amp;&amp; npm install --prefix user-app &amp;&amp; npm install -g mocha &amp;&amp; cd .. &amp;&amp; npm test &amp;&amp; npm test --prefix user-app"]
   env:
     - name: gitsource
       value: git-source
@@ -366,6 +366,10 @@ pipeline0-task                   15d</code></pre>
 <p>To do this, create <code>test-build-task.yaml</code> as follows.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>IMPORTANT:
+Do not name your task too long or you will get errors about Kubernetes resources has invalid names. Keep task and pipeline names less than 40 characters long.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -406,7 +410,7 @@ spec:
       securityContext:
         privileged: true
       image: kabanero/nodejs-express:0.2
-      command: ["/bin/bash","-c","cd extracted/user-app &amp;&amp; ls &amp;&amp; npm install --prefix user-app &amp;&amp; npm install -g mocha &amp;&amp; cd .. &amp;&amp; npm test &amp;&amp; npm test --prefix user-app"]
+      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext}/user-app &amp;&amp; ls &amp;&amp; npm install --prefix user-app &amp;&amp; npm install -g mocha &amp;&amp; cd .. &amp;&amp; npm test &amp;&amp; npm test --prefix user-app"]
       env:
         - name: gitsource
           value: git-source
@@ -470,22 +474,10 @@ task.tekton.dev/nodejs-express-test-build-task created</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task -n kabanero
 NAME                             AGE
-collections-build-task           13d
-java-microprofile-build-task     15d
-java-microprofile-deploy-task    15d
-java-spring-boot2-build-task     15d
-java-spring-boot2-deploy-task    15d
-monitor-result-task              15d
-nodejs-build-task                15d
-nodejs-deploy-task               15d
-nodejs-express-build-task        15d
-nodejs-express-deploy-task       15d
 nodejs-express-test-build-task   1h
-nodejs-loopback-build-task       15d
-nodejs-loopback-deploy-task      15d
-pipeline0-task                   15d</code></pre>
+...</code></pre>
 </div>
 </div>
 </div>
@@ -566,15 +558,10 @@ pipeline.tekton.dev/nodejs-express-test-build-deploy-pipeline created</code></pr
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline  -n kabanero
 NAME                                           AGE
-java-microprofile-build-deploy-pipeline        15d
-java-spring-boot2-build-deploy-pipeline        15d
-nodejs-build-deploy-pipeline                   15d
-nodejs-express-build-deploy-pipeline           15d
 nodejs-express-test-build-deploy-pipeline      1h
-nodejs-loopback-build-deploy-pipeline          15d
-pipeline0                                      15d</code></pre>
+...</code></pre>
 </div>
 </div>
 </div>
@@ -710,7 +697,7 @@ pipeline0                                      15d</code></pre>
   securityContext:
     privileged: true
   image: kabanero/java-spring-boot2:0.3
-  command: ["/bin/bash","-c","cd extracted &amp;&amp; mvn test -f appsody-boot2-pom.xml"]
+  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} &amp;&amp; mvn test -f appsody-boot2-pom.xml"]
   env:
     - name: gitsource
       value: git-source
@@ -765,7 +752,7 @@ spec:
       securityContext:
         privileged: true
       image: kabanero/java-spring-boot2:0.3
-      command: ["/bin/bash","-c","cd extracted &amp;&amp; mvn test -f appsody-boot2-pom.xml"]
+      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} &amp;&amp; mvn test -f appsody-boot2-pom.xml"]
       env:
         - name: gitsource
           value: git-source
@@ -829,23 +816,9 @@ task.tekton.dev/java-spring-boot2-test-build-task created</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task -n kabanero
 NAME                                AGE
-collections-build-task              13d
-java-microprofile-build-task        15d
-java-microprofile-deploy-task       15d
-java-spring-boot2-build-task        15d
-java-spring-boot2-deploy-task       15d
-java-spring-boot2-test-build-task   9m
-monitor-result-task                 15d
-nodejs-build-task                   15d
-nodejs-deploy-task                  15d
-nodejs-express-build-task           15d
-nodejs-express-deploy-task          15d
-nodejs-express-test-build-task      2h
-nodejs-loopback-build-task          15d
-nodejs-loopback-deploy-task         15d
-pipeline0-task                      15d</code></pre>
+java-spring-boot2-test-build-task   9m</code></pre>
 </div>
 </div>
 </div>
@@ -926,16 +899,9 @@ pipeline.tekton.dev/java-spring-boot2-test-build-deploy-pipeline created</code><
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline -n kabanero
 NAME                                           AGE
-java-microprofile-build-deploy-pipeline        15d
-java-spring-boot2-build-deploy-pipeline        15d
-java-spring-boot2-test-build-deploy-pipeline   37m
-nodejs-build-deploy-pipeline                   15d
-nodejs-express-build-deploy-pipeline           15d
-nodejs-express-test-build-deploy-pipeline      2h
-nodejs-loopback-build-deploy-pipeline          15d
-pipeline0                                      15d</code></pre>
+java-spring-boot2-test-build-deploy-pipeline   37m</code></pre>
 </div>
 </div>
 </div>
@@ -1095,7 +1061,7 @@ For java-spring-boot2, <code>mvn test</code> only works on the pom defined for s
   securityContext:
     privileged: true
   image: kabanero/java-microprofile:0.2
-  command: ["/bin/bash","-c","cd extracted &amp;&amp; mvn test"]
+  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} &amp;&amp; mvn test"]
   env:
     - name: gitsource
       value: git-source
@@ -1150,7 +1116,7 @@ spec:
       securityContext:
         privileged: true
       image: kabanero/java-microprofile:0.2
-      command: ["/bin/bash","-c","cd extracted &amp;&amp; mvn test"]
+      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} &amp;&amp; mvn test"]
       env:
         - name: gitsource
           value: git-source
@@ -1201,7 +1167,7 @@ spec:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc create -f test-build-task.yaml
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f test-build-task.yaml -n kabanero
 task.tekton.dev/java-microprofile-test-build-task created</code></pre>
 </div>
 </div>
@@ -1214,24 +1180,9 @@ task.tekton.dev/java-microprofile-test-build-task created</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get task -n kabanero
 NAME                                AGE
-collections-build-task              13d
-java-microprofile-build-task        16d
-java-microprofile-deploy-task       16d
-java-microprofile-test-build-task   23m
-java-spring-boot2-build-task        16d
-java-spring-boot2-deploy-task       16d
-java-spring-boot2-test-build-task   1h
-monitor-result-task                 16d
-nodejs-build-task                   16d
-nodejs-deploy-task                  16d
-nodejs-express-build-task           16d
-nodejs-express-deploy-task          16d
-nodejs-express-test-build-task      21h
-nodejs-loopback-build-task          16d
-nodejs-loopback-deploy-task         16d
-pipeline0-task                      16d</code></pre>
+java-microprofile-test-build-task   23m</code></pre>
 </div>
 </div>
 </div>
@@ -1312,17 +1263,9 @@ pipeline.tekton.dev/java-microprofile-test-build-deploy-pipeline created</code><
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pipeline -n kabanero
 NAME                                           AGE
-java-microprofile-build-deploy-pipeline        16d
-java-microprofile-test-build-deploy-pipeline   27m
-java-spring-boot2-build-deploy-pipeline        16d
-java-spring-boot2-test-build-deploy-pipeline   13h
-nodejs-build-deploy-pipeline                   16d
-nodejs-express-build-deploy-pipeline           16d
-nodejs-express-test-build-deploy-pipeline      21h
-nodejs-loopback-build-deploy-pipeline          16d
-pipeline0                                      16d</code></pre>
+java-microprofile-test-build-deploy-pipeline   27m</code></pre>
 </div>
 </div>
 </div>
