@@ -1,4 +1,5 @@
 = End to End Java Liberty Microprofile Kabanero workflow
+:imagesdir: images
 :toc:
 
 == Prerequisites
