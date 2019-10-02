@@ -5,6 +5,8 @@ site:
   title: Learning-Kabanero-101
   url: https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/
   start_page: web::kabanero-overview.adoc
+  keys:
+    google_analytics: 'UA-149377589-1'
 
 content:
   sources:
