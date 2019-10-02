@@ -1,4 +1,5 @@
 = Appsody - Extending a Stack with Templates
+:imagesdir: images
 :toc:
 
 == Prerequisites
@@ -144,3 +145,10 @@ A new instance of the application will start in a docker container and you can s
 
 
 image::extend_stack_appsody_running.png[align="center"]
+
+
+== Changing Package Versions
+
+Now what if you want to use a different version of a Node.JS in your application.  This next guide will show you how quickly we can change the versions in your application and run them.
+
+First we need to change the `dockerfile` for the `nodejs-express` image.
