@@ -172,11 +172,15 @@ When you open the `package.json` file you will se the `dependencies` section.  T
 
 With `jaeger-client` appended, the `nodejs-express` stack will include `jaeger` version `3.17.0` with each build. In the `package.json` you have version control for all the packages within the `nodejs-express` stack that you would like. 
 
+To test and build the stack locally checkout: https://appsody.dev/docs/stacks/build-and-test#building-a-stack-image-locally-without-build-scripts[Appsody Build]
+
 == Adding Environment Variables 
 
 When using appsody stacks within large multi-application projects or multiple projects across an organization you may want to include environment variables with each project that uses a particular stack.  We can declare environment variables in the `Dockerfile` for stacks to use for each build.
 
-Let's add one for our `jaeger-client` package to use.  In `jaeger` you can set a `Sampler-Type` with the categories `constant, probabilistic, rate limiting, remote`. Let's add an environment variable to our stack where we declare the `Sampler-Type` to be `probabilistic` for all new applications being built.
+You can read about the Appsody Environment Variables https://appsody.dev/docs/stacks/environment-variables[here].
+
+Let's add one for our `jaeger-client` package to use.  In `jaeger` you can set a `Sampler-Type` with the categories `constant, probabilistic, rate limiting, remote`. Let's add an environment variable to our stack where we declare the `Sampler-Type` to be `probabilistic` and set the percentage parameter for it to `0.5` for all new applications being built.
 
 First navigate to and open the `Dockerfile`.
 
@@ -191,6 +195,9 @@ With the `Dockerfile` open all we need to do is add the following to line 31:
 [source, docker]
 ----
 ENV JAEGER_SAMPLER_TYPE probabilistic
+ENV JAEGER_SAMPLER_PARM 0.5
 ----
 
 And that's it. Now every build of your stack will include the `Jaeger Sampler Type` as an environment variable.
+
+Learn more about https://www.npmjs.com/package/jaeger-client[Jaeger]
