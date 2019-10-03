@@ -147,8 +147,50 @@ A new instance of the application will start in a docker container and you can s
 image::extend_stack_appsody_running.png[align="center"]
 
 
-== Changing Package Versions
+== Adding and Changing Packages
 
-Now what if you want to use a different version of a Node.JS in your application.  This next guide will show you how quickly we can change the versions in your application and run them.
+Now let's take a look at adding custom node packages for your stack or just changing the version of the packages in the template.
 
-First we need to change the `dockerfile` for the `nodejs-express` image.
+Let's first start by adding a distributed tracing package called Jaeger. Start in the home directory of the `incubator/nodejs-express` stack `${PWD}/collections/incubator/nodejs-express/`. Next, we want to modify the `package.json` to add the `jaeger-client` package to the stack. 
+
+[source, bash]
+----
+cd image/project
+code package.json
+----
+
+When you open the `package.json` file you will se the `dependencies` section.  This is where we want to append `jaeger-client`.  
+
+----
+  "dependencies": {
+    "@cloudnative/health-connect": "^2.0.0",
+    "appmetrics-prometheus": "^3.0.0",
+    "express": "~4.16.0",
+    "jaeger-client": "3.17.0"
+  },
+----
+
+With `jaeger-client` appended, the `nodejs-express` stack will include `jaeger` version `3.17.0` with each build. In the `package.json` you have version control for all the packages within the `nodejs-express` stack that you would like. 
+
+== Adding Environment Variables 
+
+When using appsody stacks within large multi-application projects or multiple projects across an organization you may want to include environment variables with each project that uses a particular stack.  We can declare environment variables in the `Dockerfile` for stacks to use for each build.
+
+Let's add one for our `jaeger-client` package to use.  In `jaeger` you can set a `Sampler-Type` with the categories `constant, probabilistic, rate limiting, remote`. Let's add an environment variable to our stack where we declare the `Sampler-Type` to be `probabilistic` for all new applications being built.
+
+First navigate to and open the `Dockerfile`.
+
+[source, bash]
+----
+cd image/project
+code Dockerfile
+----
+
+With the `Dockerfile` open all we need to do is add the following to line 31:
+
+[source, docker]
+----
+ENV JAEGER_SAMPLER_TYPE probabilistic
+----
+
+And that's it. Now every build of your stack will include the `Jaeger Sampler Type` as an environment variable.
