@@ -521,33 +521,16 @@ If you did not perform any of the above steps, go to the links provided in the p
 
 === Custom Task
 
-Let us include `mvn test` as one of the steps in our new task along with the ones that come by default.
+Let us define a new `test` task.
 
-- In this task, we are adding the below step additionally to the ones that come by default.
-
-[source, yaml]
-----
-- name: mvn-test
-  securityContext:
-    privileged: true
-  image: kabanero/java-microprofile:0.2
-  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} && mvn test"]
-  env:
-    - name: gitsource
-      value: git-source
-  volumeMounts:
-    - mountPath: /var/lib/containers
-      name: varlibcontainers
-----
-
-- To do this, create `test-build-task.yaml` as follows.
+- To do this, create `test-task.yaml` as follows.
 
 [source, yaml]
 ----
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: java-microprofile-test-build-task
+  name: java-microprofile-test-task
 spec:
   inputs:
     resources:
@@ -558,76 +541,41 @@ spec:
         default: /workspace/extracted/Dockerfile
       - name: pathToContext
         default: /workspace/extracted
+      - name: pathToGitSource
+        default: /workspace/git-source
   outputs:
     resources:
       - name: docker-image
         type: image
   steps:
-    - name: assemble-extract
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ["/bin/bash"]
-      args:
-        - -c
-        - "/extract.sh"
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: mvn-test
+    - name: test
       securityContext:
         privileged: true
       image: kabanero/java-microprofile:0.2
-      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} && mvn test"]
+      command:
+        [
+          "/bin/bash",
+          "-c",
+          "ln -s ${inputs.params.pathToGitSource} ${inputs.params.pathToContext} && cd ${inputs.params.pathToContext} && pwd && ls && $APPSODY_TEST",
+        ]
       env:
         - name: gitsource
           value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: build-bud
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ['buildah', 'bud', '--tls-verify=false', '--format=docker', '-f', '${inputs.params.pathToDockerFile}', '-t', '${outputs.resources.docker-image.url}', '${inputs.params.pathToContext}']
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: build-push
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ['buildah', 'push', '--tls-verify=false', '${outputs.resources.docker-image.url}', 'docker://${outputs.resources.docker-image.url}']
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-  volumes:
-    - name: varlibcontainers
-      emptyDir: {}
 ----
 
 - Once you create this yaml, create a task in `kabanero` namespace as follows.
 
 [source, bash]
 ----
-oc create -f test-build-task.yaml -n kabanero
+oc create -f test-task.yaml -n kabanero
 ----
 
 Once you created it successfully, you will see something like below.
 
 [source, bash]
 ----
-oc create -f test-build-task.yaml -n kabanero
-task.tekton.dev/java-microprofile-test-build-task created
+$ oc create -f test-task.yaml -n kabanero
+task.tekton.dev/java-microprofile-test-task created
 ----
 
 - Verify it by using the below command.
@@ -635,13 +583,13 @@ task.tekton.dev/java-microprofile-test-build-task created
 [source, bash]
 ----
 oc get task -n kabanero
-NAME                                AGE
-java-microprofile-test-build-task   23m
+NAME                          AGE
+java-microprofile-test-task   23m
 ----
 
 === Custom Pipeline
 
-Let us now create a new pipeline that includes the task we created earlier. We are replacing the default `build task` with the previous task in the new pipeline.
+Let us now create a new pipeline that includes the task we created earlier. We are adding the `test task` we created previously in addition to the default `build task` and `deploy task` in the new pipeline.
 
 - Create `java-microprofile-test-build-deploy-pipeline.yaml` as follows.
 
@@ -658,9 +606,20 @@ spec:
     - name: docker-image
       type: image
   tasks:
+    - name: test-task
+      taskRef:
+        name: java-microprofile-test-task
+      resources:
+        inputs:
+        - name: git-source
+          resource: git-source
+        outputs:
+        - name: docker-image
+          resource: docker-image
     - name: build-task
       taskRef:
-        name: java-microprofile-test-build-task
+        name: java-microprofile-build-task
+      runAfter: [test-task]
       resources:
         inputs:
         - name: git-source
@@ -737,7 +696,3 @@ image::mp_custom_pipeline_task.png[align="center"]
 - Once the tasks are all completed, you will see something like below.
 
 image::mp_custom_pipeline_tekton_pipeline_run_tasks.png[align="center"]
-
-NOTE: Currently, the `buildahbud` step fails due to the absence of JDK version as it got deleted. The issue is tracked https://github.com/kabanero-io/collections/issues/97[here].
-
-NOTE: For java-spring-boot2, `mvn test` only works on the pom defined for stack and it fails on the application pom. The issue is tracked https://github.com/kabanero-io/collections/issues/96[here].
