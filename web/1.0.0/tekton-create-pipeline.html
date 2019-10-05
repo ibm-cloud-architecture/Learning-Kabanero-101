@@ -344,34 +344,12 @@ pipeline0-task                   15d</code></pre>
 <div class="sect2">
 <h3 id="_custom_task"><a class="anchor" href="#_custom_task"></a>Custom Task</h3>
 <div class="paragraph">
-<p>Let us include <code>npm test</code> as one of the steps in our new task along with the ones that come by default.</p>
+<p>Let us define a new <code>test</code> task.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>In this task, we are adding the below step additionally to the ones that come by default.</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: npm-test
-  securityContext:
-    privileged: true
-  image: kabanero/nodejs-express:0.2
-  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext}/user-app &amp;&amp; ls &amp;&amp; npm install --prefix user-app &amp;&amp; npm install -g mocha &amp;&amp; cd .. &amp;&amp; npm test &amp;&amp; npm test --prefix user-app"]
-  env:
-    - name: gitsource
-      value: git-source
-  volumeMounts:
-    - mountPath: /var/lib/containers
-      name: varlibcontainers</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>To do this, create <code>test-build-task.yaml</code> as follows.</p>
+<p>To do this, create <code>test-task.yaml</code> as follows.</p>
 </li>
 </ul>
 </div>
@@ -384,7 +362,7 @@ Do not name your task too long or you will get errors about Kubernetes resources
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: nodejs-express-test-build-task
+  name: nodejs-express-test-task
 spec:
   inputs:
     resources:
@@ -425,28 +403,6 @@ spec:
       volumeMounts:
         - mountPath: /var/lib/containers
           name: varlibcontainers
-    - name: build-bud
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ['buildah', 'bud', '--tls-verify=false', '--format=docker', '-f', '${inputs.params.pathToDockerFile}', '-t', '${outputs.resources.docker-image.url}', '${inputs.params.pathToContext}']
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: build-push
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ['buildah', 'push', '--tls-verify=false', '${outputs.resources.docker-image.url}', 'docker://${outputs.resources.docker-image.url}']
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
   volumes:
     - name: varlibcontainers
       emptyDir: {}</code></pre>
@@ -461,7 +417,7 @@ spec:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f test-build-task.yaml -n kabanero</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f test-task.yaml -n kabanero</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -469,8 +425,8 @@ spec:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc create -f test-build-task.yaml -n kabanero
-task.tekton.dev/nodejs-express-test-build-task created</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc create -f test-task.yaml -n kabanero
+task.tekton.dev/nodejs-express-test-task created</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -483,8 +439,8 @@ task.tekton.dev/nodejs-express-test-build-task created</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task -n kabanero
-NAME                             AGE
-nodejs-express-test-build-task   1h
+NAME                       AGE
+nodejs-express-test-task   1h
 ...</code></pre>
 </div>
 </div>
@@ -492,7 +448,7 @@ nodejs-express-test-build-task   1h
 <div class="sect2">
 <h3 id="_custom_pipeline"><a class="anchor" href="#_custom_pipeline"></a>Custom Pipeline</h3>
 <div class="paragraph">
-<p>Let us now create a new pipeline that includes the task we created earlier. We are replacing the default <code>build task</code> with the previous task in the new pipeline.</p>
+<p>Let us now create a new pipeline that includes the task we created earlier. We are adding the <code>test task</code> we created previously in addition to the default <code>build task</code> and <code>deploy task</code> in the new pipeline.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -514,9 +470,20 @@ spec:
     - name: docker-image
       type: image
   tasks:
-    - name: nodejs-express-test-build-task
+    - name: test-task
       taskRef:
-        name: nodejs-express-test-build-task
+        name: nodejs-express-test-task
+      resources:
+        inputs:
+        - name: git-source
+          resource: git-source
+        outputs:
+        - name: docker-image
+          resource: docker-image
+    - name: build-task
+      taskRef:
+        name: nodejs-express-build-task
+      runAfter: [test-task]
       resources:
         inputs:
         - name: git-source
@@ -527,7 +494,7 @@ spec:
     - name: deploy-task
       taskRef:
         name: nodejs-express-deploy-task
-      runAfter: [nodejs-express-test-build-task]
+      runAfter: [build-task]
       resources:
         inputs:
         - name: git-source
@@ -690,34 +657,12 @@ nodejs-express-test-build-deploy-pipeline      1h
 <div class="sect2">
 <h3 id="_custom_task_2"><a class="anchor" href="#_custom_task_2"></a>Custom Task</h3>
 <div class="paragraph">
-<p>Let us include <code>mvn test</code> as one of the steps in our new task along with the ones that come by default.</p>
+<p>Let us define a new <code>test</code> task.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>In this task, we are adding the below step additionally to the ones that come by default.</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: mvn-test
-  securityContext:
-    privileged: true
-  image: kabanero/java-spring-boot2:0.3
-  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} &amp;&amp; mvn test -f appsody-boot2-pom.xml"]
-  env:
-    - name: gitsource
-      value: git-source
-  volumeMounts:
-    - mountPath: /var/lib/containers
-      name: varlibcontainers</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>To do this, create <code>test-build-task.yaml</code> as follows.</p>
+<p>To do this, create <code>test-task.yaml</code> as follows.</p>
 </li>
 </ul>
 </div>
@@ -726,7 +671,7 @@ nodejs-express-test-build-deploy-pipeline      1h
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: java-spring-boot2-test-build-task
+  name: java-spring-boot2-test-task
 spec:
   inputs:
     resources:
@@ -737,61 +682,26 @@ spec:
         default: /workspace/extracted/Dockerfile
       - name: pathToContext
         default: /workspace/extracted
+      - name: pathToGitSource
+        default: /workspace/git-source
   outputs:
     resources:
       - name: docker-image
         type: image
   steps:
-    - name: assemble-extract
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ["/bin/bash"]
-      args:
-        - -c
-        - "/extract.sh"
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: mvn-test
+    - name: test
       securityContext:
         privileged: true
       image: kabanero/java-spring-boot2:0.3
-      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} &amp;&amp; mvn test -f appsody-boot2-pom.xml"]
+      command:
+        [
+          "/bin/bash",
+          "-c",
+          "ln -s ${inputs.params.pathToGitSource} ${inputs.params.pathToContext} &amp;&amp; cd ${inputs.params.pathToContext} &amp;&amp; pwd &amp;&amp; ls &amp;&amp; $APPSODY_TEST",
+        ]
       env:
         - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: build-bud
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ['buildah', 'bud', '--tls-verify=false', '--format=docker', '-f', '${inputs.params.pathToDockerFile}', '-t', '${outputs.resources.docker-image.url}', '${inputs.params.pathToContext}']
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: build-push
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ['buildah', 'push', '--tls-verify=false', '${outputs.resources.docker-image.url}', 'docker://${outputs.resources.docker-image.url}']
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-  volumes:
-    - name: varlibcontainers
-      emptyDir: {}</code></pre>
+          value: git-source</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -803,7 +713,7 @@ spec:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f test-build-task.yaml -n kabanero</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f test-task.yaml -n kabanero</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -811,8 +721,8 @@ spec:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc create -f test-build-task.yaml -n kabanero
-task.tekton.dev/java-spring-boot2-test-build-task created</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc apply -f test-task.yaml -n kabanero
+task.tekton.dev/java-spring-boot2-test-task created</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -825,15 +735,15 @@ task.tekton.dev/java-spring-boot2-test-build-task created</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get task -n kabanero
-NAME                                AGE
-java-spring-boot2-test-build-task   9m</code></pre>
+NAME                          AGE
+java-spring-boot2-test-task   9m</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_custom_pipeline_2"><a class="anchor" href="#_custom_pipeline_2"></a>Custom Pipeline</h3>
 <div class="paragraph">
-<p>Let us now create a new pipeline that includes the task we created earlier. We are replacing the default <code>build task</code> with the previous task in the new pipeline.</p>
+<p>Let us now create a new pipeline that includes the task we created earlier. We are adding the <code>test task</code> we created previously in addition to the default <code>build task</code> and <code>deploy task</code> in the new pipeline.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -855,9 +765,20 @@ spec:
     - name: docker-image
       type: image
   tasks:
-    - name: java-spring-boot2-test-build-task
+    - name: test-task
       taskRef:
-        name: java-spring-boot2-test-build-task
+        name: java-spring-boot2-test-task
+      resources:
+        inputs:
+        - name: git-source
+          resource: git-source
+        outputs:
+        - name: docker-image
+          resource: docker-image
+    - name: build-task
+      taskRef:
+        name: java-spring-boot2-build-task
+      runAfter: [test-task]
       resources:
         inputs:
         - name: git-source
@@ -868,7 +789,7 @@ spec:
     - name: deploy-task
       taskRef:
         name: java-spring-boot2-deploy-task
-      runAfter: [java-spring-boot2-test-build-task]
+      runAfter: [build-task]
       resources:
         inputs:
         - name: git-source
@@ -999,30 +920,6 @@ java-spring-boot2-test-build-deploy-pipeline   37m</code></pre>
 <img src="_images/sb_custom_pipeline_tekton_pipeline_run_tasks_java.png" alt="sb custom pipeline tekton pipeline run tasks java">
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Currently, the <code>buildahbud</code> step fails due to the absence of JDK version as it got deleted. The issue is tracked <a href="https://github.com/kabanero-io/collections/issues/97">here</a>.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-For java-spring-boot2, <code>mvn test</code> only works on the pom defined for stack and it fails on the application pom. The issue is tracked <a href="https://github.com/kabanero-io/collections/issues/96">here</a>.
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 </div>
@@ -1054,34 +951,12 @@ For java-spring-boot2, <code>mvn test</code> only works on the pom defined for s
 <div class="sect2">
 <h3 id="_custom_task_3"><a class="anchor" href="#_custom_task_3"></a>Custom Task</h3>
 <div class="paragraph">
-<p>Let us include <code>mvn test</code> as one of the steps in our new task along with the ones that come by default.</p>
+<p>Let us define a new <code>test</code> task.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>In this task, we are adding the below step additionally to the ones that come by default.</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">- name: mvn-test
-  securityContext:
-    privileged: true
-  image: kabanero/java-microprofile:0.2
-  command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} &amp;&amp; mvn test"]
-  env:
-    - name: gitsource
-      value: git-source
-  volumeMounts:
-    - mountPath: /var/lib/containers
-      name: varlibcontainers</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>To do this, create <code>test-build-task.yaml</code> as follows.</p>
+<p>To do this, create <code>test-task.yaml</code> as follows.</p>
 </li>
 </ul>
 </div>
@@ -1090,7 +965,7 @@ For java-spring-boot2, <code>mvn test</code> only works on the pom defined for s
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: java-microprofile-test-build-task
+  name: java-microprofile-test-task
 spec:
   inputs:
     resources:
@@ -1101,61 +976,26 @@ spec:
         default: /workspace/extracted/Dockerfile
       - name: pathToContext
         default: /workspace/extracted
+      - name: pathToGitSource
+        default: /workspace/git-source
   outputs:
     resources:
       - name: docker-image
         type: image
   steps:
-    - name: assemble-extract
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ["/bin/bash"]
-      args:
-        - -c
-        - "/extract.sh"
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: mvn-test
+    - name: test
       securityContext:
         privileged: true
       image: kabanero/java-microprofile:0.2
-      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext} &amp;&amp; mvn test"]
+      command:
+        [
+          "/bin/bash",
+          "-c",
+          "ln -s ${inputs.params.pathToGitSource} ${inputs.params.pathToContext} &amp;&amp; cd ${inputs.params.pathToContext} &amp;&amp; pwd &amp;&amp; ls &amp;&amp; $APPSODY_TEST",
+        ]
       env:
         - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: build-bud
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ['buildah', 'bud', '--tls-verify=false', '--format=docker', '-f', '${inputs.params.pathToDockerFile}', '-t', '${outputs.resources.docker-image.url}', '${inputs.params.pathToContext}']
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: build-push
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ['buildah', 'push', '--tls-verify=false', '${outputs.resources.docker-image.url}', 'docker://${outputs.resources.docker-image.url}']
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-  volumes:
-    - name: varlibcontainers
-      emptyDir: {}</code></pre>
+          value: git-source</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -1167,7 +1007,7 @@ spec:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f test-build-task.yaml -n kabanero</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f test-task.yaml -n kabanero</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1175,8 +1015,8 @@ spec:
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -f test-build-task.yaml -n kabanero
-task.tekton.dev/java-microprofile-test-build-task created</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc create -f test-task.yaml -n kabanero
+task.tekton.dev/java-microprofile-test-task created</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -1189,15 +1029,15 @@ task.tekton.dev/java-microprofile-test-build-task created</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get task -n kabanero
-NAME                                AGE
-java-microprofile-test-build-task   23m</code></pre>
+NAME                          AGE
+java-microprofile-test-task   23m</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_custom_pipeline_3"><a class="anchor" href="#_custom_pipeline_3"></a>Custom Pipeline</h3>
 <div class="paragraph">
-<p>Let us now create a new pipeline that includes the task we created earlier. We are replacing the default <code>build task</code> with the previous task in the new pipeline.</p>
+<p>Let us now create a new pipeline that includes the task we created earlier. We are adding the <code>test task</code> we created previously in addition to the default <code>build task</code> and <code>deploy task</code> in the new pipeline.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1219,9 +1059,20 @@ spec:
     - name: docker-image
       type: image
   tasks:
+    - name: test-task
+      taskRef:
+        name: java-microprofile-test-task
+      resources:
+        inputs:
+        - name: git-source
+          resource: git-source
+        outputs:
+        - name: docker-image
+          resource: docker-image
     - name: build-task
       taskRef:
-        name: java-microprofile-test-build-task
+        name: java-microprofile-build-task
+      runAfter: [test-task]
       resources:
         inputs:
         - name: git-source
@@ -1362,30 +1213,6 @@ java-microprofile-test-build-deploy-pipeline   27m</code></pre>
 <div class="content">
 <img src="_images/mp_custom_pipeline_tekton_pipeline_run_tasks.png" alt="mp custom pipeline tekton pipeline run tasks">
 </div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Currently, the <code>buildahbud</code> step fails due to the absence of JDK version as it got deleted. The issue is tracked <a href="https://github.com/kabanero-io/collections/issues/97">here</a>.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-For java-spring-boot2, <code>mvn test</code> only works on the pom defined for stack and it fails on the application pom. The issue is tracked <a href="https://github.com/kabanero-io/collections/issues/96">here</a>.
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
