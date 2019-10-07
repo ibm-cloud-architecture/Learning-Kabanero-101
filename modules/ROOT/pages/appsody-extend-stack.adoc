@@ -146,7 +146,6 @@ A new instance of the application will start in a docker container and you can s
 
 image::extend_stack_appsody_running.png[align="center"]
 
-
 == Adding and Changing Packages
 
 Now let's take a look at adding custom node packages for your stack or just changing the version of the packages in the template.
@@ -201,3 +200,4 @@ ENV JAEGER_SAMPLER_PARM 0.5
 And that's it. Now every build of your stack will include the `Jaeger Sampler Type` as an environment variable.
 
 Learn more about https://www.npmjs.com/package/jaeger-client[Jaeger]
+
