@@ -134,7 +134,8 @@
 <li><a href="#_building_the_stack">Building the Stack</a></li>
 <li><a href="#_adding_the_repository_to_appsody">Adding the Repository to Appsody</a></li>
 <li><a href="#_running_the_application">Running the Application</a></li>
-<li><a href="#_changing_package_versions">Changing Package Versions</a></li>
+<li><a href="#_adding_and_changing_packages">Adding and Changing Packages</a></li>
+<li><a href="#_adding_environment_variables">Adding Environment Variables</a></li>
 </ul>
 </div>
 <div class="sect1">
@@ -335,13 +336,76 @@ appsody init custom-stack/nodejs-express simple-sample</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_changing_package_versions"><a class="anchor" href="#_changing_package_versions"></a>Changing Package Versions</h2>
+<h2 id="_adding_and_changing_packages"><a class="anchor" href="#_adding_and_changing_packages"></a>Adding and Changing Packages</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Now what if you want to use a different version of a Node.JS in your application.  This next guide will show you how quickly we can change the versions in your application and run them.</p>
+<p>Now let&#8217;s take a look at adding custom node packages for your stack or just changing the version of the packages in the template.</p>
 </div>
 <div class="paragraph">
-<p>First we need to change the <code>dockerfile</code> for the <code>nodejs-express</code> image.</p>
+<p>Let&#8217;s first start by adding a distributed tracing package called Jaeger. Start in the home directory of the <code>incubator/nodejs-express</code> stack <code>${PWD}/collections/incubator/nodejs-express/</code>. Next, we want to modify the <code>package.json</code> to add the <code>jaeger-client</code> package to the stack.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd image/project
+code package.json</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When you open the <code>package.json</code> file you will se the <code>dependencies</code> section.  This is where we want to append <code>jaeger-client</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>  "dependencies": {
+    "@cloudnative/health-connect": "^2.0.0",
+    "appmetrics-prometheus": "^3.0.0",
+    "express": "~4.16.0",
+    "jaeger-client": "3.17.0"
+  },</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With <code>jaeger-client</code> appended, the <code>nodejs-express</code> stack will include <code>jaeger</code> version <code>3.17.0</code> with each build. In the <code>package.json</code> you have version control for all the packages within the <code>nodejs-express</code> stack that you would like.</p>
+</div>
+<div class="paragraph">
+<p>To test and build the stack locally checkout: <a href="https://appsody.dev/docs/stacks/build-and-test#building-a-stack-image-locally-without-build-scripts">Appsody Build</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_adding_environment_variables"><a class="anchor" href="#_adding_environment_variables"></a>Adding Environment Variables</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When using appsody stacks within large multi-application projects or multiple projects across an organization you may want to include environment variables with each project that uses a particular stack.  We can declare environment variables in the <code>Dockerfile</code> for stacks to use for each build.</p>
+</div>
+<div class="paragraph">
+<p>You can read about the Appsody Environment Variables <a href="https://appsody.dev/docs/stacks/environment-variables">here</a>.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s add one for our <code>jaeger-client</code> package to use.  In <code>jaeger</code> you can set a <code>Sampler-Type</code> with the categories <code>constant, probabilistic, rate limiting, remote</code>. Let&#8217;s add an environment variable to our stack where we declare the <code>Sampler-Type</code> to be <code>probabilistic</code> and set the percentage parameter for it to <code>0.5</code> for all new applications being built.</p>
+</div>
+<div class="paragraph">
+<p>First navigate to and open the <code>Dockerfile</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd image/project
+code Dockerfile</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With the <code>Dockerfile</code> open all we need to do is add the following to line 31:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-docker hljs" data-lang="docker">ENV JAEGER_SAMPLER_TYPE probabilistic
+ENV JAEGER_SAMPLER_PARM 0.5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And that&#8217;s it. Now every build of your stack will include the <code>Jaeger Sampler Type</code> as an environment variable.</p>
+</div>
+<div class="paragraph">
+<p>Learn more about <a href="https://www.npmjs.com/package/jaeger-client">Jaeger</a></p>
 </div>
 </div>
 </div>
