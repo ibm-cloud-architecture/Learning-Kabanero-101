@@ -2,7 +2,7 @@
 :imagesdir: images
 :toc:
 
-image::kabanero.jpg[kabanero hero image, 500]
+video::cKIkhhONBKM[youtube, width=640, height=480]
 
 Kabanero is designed to deliver an integrated workflow for application architects, application developers, and operations teams, allowing them to focus more intently in their respective area of expertise.
 
@@ -14,9 +14,9 @@ The following sections outline the overall architecture of the system, its compo
 
 The Kabanero architecture supports the activity of application developers, application architects, and operations teams in continuously delivering applications to Kubernetes environments. The architecture also covers non-functional requirements, such as supporting the implementation of operational policies for application management and security.
 
-The following figure illustrates the main building blocks of the architecture, which will be elaborated in the next sections. 
+The following figure illustrates the main building blocks of the architecture, which will be elaborated in the next sections.
 
-.Main Kabanero building blocks  
+.Main Kabanero building blocks
 image::arch-overview-main.png[link="../_images/arch-overview-main.png" alt="Main Kabanero building blocks"]
 
 
@@ -38,14 +38,14 @@ For *application developers*, the Kabanero experience is realized as tooling tha
 == Architect Experience
 
 The *solution architect* can codify technology standards and company policies using the Kabanero Management Experience. The architech defines **Collections** providing an efficient way for application developers to use them.
- 
+
 
 A *stack* is part of a Kabanero Collection and is the architectural component shared between application development and application deployment activities. A stack is realized as a container image designed, built, and published by an application architect, which can then be pulled into local registries by application developers and into the deployment pipeline upon code deliveries.
 
 .Collection stacks
 image::arch-overview-stacks.png[link="../_images/arch-overview-stacks.png" alt="Collection stacks"]
 
-Although an *Appsody* stack is ultimately delivered as a regular container image, Kabanero specifies conventions for the internal structure of that image, with a clear separation between the portions of the stack that are common across all applications and the portions that are unique to each application, being visible and editable by application developers. 
+Although an *Appsody* stack is ultimately delivered as a regular container image, Kabanero specifies conventions for the internal structure of that image, with a clear separation between the portions of the stack that are common across all applications and the portions that are unique to each application, being visible and editable by application developers.
 
 Those conventions for a collection stack are detailed in the https://appsody.dev/docs/stacks/stack-structure[Stack Structure] section of the https://appsody.dev/[Appsody website]. For the cross-applications portion of the stack, an application architect makes choices such as the base container image, the runtime framework for the programming language being targeted by the collection, the toolset for the runtime framework, the management choices for the running application, and many other choices not directly related to the functional aspects of the application.
 
