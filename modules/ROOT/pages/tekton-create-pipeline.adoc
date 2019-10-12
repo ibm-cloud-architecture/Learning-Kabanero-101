@@ -118,12 +118,29 @@ spec:
   steps:
     - name: npm-test
       image: kabanero/nodejs-express:0.2
+      workingDir: /project
       command:
-        [
-          "/bin/bash",
-          "-c",
-          "cd /project && cp -a ${inputs.resources.git-source.path}/* $APPSODY_WATCH_DIR && $APPSODY_INSTALL && echo $APPSODY_TEST >/tmp/test.sh && source /tmp/test.sh",
-        ]
+        - /bin/bash
+      args:
+        - -c
+        - |
+          set -e
+          cp -a ${inputs.resources.git-source.path}/* $APPSODY_WATCH_DIR
+          # perform npm install
+          $APPSODY_INSTALL
+          # run npm test on project and user-app
+          delimiter=" && "
+          s=$APPSODY_TEST$delimiter
+          array=();
+          while [[ $s ]]; do
+              array+=( "${s%%"$delimiter"*}" );
+              s=${s#*"$delimiter"};
+          done;
+          for i in "${array[@]}"
+          do
+            echo executing $i
+            $i
+          done
 ----
 
 - Once you create this yaml, create a task in `kabanero` namespace as follows.
