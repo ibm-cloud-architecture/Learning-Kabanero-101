@@ -79,6 +79,8 @@ kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework 
 appsody repo set-default kabanero
 ----
 
+If you want to customize the appsody stacks and extend them, refer to xref:appsody-extend-stack.adoc[Appsody - Extending a Stack with Templates].
+
 == Appsody application
 
 === Create a new Application
@@ -137,11 +139,11 @@ appsody init kabanero/java-microprofile
 
 StarterApplication.java::
 A JAX-RS Application class
-server.xml:: 
+server.xml::
 An Open Liberty server configuration file
-index.html:: 
+index.html::
 A static HTML file
-pom.xml:: 
+pom.xml::
 A project build file
 
 
@@ -256,7 +258,7 @@ This step is building a container and running it, the output has the endpoint fo
 
 ----
 Running development environment...
-Running command: docker pull kabanero/java-microprofile:0.2 
+Running command: docker pull kabanero/java-microprofile:0.2
 Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/<user>@ibm.com/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=run
 ...
 [Container]  INFO  CWWKM2102I: Using serverName : defaultServer.
@@ -351,8 +353,8 @@ The output indicates the debug environment is being used
 ----
 $ appsody debug
 Running debug environment
-Running command: docker pull kabanero/java-microprofile:0.2 
-Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/bakribbs/.m2/repository:/mvn/repository -v /Users/bakribbs/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/bakribbs/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/bakribbs/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=debug 
+Running command: docker pull kabanero/java-microprofile:0.2
+Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/bakribbs/.m2/repository:/mvn/repository -v /Users/bakribbs/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/bakribbs/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/bakribbs/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=debug
 .......
 .......
 .......
@@ -368,7 +370,7 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 [Container]  INFO  CWWKM2001I: server.config.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
 [Container]  INFO  CWWKM2001I: server.output.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
 [Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, debug, defaultServer .
-[Container]  INFO  
+[Container]  INFO
 [Container]  INFO  Listening for transport dt_socket at address: 7777
 ----
 
@@ -445,6 +447,8 @@ image::sb_lab1_vscode_code_explorer.png[]
 - This opens the `Codewind`.
 
 image::sb_lab1_vscode_codewind_explorer.png[]
+
+If you want to configure codewind with appsody, checkout xref:codewind-setup-appsody.adoc[Configure CodeWind with Appsody CLI].
 
 === Adding the application
 
@@ -585,7 +589,7 @@ metadata:
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: appsody-sample-microprofile 
+  applicationImage: appsody-sample-microprofile
   stack: java-microprofile
   service:
     type: NodePort
@@ -701,6 +705,8 @@ Repository URL - <Your github repository URL>
 Access Token - <For this, you need to create a Github access token with permission `admin:repo_hook` or select one from the list>
 ----
 
+For more information on how to configure github credentials, refer to xref:tekton-credentials-github.adoc[Tekton - Configure GitHub Credentials].
+
 - Create a new token as follows.
 
 image::sb_lab1_webhook_settings_access_token_create.png[]
@@ -722,6 +728,8 @@ Docker Registry - docker-registry.default.svc:5000/<your_project>
 
 image::microprofile-pipeline-settings.png[]
 
+Here, we are using the default docker registry that comes with the openshift cluster. Sometimes, you may need to configure a third party registry instead of using the default one. In order to do that, check out xref:tekton-credentials-docker.adoc[Tekton - Configure External Docker Registry].
+
 - Click Create, a new webhook is created.
 
 image::sb_lab1_webhook.png[]
@@ -731,6 +739,8 @@ Also, a new Gitub webhook is created on the project repository.
 You can verify it by going into your `github repository > Settings > Webhooks` and you should be able to see the webhook created.
 
 *[Issue]* The webhook may show an error of 503. It will be cleared the first time the github webhook gets triggered.
+
+Here, we are using the default pipeline. If you want to customize the pipeline, refer to xref:tekton-create-pipeline.adoc[Tekton - Create a custom pipeline].
 
 === Deploy the Application
 
