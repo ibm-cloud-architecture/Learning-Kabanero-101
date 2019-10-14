@@ -326,6 +326,9 @@ kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework 
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo set-default kabanero</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>If you want to customize the appsody stacks and extend them, refer to <a href="appsody-extend-stack.html" class="page">Appsody - Extending a Stack with Templates</a>.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -918,6 +921,9 @@ Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080
 <div class="content">
 <img src="_images/sb_lab1_vscode_codewind_explorer.png" alt="sb lab1 vscode codewind explorer">
 </div>
+</div>
+<div class="paragraph">
+<p>If you want to configure codewind with appsody, checkout <a href="codewind-setup-appsody.html" class="page">Configure CodeWind with Appsody CLI</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1668,6 +1674,9 @@ Repository URL - &lt;Your github repository URL&gt;
 Access Token - &lt;For this, you need to create a Github access token with permission `admin:repo_hook` or select one from the list&gt;</pre>
 </div>
 </div>
+<div class="paragraph">
+<p>For more information on how to configure github credentials, refer to <a href="tekton-credentials-github.html" class="page">Tekton - Configure GitHub Credentials</a>.</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -1715,6 +1724,9 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 <img src="_images/sb_lab1_pipeline_settings.png" alt="sb lab1 pipeline settings">
 </div>
 </div>
+<div class="paragraph">
+<p>Here, we are using the default docker registry that comes with the openshift cluster. Sometimes, you may need to configure a third party registry instead of using the default one. In order to do that, check out <a href="tekton-credentials-docker.html" class="page">Tekton - Configure External Docker Registry</a>.</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -1735,6 +1747,9 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="paragraph">
 <p><strong>[Issue]</strong> The webhook may show an error of 503. It will be cleared the first time the github webhook gets triggered.</p>
+</div>
+<div class="paragraph">
+<p>Here, we are using the default pipeline. If you want to customize the pipeline, refer to <a href="tekton-create-pipeline.html" class="page">Tekton - Create a custom pipeline</a>.</p>
 </div>
 </div>
 <div class="sect2">
