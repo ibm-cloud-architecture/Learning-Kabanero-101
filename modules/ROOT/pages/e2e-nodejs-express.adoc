@@ -77,6 +77,8 @@ kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework 
 appsody repo set-default kabanero
 ----
 
+If you want to customize the appsody stacks and extend them, refer to xref:appsody-extend-stack.adoc[Appsody - Extending a Stack with Templates].
+
 == Appsody application
 
 === Create a new Application
@@ -381,6 +383,8 @@ image::sb_lab1_vscode_code_explorer.png[align="center"]
 
 image::sb_lab1_vscode_codewind_explorer.png[align="center"]
 
+If you want to configure codewind with appsody, checkout xref:codewind-setup-appsody.adoc[Configure CodeWind with Appsody CLI].
+
 === Adding the application
 
 - You can create a new project or add an existing project to Codewind. Since, we already created one using appsody earlier, let us add the existing project.
@@ -661,6 +665,8 @@ Repository URL - <Your github repository URL>
 Access Token - <For this, you need to create a Github access token with permission `admin:repo_hook` or select one from the list>
 ----
 
+For more information on how to configure github credentials, refer to xref:tekton-credentials-github.adoc[Tekton - Configure GitHub Credentials].
+
 - Create a new token as follows.
 
 image::sb_lab1_webhook_settings_access_token_create.png[align="center"]
@@ -683,6 +689,8 @@ Docker Registry - docker-registry.default.svc:5000/<your_project>
 
 image::js_lab1_pipeline_settings.png[align="center"]
 
+Here, we are using the default docker registry that comes with the openshift cluster. Sometimes, you may need to configure a third party registry instead of using the default one. In order to do that, check out xref:tekton-credentials-docker.adoc[Tekton - Configure External Docker Registry].
+
 - Click Create, a new webhook is created.
 
 image::js_lab1_webhook.png[align="center"]
@@ -692,6 +700,8 @@ Also, a new Gitub webhook is created on the project repository.
 You can verify it by going into your `github repository > Settings > Webhooks` and you should be able to see the webhook created.
 
 *[Issue]* The webhook may show an error of 503. It will be cleared the first time the github webhook gets triggered.
+
+Here, we are using the default pipeline. If you want to customize the pipeline, refer to xref:tekton-create-pipeline.adoc[Tekton - Create a custom pipeline].
 
 === Deploy the Application
 
