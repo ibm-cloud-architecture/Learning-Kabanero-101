@@ -319,31 +319,13 @@ spec:
     resources:
       - name: git-source
         type: git
-    params:
-      - name: pathToDockerFile
-        default: /workspace/extracted/Dockerfile
-      - name: pathToContext
-        default: /workspace/extracted
-      - name: pathToGitSource
-        default: /workspace/git-source
-  outputs:
-    resources:
-      - name: docker-image
-        type: image
   steps:
     - name: test
       securityContext:
         privileged: true
       image: kabanero/java-spring-boot2:0.3
-      command:
-        [
-          "/bin/bash",
-          "-c",
-          "ln -s ${inputs.params.pathToGitSource} ${inputs.params.pathToContext} && cd ${inputs.params.pathToContext} && pwd && ls && $APPSODY_TEST",
-        ]
-      env:
-        - name: gitsource
-          value: git-source
+      workingdir: ${inputs.resources.git-source.path}
+      command: ["/bin/bash", "-c", "$APPSODY_TEST"]
 ----
 
 - Once you create this yaml, create a task in `kabanero` namespace as follows.
@@ -396,9 +378,6 @@ spec:
         inputs:
         - name: git-source
           resource: git-source
-        outputs:
-        - name: docker-image
-          resource: docker-image
     - name: build-task
       taskRef:
         name: java-spring-boot2-build-task
@@ -508,31 +487,13 @@ spec:
     resources:
       - name: git-source
         type: git
-    params:
-      - name: pathToDockerFile
-        default: /workspace/extracted/Dockerfile
-      - name: pathToContext
-        default: /workspace/extracted
-      - name: pathToGitSource
-        default: /workspace/git-source
-  outputs:
-    resources:
-      - name: docker-image
-        type: image
   steps:
     - name: test
       securityContext:
         privileged: true
       image: kabanero/java-microprofile:0.2
-      command:
-        [
-          "/bin/bash",
-          "-c",
-          "ln -s ${inputs.params.pathToGitSource} ${inputs.params.pathToContext} && cd ${inputs.params.pathToContext} && pwd && ls && $APPSODY_TEST",
-        ]
-      env:
-        - name: gitsource
-          value: git-source
+      workingdir: ${inputs.resources.git-source.path}
+      command: ["/bin/bash", "-c", "$APPSODY_TEST"]
 ----
 
 - Once you create this yaml, create a task in `kabanero` namespace as follows.
@@ -585,9 +546,6 @@ spec:
         inputs:
         - name: git-source
           resource: git-source
-        outputs:
-        - name: docker-image
-          resource: docker-image
     - name: build-task
       taskRef:
         name: java-microprofile-build-task
