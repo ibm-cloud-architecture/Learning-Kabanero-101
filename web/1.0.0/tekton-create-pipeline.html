@@ -677,31 +677,13 @@ spec:
     resources:
       - name: git-source
         type: git
-    params:
-      - name: pathToDockerFile
-        default: /workspace/extracted/Dockerfile
-      - name: pathToContext
-        default: /workspace/extracted
-      - name: pathToGitSource
-        default: /workspace/git-source
-  outputs:
-    resources:
-      - name: docker-image
-        type: image
   steps:
     - name: test
       securityContext:
         privileged: true
       image: kabanero/java-spring-boot2:0.3
-      command:
-        [
-          "/bin/bash",
-          "-c",
-          "ln -s ${inputs.params.pathToGitSource} ${inputs.params.pathToContext} &amp;&amp; cd ${inputs.params.pathToContext} &amp;&amp; pwd &amp;&amp; ls &amp;&amp; $APPSODY_TEST",
-        ]
-      env:
-        - name: gitsource
-          value: git-source</code></pre>
+      workingdir: ${inputs.resources.git-source.path}
+      command: ["/bin/bash", "-c", "$APPSODY_TEST"]</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -772,9 +754,6 @@ spec:
         inputs:
         - name: git-source
           resource: git-source
-        outputs:
-        - name: docker-image
-          resource: docker-image
     - name: build-task
       taskRef:
         name: java-spring-boot2-build-task
@@ -971,31 +950,13 @@ spec:
     resources:
       - name: git-source
         type: git
-    params:
-      - name: pathToDockerFile
-        default: /workspace/extracted/Dockerfile
-      - name: pathToContext
-        default: /workspace/extracted
-      - name: pathToGitSource
-        default: /workspace/git-source
-  outputs:
-    resources:
-      - name: docker-image
-        type: image
   steps:
     - name: test
       securityContext:
         privileged: true
       image: kabanero/java-microprofile:0.2
-      command:
-        [
-          "/bin/bash",
-          "-c",
-          "ln -s ${inputs.params.pathToGitSource} ${inputs.params.pathToContext} &amp;&amp; cd ${inputs.params.pathToContext} &amp;&amp; pwd &amp;&amp; ls &amp;&amp; $APPSODY_TEST",
-        ]
-      env:
-        - name: gitsource
-          value: git-source</code></pre>
+      workingdir: ${inputs.resources.git-source.path}
+      command: ["/bin/bash", "-c", "$APPSODY_TEST"]</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -1066,9 +1027,6 @@ spec:
         inputs:
         - name: git-source
           resource: git-source
-        outputs:
-        - name: docker-image
-          resource: docker-image
     - name: build-task
       taskRef:
         name: java-microprofile-build-task
