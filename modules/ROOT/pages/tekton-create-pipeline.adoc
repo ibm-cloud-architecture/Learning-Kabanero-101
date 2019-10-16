@@ -115,44 +115,32 @@ spec:
     resources:
       - name: git-source
         type: git
-    params:
-      - name: pathToDockerFile
-        default: /workspace/extracted/Dockerfile
-      - name: pathToContext
-        default: /workspace/extracted
-  outputs:
-    resources:
-      - name: docker-image
-        type: image
   steps:
-    - name: assemble-extract
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ["/bin/bash"]
+    - name: npm-test
+      image: kabanero/nodejs-express:0.2
+      workingDir: /project
+      command:
+        - /bin/bash
       args:
         - -c
-        - "/extract.sh"
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: npm-test
-      securityContext:
-        privileged: true
-      image: kabanero/nodejs-express:0.2
-      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext}/user-app && ls && npm install --prefix user-app && npm install -g mocha && cd .. && npm test && npm test --prefix user-app"]
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-  volumes:
-    - name: varlibcontainers
-      emptyDir: {}
+        - |
+          set -e
+          cp -a ${inputs.resources.git-source.path}/* $APPSODY_WATCH_DIR
+          # perform npm install
+          $APPSODY_INSTALL
+          # run npm test on project and user-app
+          delimiter=" && "
+          s=$APPSODY_TEST$delimiter
+          array=();
+          while [[ $s ]]; do
+              array+=( "${s%%"$delimiter"*}" );
+              s=${s#*"$delimiter"};
+          done;
+          for i in "${array[@]}"
+          do
+            echo executing $i
+            $i
+          done
 ----
 
 - Once you create this yaml, create a task in `kabanero` namespace as follows.
@@ -206,9 +194,6 @@ spec:
         inputs:
         - name: git-source
           resource: git-source
-        outputs:
-        - name: docker-image
-          resource: docker-image
     - name: build-task
       taskRef:
         name: nodejs-express-build-task
@@ -291,7 +276,7 @@ image::sb_custom_pipeline_tekton_pipeline_run.png[align="center"]
 
 image::sb_custom_pipeline_tekton_pipeline_run_tasks.png[align="center"]
 
-== Java Springboot
+== Java Spring Boot
 
 Before defining a new task or pipeline, make sure, you do the following steps.
 
