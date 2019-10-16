@@ -109,7 +109,7 @@ Do not name your task too long or you will get errors about Kubernetes resources
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
-  name: csantana-nodejs-express-build-task
+  name: nodejs-express-test-task
 spec:
   inputs:
     resources:
