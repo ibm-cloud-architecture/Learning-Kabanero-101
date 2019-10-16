@@ -144,7 +144,7 @@
 <li><a href="#_verify_the_pipeline">Verify the pipeline</a></li>
 </ul>
 </li>
-<li><a href="#_java_springboot">Java Springboot</a>
+<li><a href="#_java_spring_boot">Java Spring Boot</a>
 <ul class="sectlevel2">
 <li><a href="#_custom_task_2">Custom Task</a></li>
 <li><a href="#_custom_pipeline_2">Custom Pipeline</a></li>
@@ -368,44 +368,32 @@ spec:
     resources:
       - name: git-source
         type: git
-    params:
-      - name: pathToDockerFile
-        default: /workspace/extracted/Dockerfile
-      - name: pathToContext
-        default: /workspace/extracted
-  outputs:
-    resources:
-      - name: docker-image
-        type: image
   steps:
-    - name: assemble-extract
-      securityContext:
-        privileged: true
-      image: appsody/appsody-buildah
-      command: ["/bin/bash"]
+    - name: npm-test
+      image: kabanero/nodejs-express:0.2
+      workingDir: /project
+      command:
+        - /bin/bash
       args:
         - -c
-        - "/extract.sh"
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-    - name: npm-test
-      securityContext:
-        privileged: true
-      image: kabanero/nodejs-express:0.2
-      command: ["/bin/bash","-c","cd ${inputs.params.pathToContext}/user-app &amp;&amp; ls &amp;&amp; npm install --prefix user-app &amp;&amp; npm install -g mocha &amp;&amp; cd .. &amp;&amp; npm test &amp;&amp; npm test --prefix user-app"]
-      env:
-        - name: gitsource
-          value: git-source
-      volumeMounts:
-        - mountPath: /var/lib/containers
-          name: varlibcontainers
-  volumes:
-    - name: varlibcontainers
-      emptyDir: {}</code></pre>
+        - |
+          set -e
+          cp -a ${inputs.resources.git-source.path}/* $APPSODY_WATCH_DIR
+          # perform npm install
+          $APPSODY_INSTALL
+          # run npm test on project and user-app
+          delimiter=" &amp;&amp; "
+          s=$APPSODY_TEST$delimiter
+          array=();
+          while [[ $s ]]; do
+              array+=( "${s%%"$delimiter"*}" );
+              s=${s#*"$delimiter"};
+          done;
+          for i in "${array[@]}"
+          do
+            echo executing $i
+            $i
+          done</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -477,9 +465,6 @@ spec:
         inputs:
         - name: git-source
           resource: git-source
-        outputs:
-        - name: docker-image
-          resource: docker-image
     - name: build-task
       taskRef:
         name: nodejs-express-build-task
@@ -630,7 +615,7 @@ nodejs-express-test-build-deploy-pipeline      1h
 </div>
 </div>
 <div class="sect1">
-<h2 id="_java_springboot"><a class="anchor" href="#_java_springboot"></a>Java Springboot</h2>
+<h2 id="_java_spring_boot"><a class="anchor" href="#_java_spring_boot"></a>Java Spring Boot</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Before defining a new task or pipeline, make sure, you do the following steps.</p>
