@@ -1,4 +1,4 @@
-= Tekton - Create a Pipeline
+= Tekton - Create a Pipeline Test+Build+Deploy
 :toc:
 :imagesdir: images
 
