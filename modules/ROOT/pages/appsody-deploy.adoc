@@ -123,6 +123,7 @@ If using knative
 [source, bash]
 ----
 export APP_URL=$(oc get ksvc ${APP_NAME} -n ${NAMESPACE} -o jsonpath="{.status.url}")
+echo ${APP_URL}
 ----
 
 
