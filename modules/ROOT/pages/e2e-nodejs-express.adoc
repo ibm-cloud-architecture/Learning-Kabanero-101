@@ -778,7 +778,7 @@ appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-sa
 - Show the Knative route
 [source, bash]
 ----
-oc get route.serving.knative.dev/appsody-sample-nodejs-expres
+oc get route.serving.knative.dev/appsody-sample-nodejs-express
 
 NAME                            URL                                                                                                                                            READY     REASON
 appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True

@@ -1,0 +1,171 @@
+= Appsody - Deploy to remote cluster
+:toc:
+
+== Configure Docker Registry
+
+We are going to use a managed OpenShift cluter on IBM Cloud
+
+Follow the documentation https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-images to expose the internal docker registry, this will allow you to push images from your local workstation to the remote registry.
+
+Here is the TLDR; for this section
+[source, bash]
+----
+oc create route reencrypt docker-registry --service=docker-registry -n default
+oc patch route docker-registry -n default --type='json' -p='[{"op": "add", "path": "/metadata/annotations/haproxy.router.openshift.io~1balance", "value":"source"}]'
+export DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
+docker login -u $(oc whoami) -p $(oc whoami -t) $DOCKER_REGISTRY
+----
+
+
+TIP: Working with insecure docker registries
+====
+If using the IBM Cloud OpenShift you should not have problems with docker logn, but if you are using another opnshift cluster and get an error about https/ssl., then add the registry to the Docker Engine config (ie Docker->Preferences->Docker Engine) for example:
+[source, json]
+----
+{
+  "insecure-registries": [
+    "default-route-openshift-image-registry.apps-crc.testing", "1.2.3.4.nip.io:5000"
+  ]
+}
+----
+====
+
+== Create Application
+
+Create a new appsody application, or use existing one.
+
+[source, bash]
+----
+mkdir appsody-app
+cd appsody-app
+appsody init kabanero/nodejs-express
+----
+
+
+== Setup Application manifest
+
+Create a namespace to deploy the application for personal dev, for example `carlos`
+[source, bash]
+----
+oc new-project carlos
+export NAMESPACE=$(oc project -q)
+----
+
+Generate an appsody deploy yaml and rename it to `app-deploy-remote.yaml`
+[source, bash]
+----
+appsody deploy --generate-only
+mv app-deploy.yaml app-deploy-remote.yaml
+export APP_DEPLOY_YAML=app-deploy-remote.yaml
+----
+
+
+Set the `pullPolicy:Always` 
+[source, bash]
+----
+yq w -i ${APP_DEPLOY_YAML} spec.pullPolicy Always
+----
+
+Add to `.gitignore`
+[source, bash]
+----
+echo "\n${APP_DEPLOY_YAML}" >> .gitignore
+----
+
+== Build and Push Image
+
+Build and push the application image to the remote registry
+[source, bash]
+----
+export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
+export IMAGE_NAME=${APP_NAME}
+appsody deploy \
+  -f ${APP_DEPLOY_YAML} \
+  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME} \
+  --push \
+  -n ${NAMESPACE}
+----
+
+If you want to use Serverless then append `--kantive` to the appsody deploy 
+[source, bash]
+----
+export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
+export IMAGE_NAME=${APP_NAME}
+appsody deploy \
+  -f ${APP_DEPLOY_YAML} \
+  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME} \
+  --push \
+  -n ${NAMESPACE} --knative
+----
+
+
+
+== Deploy the Application
+
+Deploy the application, by replacing the image location to use the local service for the docker-registry
+[source, bash]
+----
+sed -i -e 's#applicationImage: .*$#applicationImage: '"docker-registry.default.svc:5000/${NAMESPACE}/${IMAGE_NAME}"'#g' ${APP_DEPLOY_YAML}
+oc delete -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}
+oc apply -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}
+----
+
+== Run the Application
+
+If not using knative
+[source, bash]
+----
+export APP_URL=http://$(oc get route ${APP_NAME} -n ${NAMESPACE} -o jsonpath="{.spec.host}")
+echo ${APP_URL}
+----
+
+If using knative
+[source, bash]
+----
+export APP_URL=$(oc get ksvc ${APP_NAME} -n ${NAMESPACE} -o jsonpath="{.status.url}")
+----
+
+
+Open with a browser or use curl
+[source, bash]
+----
+open ${APP_URL}
+curl ${APP_URL}
+----
+
+== Automate appsody deploy
+
+You can create a script `deploy.sh` that you can run everytime you want to deploy to the remote cluster
+
+[source, bash]
+----
+cat <<EOF >deploy.sh
+export DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
+export NAMESPACE=$(oc project -q)
+export APP_DEPLOY_YAML=app-deploy-remote.yaml
+export APP_NAME=$(yq r ${APP_DEPLOY_YAML} metadata.name)
+export IMAGE_NAME=${APP_NAME}
+appsody deploy \
+  -f ${APP_DEPLOY_YAML} \
+  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME} \
+  --push \
+  -n ${NAMESPACE}
+sed -i '' -e 's#applicationImage: .*\$#applicationImage: '"docker-registry.default.svc:5000/${NAMESPACE}/${IMAGE_NAME}"'#g' ${APP_DEPLOY_YAML}
+oc delete -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}
+oc apply -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}
+EOF
+chmod +x deploy.sh
+echo "\ndeploy.sh" >> .gitignore
+----
+
+* You should use `appsody run` most of the time to work with your application locally, if there is a need to deploy to a remote cluster then use `./deploy.sh`.
+* The best practice is to push your code to a git repository, and letting the devops process take over to deploy to the cluster using one of these workflows:
+** xref:e2e-java-spring-boot2.adoc[E2E Java Spring Boot]
+** xref:e2e-java-microprofile.adoc[E2E Java Liberty Microprofile]
+** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
+
+# Cleaning up
+[source, bash]
+----
+oc delete -f ${APP_DEPLOY_YAML}
+----
