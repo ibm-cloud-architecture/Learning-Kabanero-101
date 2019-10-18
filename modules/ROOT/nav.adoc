@@ -9,7 +9,11 @@
 ** xref:appsody-deploy.adoc[Appsody Deploy]
 ** xref:codewind-setup-appsody.adoc[Configure CodeWind]
 ** xref:appsody-extend-stack.adoc[Extend Appsody Stack]
-** xref:tekton-create-pipeline.adoc[Extend Tekton Pipeline]
+** xref:tekton-create-pipeline.adoc[Extend Tekton Pipelines]
+*** xref:tekton-create-pipeline.adoc#nodejs-express-deploy[Deploy Test Pipelines]
+*** xref:tekton-create-pipeline.adoc#nodejs-express[Test Node.js Express]
+*** xref:tekton-create-pipeline.adoc#java-spring-boot2[Test Java Spring Boot Test]
+*** xref:tekton-create-pipeline.adoc#java-microprofile[Test Java Microprofile]
 ** xref:tekton-credentials-github.adoc[Configure Github Credentials]
 ** xref:tekton-credentials-docker.adoc[Configure Docker Credentials]
 

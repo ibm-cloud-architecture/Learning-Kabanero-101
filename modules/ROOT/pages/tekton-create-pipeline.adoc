@@ -4,6 +4,7 @@
 
 == Prerequisites
 
+[#nodejs-express-prerequisites]
 === Nodejs express
 
 * You need to create an appsody sample application and configure the tekton pipeline.
@@ -11,6 +12,7 @@
 ** For instructions on how to deploy nodejs express application on openshift, checkout <<e2e-nodejs-express.adoc#_deploy_the_appsody_application_on_openshift_for_team_development, Deploy the appsody application on Openshift>>.
 ** For instructions on how to access tekton pipeline, checkout <<e2e-nodejs-express.adoc#_accessing_tekton_dashboard, Accessing Tekton dashboard>>.
 
+[#java-spring-boot2-prerequisites]
 === Java Sprinboot
 
 * You need to create an appsody sample application and configure the tekton pipeline.
@@ -18,6 +20,7 @@
 ** For instructions on how to deploy java springboot application on openshift, checkout <<e2e-java-spring-boot2.adoc#_deploy_the_appsody_application_on_openshift_for_team_development, Deploy the appsody application on Openshift>>.
 ** For instructions on how to access tekton pipeline, checkout <<e2e-java-spring-boot2.adoc#_accessing_tekton_dashboard, Accessing Tekton dashboard>>.
 
+[#java-microprofile-prerequisites]
 === Java Microprofile
 
 * You need to create an appsody sample application and configure the tekton pipeline.
@@ -25,9 +28,9 @@
 ** For instructions on how to deploy java microprofile application on openshift, checkout <<e2e-java-microprofile.adoc#_deploy_the_appsody_application_on_openshift_for_team_development, Deploy the appsody application on Openshift>>.
 ** For instructions on how to access tekton pipeline, checkout <<e2e-java-microprofile.adoc#_accessing_tekton_dashboard, Accessing Tekton dashboard>>.
 
-== Create a Pipeline
+== Review the existing Pipelines and Tasks
 
-With kabanero, every collection comes with a default `build task`, `deploy task` and `build deploy pipeline`.
+With kabanero, every collection comes with a default `build` task, `deploy` task and `build deploy` pipeline.
 
 - Run this command to see the available pipelines.
 
@@ -84,6 +87,17 @@ pipeline0-task                   15d
 
 Let us now see how to define more tasks or create new pipelines for appsody sample applications.
 
+[#nodejs-express-deploy]
+== Deploy the example pipelines
+
+If you already reviewed this guide and just want to deploy the tasks and pipelines discussed here you can deploy them with the following command
+[source, bash]
+----
+oc create -n kabanero -f https://raw.githubusercontent.com/ibm-cloud-architecture/Learning-Kabanero-101/master/pipelines/test-pipelines.yaml 
+----
+
+
+[#nodejs-express]
 == Nodejs express
 
 Before defining a new task or pipeline, make sure, you do the following steps.
@@ -93,7 +107,7 @@ Before defining a new task or pipeline, make sure, you do the following steps.
 - Create a github access token.
 - Access tekton dashboard.
 
-If you did not perform any of the above steps, go to the links provided in the prerequisites.
+If you did not perform any of the above steps, go to the links provided in the xref:#nodejs-express-prerequisites[prerequisites].
 
 === Custom Task
 
@@ -101,8 +115,7 @@ Let us define a new `test` task.
 
 - To do this, create `test-task.yaml` as follows.
 
-IMPORTANT:
-Do not name your task too long or you will get errors about Kubernetes resources has invalid names. Keep task and pipeline names less than 40 characters long.
+IMPORTANT: Do not name your task too long or you will get errors about Kubernetes resources has invalid names. Keep task and pipeline names less than 40 characters long.
 
 [source, yaml]
 ----
@@ -276,6 +289,7 @@ image::sb_custom_pipeline_tekton_pipeline_run.png[align="center"]
 
 image::sb_custom_pipeline_tekton_pipeline_run_tasks.png[align="center"]
 
+[#java-spring-boot2]
 == Java Spring Boot
 
 Before defining a new task or pipeline, make sure, you do the following steps.
@@ -285,7 +299,7 @@ Before defining a new task or pipeline, make sure, you do the following steps.
 - Create a github access token.
 - Access tekton dashboard.
 
-If you did not perform any of the above steps, go to the links provided in the prerequisites.
+If you did not perform any of the above steps, go to the links provided in the xref:#java-spring-boot2-prerequisites[prerequisites].
 
 === Custom Task
 
@@ -444,6 +458,7 @@ image::sb_custom_pipeline_task_java_sb2.png[align="center"]
 
 image::sb_custom_pipeline_tekton_pipeline_run_tasks_java.png[align="center"]
 
+[#java-microprofile]
 == Java Microprofile
 
 Before defining a new task or pipeline, make sure, you do the following steps.
@@ -453,7 +468,7 @@ Before defining a new task or pipeline, make sure, you do the following steps.
 - Create a github access token.
 - Access tekton dashboard.
 
-If you did not perform any of the above steps, go to the links provided in the prerequisites.
+If you did not perform any of the above steps, go to the links provided in the xref:#java-microprofile-prerequisites[prerequisites].
 
 === Custom Task
 

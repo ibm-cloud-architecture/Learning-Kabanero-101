@@ -1,0 +1,189 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: java-microprofile-test-task
+spec:
+  inputs:
+    resources:
+      - name: git-source
+        type: git
+  steps:
+    - name: test
+      securityContext:
+        privileged: true
+      image: kabanero/java-microprofile:0.2
+      workingdir: ${inputs.resources.git-source.path}
+      command: ["/bin/bash", "-c", "$APPSODY_TEST"]
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: java-microprofile-test-build-deploy-pipeline
+spec:
+  resources:
+    - name: git-source
+      type: git
+    - name: docker-image
+      type: image
+  tasks:
+    - name: test-task
+      taskRef:
+        name: java-microprofile-test-task
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+    - name: build-task
+      taskRef:
+        name: java-microprofile-build-task
+      runAfter: [test-task]
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+        outputs:
+          - name: docker-image
+            resource: docker-image
+    - name: deploy-task
+      taskRef:
+        name: java-microprofile-deploy-task
+      runAfter: [build-task]
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+          - name: docker-image
+            resource: docker-image
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: java-spring-boot2-test-task
+spec:
+  inputs:
+    resources:
+      - name: git-source
+        type: git
+  steps:
+    - name: test
+      securityContext:
+        privileged: true
+      image: kabanero/java-spring-boot2:0.3
+      workingdir: ${inputs.resources.git-source.path}
+      command: ["/bin/bash", "-c", "$APPSODY_TEST"]
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: java-spring-boot2-test-build-deploy-pipeline
+spec:
+  resources:
+    - name: git-source
+      type: git
+    - name: docker-image
+      type: image
+  tasks:
+    - name: test-task
+      taskRef:
+        name: java-spring-boot2-test-task
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+    - name: build-task
+      taskRef:
+        name: java-spring-boot2-build-task
+      runAfter: [test-task]
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+        outputs:
+          - name: docker-image
+            resource: docker-image
+    - name: deploy-task
+      taskRef:
+        name: java-spring-boot2-deploy-task
+      runAfter: [build-task]
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+          - name: docker-image
+            resource: docker-image
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: nodejs-express-test-task
+spec:
+  inputs:
+    resources:
+      - name: git-source
+        type: git
+  steps:
+    - name: npm-test
+      image: kabanero/nodejs-express:0.2
+      workingDir: /project
+      command:
+        - /bin/bash
+      args:
+        - -c
+        - |
+          set -e
+          cp -a ${inputs.resources.git-source.path}/* $APPSODY_WATCH_DIR
+          # perform npm install
+          $APPSODY_INSTALL
+          # run npm test on project and user-app
+          delimiter=" && "
+          s=$APPSODY_TEST$delimiter
+          array=();
+          while [[ $s ]]; do
+              array+=( "${s%%"$delimiter"*}" );
+              s=${s#*"$delimiter"};
+          done;
+          for i in "${array[@]}"
+          do
+            echo executing $i
+            $i
+          done
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: nodejs-express-test-build-deploy-pipeline
+spec:
+  resources:
+    - name: git-source
+      type: git
+    - name: docker-image
+      type: image
+  tasks:
+    - name: test-task
+      taskRef:
+        name: nodejs-express-test-task
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+    - name: build-task
+      taskRef:
+        name: nodejs-express-build-task
+      runAfter: [test-task]
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+        outputs:
+          - name: docker-image
+            resource: docker-image
+    - name: deploy-task
+      taskRef:
+        name: nodejs-express-deploy-task
+      runAfter: [build-task]
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+          - name: docker-image
+            resource: docker-image
