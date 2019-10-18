@@ -44,10 +44,10 @@ appsody init kabanero/nodejs-express
 
 == Setup Application manifest
 
-Create a namespace to deploy the application for personal dev, for example `carlos`
+Create a namespace to deploy the application for personal dev, for example `my-project`
 [source, bash]
 ----
-oc new-project carlos
+oc new-project my-project
 export NAMESPACE=$(oc project -q)
 ----
 
