@@ -219,10 +219,6 @@ watcher \
 ** xref:e2e-java-microprofile.adoc[E2E Java Liberty Microprofile]
 ** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
 
-
-
-
-
 == Cleaning up
 [source, bash]
 ----
