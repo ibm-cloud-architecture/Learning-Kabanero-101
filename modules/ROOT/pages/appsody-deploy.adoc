@@ -59,14 +59,6 @@ mv app-deploy.yaml app-deploy-remote.yaml
 export APP_DEPLOY_YAML=app-deploy-remote.yaml
 ----
 
-
-Set the `pullPolicy:Always` 
-[source, bash]
-----
-yq w -i ${APP_DEPLOY_YAML} spec.pullPolicy Always
-----
-
-
 == Build and Push Image
 
 Build and push the application image to the remote registry
@@ -82,7 +74,7 @@ appsody deploy \
   -n ${NAMESPACE}
 ----
 
-If you want to use Serverless then append `--kantive` to the appsody deploy 
+If you want to use Serverless then append `--knative` to the appsody deploy 
 [source, bash]
 ----
 export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
@@ -139,7 +131,6 @@ Run the following script in your terminal to create the two files `.env` and `de
 APP_DEPLOY_YAML=app-deploy-remote.yaml
 appsody deploy --generate-only
 mv app-deploy.yaml ${APP_DEPLOY_YAML}
-yq w -i ${APP_DEPLOY_YAML} spec.pullPolicy Always
 
 cat <<EOF >.env
 DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
