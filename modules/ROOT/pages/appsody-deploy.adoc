@@ -153,6 +153,12 @@ cat <<EOF >deploy.sh
 #!/bin/bash
 source .env
 IMAGE_TAG=\${RANDOM}
+
+if ! oc get project \${NAMESPACE}; then
+  echo project \${NAMESPACE} not found, creating new project \${NAMESPACE}
+  oc new-project \${NAMESPACE}
+fi
+
 if [ "\$APP_KNATIVE" = "true" ]; then
   echo Deploying Serverless Service
   APP_KNATIVE_FLAG="--knative"
