@@ -64,7 +64,22 @@
     <a class="nav-link" href="appsody-extend-stack.html">Extend Appsody Stack</a>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="tekton-create-pipeline.html">Extend Tekton Pipeline</a>
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="tekton-create-pipeline.html">Extend Tekton Pipelines</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#nodejs-express-deploy">Deploy Test Pipelines</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#nodejs-express">Test Node.js Express</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#java-spring-boot2">Test Java Spring Boot Test</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="#java-microprofile">Test Java Microprofile</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="tekton-credentials-github.html">Configure Github Credentials</a>
@@ -121,7 +136,7 @@
   <ul>
     <li><a href="kabanero-overview.html">Learning Kabanero 101</a></li>
     <li>Tasks</li>
-    <li><a href="tekton-create-pipeline.html">Extend Tekton Pipeline</a></li>
+    <li><a href="tekton-create-pipeline.html">Extend Tekton Pipelines</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/tekton-create-pipeline.adoc">Edit this Page</a></div>
@@ -133,13 +148,14 @@
 <ul class="sectlevel1">
 <li><a href="#_prerequisites">Prerequisites</a>
 <ul class="sectlevel2">
-<li><a href="#_nodejs_express">Nodejs express</a></li>
-<li><a href="#_java_sprinboot">Java Sprinboot</a></li>
-<li><a href="#_java_microprofile">Java Microprofile</a></li>
+<li><a href="#nodejs-express-prerequisites">Nodejs express</a></li>
+<li><a href="#java-spring-boot2-prerequisites">Java Sprinboot</a></li>
+<li><a href="#java-microprofile-prerequisites">Java Microprofile</a></li>
 </ul>
 </li>
-<li><a href="#_create_a_pipeline">Create a Pipeline</a></li>
-<li><a href="#_nodejs_express_2">Nodejs express</a>
+<li><a href="#_review_the_existing_pipelines_and_tasks">Review the existing Pipelines and Tasks</a></li>
+<li><a href="#nodejs-express-deploy">Deploy the example pipelines</a></li>
+<li><a href="#nodejs-express">Nodejs express</a>
 <ul class="sectlevel2">
 <li><a href="#_custom_task">Custom Task</a></li>
 <li><a href="#_custom_pipeline">Custom Pipeline</a></li>
@@ -147,7 +163,7 @@
 <li><a href="#_verify_the_pipeline">Verify the pipeline</a></li>
 </ul>
 </li>
-<li><a href="#_java_spring_boot">Java Spring Boot</a>
+<li><a href="#java-spring-boot2">Java Spring Boot</a>
 <ul class="sectlevel2">
 <li><a href="#_custom_task_2">Custom Task</a></li>
 <li><a href="#_custom_pipeline_2">Custom Pipeline</a></li>
@@ -155,7 +171,7 @@
 <li><a href="#_verify_the_pipeline_2">Verify the pipeline</a></li>
 </ul>
 </li>
-<li><a href="#_java_microprofile_2">Java Microprofile</a>
+<li><a href="#java-microprofile">Java Microprofile</a>
 <ul class="sectlevel2">
 <li><a href="#_custom_task_3">Custom Task</a></li>
 <li><a href="#_custom_pipeline_3">Custom Pipeline</a></li>
@@ -169,7 +185,7 @@
 <h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_nodejs_express"><a class="anchor" href="#_nodejs_express"></a>Nodejs express</h3>
+<h3 id="nodejs-express-prerequisites"><a class="anchor" href="#nodejs-express-prerequisites"></a>Nodejs express</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -192,7 +208,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_java_sprinboot"><a class="anchor" href="#_java_sprinboot"></a>Java Sprinboot</h3>
+<h3 id="java-spring-boot2-prerequisites"><a class="anchor" href="#java-spring-boot2-prerequisites"></a>Java Sprinboot</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -215,7 +231,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_java_microprofile"><a class="anchor" href="#_java_microprofile"></a>Java Microprofile</h3>
+<h3 id="java-microprofile-prerequisites"><a class="anchor" href="#java-microprofile-prerequisites"></a>Java Microprofile</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -240,10 +256,10 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_a_pipeline"><a class="anchor" href="#_create_a_pipeline"></a>Create a Pipeline</h2>
+<h2 id="_review_the_existing_pipelines_and_tasks"><a class="anchor" href="#_review_the_existing_pipelines_and_tasks"></a>Review the existing Pipelines and Tasks</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>With kabanero, every collection comes with a default <code>build task</code>, <code>deploy task</code> and <code>build deploy pipeline</code>.</p>
+<p>With kabanero, every collection comes with a default <code>build</code> task, <code>deploy</code> task and <code>build deploy</code> pipeline.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -320,7 +336,20 @@ pipeline0-task                   15d</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_nodejs_express_2"><a class="anchor" href="#_nodejs_express_2"></a>Nodejs express</h2>
+<h2 id="nodejs-express-deploy"><a class="anchor" href="#nodejs-express-deploy"></a>Deploy the example pipelines</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you already reviewed this guide and just want to deploy the tasks and pipelines discussed here you can deploy them with the following command</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create -n kabanero -f https://raw.githubusercontent.com/ibm-cloud-architecture/Learning-Kabanero-101/master/pipelines/test-pipelines.yaml</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nodejs-express"><a class="anchor" href="#nodejs-express"></a>Nodejs express</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Before defining a new task or pipeline, make sure, you do the following steps.</p>
@@ -342,7 +371,7 @@ pipeline0-task                   15d</code></pre>
 </ul>
 </div>
 <div class="paragraph">
-<p>If you did not perform any of the above steps, go to the links provided in the prerequisites.</p>
+<p>If you did not perform any of the above steps, go to the links provided in the <a href="#nodejs-express-prerequisites">prerequisites</a>.</p>
 </div>
 <div class="sect2">
 <h3 id="_custom_task"><a class="anchor" href="#_custom_task"></a>Custom Task</h3>
@@ -356,9 +385,17 @@ pipeline0-task                   15d</code></pre>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>IMPORTANT:
-Do not name your task too long or you will get errors about Kubernetes resources has invalid names. Keep task and pipeline names less than 40 characters long.</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Do not name your task too long or you will get errors about Kubernetes resources has invalid names. Keep task and pipeline names less than 40 characters long.
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -618,7 +655,7 @@ nodejs-express-test-build-deploy-pipeline      1h
 </div>
 </div>
 <div class="sect1">
-<h2 id="_java_spring_boot"><a class="anchor" href="#_java_spring_boot"></a>Java Spring Boot</h2>
+<h2 id="java-spring-boot2"><a class="anchor" href="#java-spring-boot2"></a>Java Spring Boot</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Before defining a new task or pipeline, make sure, you do the following steps.</p>
@@ -640,7 +677,7 @@ nodejs-express-test-build-deploy-pipeline      1h
 </ul>
 </div>
 <div class="paragraph">
-<p>If you did not perform any of the above steps, go to the links provided in the prerequisites.</p>
+<p>If you did not perform any of the above steps, go to the links provided in the <a href="#java-spring-boot2-prerequisites">prerequisites</a>.</p>
 </div>
 <div class="sect2">
 <h3 id="_custom_task_2"><a class="anchor" href="#_custom_task_2"></a>Custom Task</h3>
@@ -891,7 +928,7 @@ java-spring-boot2-test-build-deploy-pipeline   37m</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_java_microprofile_2"><a class="anchor" href="#_java_microprofile_2"></a>Java Microprofile</h2>
+<h2 id="java-microprofile"><a class="anchor" href="#java-microprofile"></a>Java Microprofile</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Before defining a new task or pipeline, make sure, you do the following steps.</p>
@@ -913,7 +950,7 @@ java-spring-boot2-test-build-deploy-pipeline   37m</code></pre>
 </ul>
 </div>
 <div class="paragraph">
-<p>If you did not perform any of the above steps, go to the links provided in the prerequisites.</p>
+<p>If you did not perform any of the above steps, go to the links provided in the <a href="#java-microprofile-prerequisites">prerequisites</a>.</p>
 </div>
 <div class="sect2">
 <h3 id="_custom_task_3"><a class="anchor" href="#_custom_task_3"></a>Custom Task</h3>
