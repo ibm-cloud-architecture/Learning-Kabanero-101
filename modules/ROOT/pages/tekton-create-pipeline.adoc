@@ -115,8 +115,7 @@ Let us define a new `test` task.
 
 - To do this, create `test-task.yaml` as follows.
 
-IMPORTANT:
-Do not name your task too long or you will get errors about Kubernetes resources has invalid names. Keep task and pipeline names less than 40 characters long.
+IMPORTANT: Do not name your task too long or you will get errors about Kubernetes resources has invalid names. Keep task and pipeline names less than 40 characters long.
 
 [source, yaml]
 ----
