@@ -322,7 +322,10 @@ curl ${APP_URL}</code></pre>
 <h2 id="_automate_appsody_deploy"><a class="anchor" href="#_automate_appsody_deploy"></a>Automate appsody deploy</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You can create a file <code>.env</code> and a script <code>deploy.sh</code> that you can run everytime you want to deploy to the remote cluster</p>
+<p>Create a <code>.env</code> file and a script <code>deploy.sh</code>. Use <code>./deploy.sh</code> everytime you want to deploy to the remote cluster</p>
+</div>
+<div class="paragraph">
+<p>Run the following script in your terminal to create the two files <code>.env</code> and <code>deploy.sh</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -344,18 +347,28 @@ cat &lt;&lt;EOF &gt;deploy.sh
 #!/bin/bash
 source .env
 IMAGE_TAG=\${RANDOM}
+
+if ! oc get project \${NAMESPACE}; then
+  echo project \${NAMESPACE} not found, creating new project \${NAMESPACE}
+  oc new-project \${NAMESPACE}
+fi
+
 if [ "\$APP_KNATIVE" = "true" ]; then
   echo Deploying Serverless Service
   APP_KNATIVE_FLAG="--knative"
   yq w -i ${APP_DEPLOY_YAML} spec.createKnativeService true
 fi
+
 appsody deploy \
   -f \${APP_DEPLOY_YAML} \
   --tag \${DOCKER_REGISTRY}/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG} \
   --push \
   -n \${NAMESPACE} \${APP_KNATIVE_FLAG}
+
 sed -i '' -e 's#applicationImage: .*\$#applicationImage: '"docker-registry.default.svc:5000/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG}"'#g' \${APP_DEPLOY_YAML}
+
 oc apply -f \${APP_DEPLOY_YAML} -n \${NAMESPACE}
+
 if [ "\$APP_KNATIVE" = "true" ]; then
   echo Getting Serveless Application URL...
   APP_URL=\$(oc get ksvc \${APP_NAME} -n \${NAMESPACE} -o jsonpath="{.status.url}")
@@ -363,9 +376,41 @@ else
   echo Getting Application URL...
   APP_URL=http://\$(oc get route \${APP_NAME} -n \${NAMESPACE} -o jsonpath="{.spec.host}")
 fi
+
 echo App deployed: \${APP_URL}
 EOF
 chmod +x deploy.sh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You automatically run <code>deploy.sh</code> on file change. You can use an utility like appsody watcher.</p>
+</div>
+<div class="paragraph">
+<p>Install <code>watcher</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># install appsody watcher binary
+go get github.com/appsody/watcher/cmd/watcher</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run the following script to create <code>watcher.sh</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">APP_DEPLOY_YAML=app-deploy-remote.yaml
+cat &lt;&lt;EOF &gt;watch.sh
+#!/bin/bash
+watcher \
+  --startcmd=false \
+  --cmd="./deploy.sh" \
+  --ignore="node_modules,${APP_DEPLOY_YAML}" \
+  --keepalive=true --dotfiles=false \
+  -list \
+  app.js
+EOF
+chmod +x watch.sh</code></pre>
 </div>
 </div>
 <div class="ulist">
