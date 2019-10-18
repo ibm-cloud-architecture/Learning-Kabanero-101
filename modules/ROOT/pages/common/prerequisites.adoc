@@ -1,12 +1,10 @@
 
-* https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift Cluster]
-** https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html[Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)]
-*** Tekton Operator and Tekton Dashboard
-*** Knative Operator
-** Install Appsody Operator that watches on all namespaces https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0
-* Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac], https://docs.docker.com/docker-for-windows/install/[Windows]
+* https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[Openshift Cluster^]
+* Kabanero Enterprise via IBM Cloud Pak for Applications
+** Install IBM Cloud Pak for Applications using https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html[CLI Installer^] or https://cloud.ibm.com/catalog/content/ibm-cp-applications[IBM Cloud Catalog^]
+** https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0[Install Appsody Operator that watches on all namespaces^]
+* Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac^], https://docs.docker.com/docker-for-windows/install/[Windows^]
 * The following command line (CLI) tools and configured:
-** docker - It comes with the Docker for Desktop installation.
-** https://www.okd.io/download.html[oc]
-** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git]
-** https://appsody.dev/docs/getting-started/installation[appsody]
+** https://www.okd.io/download.html[oc^]
+** https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git^]
+** https://appsody.dev/docs/getting-started/installation[appsody^]
