@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: java-microprofile-test-task
+spec:
+  inputs:
+    resources:
+      - name: git-source
+        type: git
+  steps:
+    - name: test
+      securityContext:
+        privileged: true
+      image: kabanero/java-microprofile:0.2
+      workingdir: ${inputs.resources.git-source.path}
+      command: ["/bin/bash", "-c", "$APPSODY_TEST"]
