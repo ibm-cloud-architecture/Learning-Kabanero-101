@@ -66,11 +66,6 @@ Set the `pullPolicy:Always`
 yq w -i ${APP_DEPLOY_YAML} spec.pullPolicy Always
 ----
 
-Add to `.gitignore`
-[source, bash]
-----
-echo "\n${APP_DEPLOY_YAML}" >> .gitignore
-----
 
 == Build and Push Image
 
@@ -79,9 +74,10 @@ Build and push the application image to the remote registry
 ----
 export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
 export IMAGE_NAME=${APP_NAME}
+export IMAGE_TAG=${RANDOM}
 appsody deploy \
   -f ${APP_DEPLOY_YAML} \
-  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME} \
+  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG} \
   --push \
   -n ${NAMESPACE}
 ----
@@ -91,11 +87,13 @@ If you want to use Serverless then append `--kantive` to the appsody deploy
 ----
 export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
 export IMAGE_NAME=${APP_NAME}
+export IMAGE_TAG=${RANDOM}
 appsody deploy \
   -f ${APP_DEPLOY_YAML} \
-  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME} \
+  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG} \
   --push \
   -n ${NAMESPACE} --knative
+yq w -i app-deploy-remote.yaml spec.createKnativeService true
 ----
 
 
@@ -105,8 +103,7 @@ appsody deploy \
 Deploy the application, by replacing the image location to use the local service for the docker-registry
 [source, bash]
 ----
-sed -i -e 's#applicationImage: .*$#applicationImage: '"docker-registry.default.svc:5000/${NAMESPACE}/${IMAGE_NAME}"'#g' ${APP_DEPLOY_YAML}
-oc delete -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}
+sed -i -e 's#applicationImage: .*$#applicationImage: '"docker-registry.default.svc:5000/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"'#g' ${APP_DEPLOY_YAML}
 oc apply -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}
 ----
 
@@ -116,14 +113,12 @@ If not using knative
 [source, bash]
 ----
 export APP_URL=http://$(oc get route ${APP_NAME} -n ${NAMESPACE} -o jsonpath="{.spec.host}")
-echo ${APP_URL}
 ----
 
 If using knative
 [source, bash]
 ----
 export APP_URL=$(oc get ksvc ${APP_NAME} -n ${NAMESPACE} -o jsonpath="{.status.url}")
-echo ${APP_URL}
 ----
 
 
@@ -136,28 +131,52 @@ curl ${APP_URL}
 
 == Automate appsody deploy
 
-You can create a script `deploy.sh` that you can run everytime you want to deploy to the remote cluster
+You can create a file `.env` and a script `deploy.sh` that you can run everytime you want to deploy to the remote cluster
 
 [source, bash]
 ----
+APP_DEPLOY_YAML=app-deploy-remote.yaml
+appsody deploy --generate-only
+mv app-deploy.yaml ${APP_DEPLOY_YAML}
+yq w -i ${APP_DEPLOY_YAML} spec.pullPolicy Always
+
+cat <<EOF >.env
+DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
+NAMESPACE=$(oc project -q)
+APP_DEPLOY_YAML=${APP_DEPLOY_YAML}
+APP_NAME=$(yq r ${APP_DEPLOY_YAML} metadata.name)
+IMAGE_NAME=${APP_NAME}
+APP_KNATIVE=false
+EOF
+
 cat <<EOF >deploy.sh
-export DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
-export NAMESPACE=$(oc project -q)
-export APP_DEPLOY_YAML=app-deploy-remote.yaml
-export APP_NAME=$(yq r ${APP_DEPLOY_YAML} metadata.name)
-export IMAGE_NAME=${APP_NAME}
+#!/bin/bash
+source .env
+IMAGE_TAG=\${RANDOM}
+if [ "\$APP_KNATIVE" = "true" ]; then
+  echo Deploying Serverless Service
+  APP_KNATIVE_FLAG="--knative"
+  yq w -i ${APP_DEPLOY_YAML} spec.createKnativeService true
+fi
 appsody deploy \
-  -f ${APP_DEPLOY_YAML} \
-  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME} \
+  -f \${APP_DEPLOY_YAML} \
+  --tag \${DOCKER_REGISTRY}/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG} \
   --push \
-  -n ${NAMESPACE}
-sed -i '' -e 's#applicationImage: .*\$#applicationImage: '"docker-registry.default.svc:5000/${NAMESPACE}/${IMAGE_NAME}"'#g' ${APP_DEPLOY_YAML}
-oc delete -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}
-oc apply -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}
+  -n \${NAMESPACE} \${APP_KNATIVE_FLAG}
+sed -i '' -e 's#applicationImage: .*\$#applicationImage: '"docker-registry.default.svc:5000/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG}"'#g' \${APP_DEPLOY_YAML}
+oc apply -f \${APP_DEPLOY_YAML} -n \${NAMESPACE}
+if [ "\$APP_KNATIVE" = "true" ]; then
+  echo Getting Serveless Application URL...
+  APP_URL=\$(oc get ksvc \${APP_NAME} -n \${NAMESPACE} -o jsonpath="{.status.url}")
+else
+  echo Getting Application URL...
+  APP_URL=http://\$(oc get route \${APP_NAME} -n \${NAMESPACE} -o jsonpath="{.spec.host}")
+fi
+echo App deployed: \${APP_URL}
 EOF
 chmod +x deploy.sh
-echo "\ndeploy.sh" >> .gitignore
 ----
+
 
 * You should use `appsody run` most of the time to work with your application locally, if there is a need to deploy to a remote cluster then use `./deploy.sh`.
 * The best practice is to push your code to a git repository, and letting the devops process take over to deploy to the cluster using one of these workflows:
