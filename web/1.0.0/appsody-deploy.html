@@ -228,14 +228,6 @@ mv app-deploy.yaml app-deploy-remote.yaml
 export APP_DEPLOY_YAML=app-deploy-remote.yaml</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Set the <code>pullPolicy:Always</code></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">yq w -i ${APP_DEPLOY_YAML} spec.pullPolicy Always</code></pre>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -257,7 +249,7 @@ appsody deploy \
 </div>
 </div>
 <div class="paragraph">
-<p>If you want to use Serverless then append <code>--kantive</code> to the appsody deploy</p>
+<p>If you want to use Serverless then append <code>--knative</code> to the appsody deploy</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -332,7 +324,6 @@ curl ${APP_URL}</code></pre>
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">APP_DEPLOY_YAML=app-deploy-remote.yaml
 appsody deploy --generate-only
 mv app-deploy.yaml ${APP_DEPLOY_YAML}
-yq w -i ${APP_DEPLOY_YAML} spec.pullPolicy Always
 
 cat &lt;&lt;EOF &gt;.env
 DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
