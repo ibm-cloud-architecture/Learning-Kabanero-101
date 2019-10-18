@@ -19,7 +19,7 @@ docker login -u $(oc whoami) -p $(oc whoami -t) $DOCKER_REGISTRY
 
 TIP: Working with insecure docker registries
 ====
-If using the IBM Cloud OpenShift you should not have problems with docker logn, but if you are using another opnshift cluster and get an error about https/ssl., then add the registry to the Docker Engine config (ie Docker->Preferences->Docker Engine) for example:
+If using the IBM Cloud OpenShift you should not have problems with docker login, but if you are using another opnshift cluster and get an error about https/ssl., then add the registry to the Docker Engine config (ie Docker->Preferences->Docker Engine) for example:
 [source, json]
 ----
 {
