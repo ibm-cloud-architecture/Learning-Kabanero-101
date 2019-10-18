@@ -184,7 +184,7 @@ chmod +x deploy.sh
 ** xref:e2e-java-microprofile.adoc[E2E Java Liberty Microprofile]
 ** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
 
-# Cleaning up
+== Cleaning up
 [source, bash]
 ----
 oc delete -f ${APP_DEPLOY_YAML}
