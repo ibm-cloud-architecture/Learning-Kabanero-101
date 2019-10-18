@@ -6,6 +6,7 @@
 ** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
 
 * Tasks
+** xref:appsody-deploy.adoc[Appsody Deploy]
 ** xref:codewind-setup-appsody.adoc[Configure CodeWind]
 ** xref:appsody-extend-stack.adoc[Extend Appsody Stack]
 ** xref:tekton-create-pipeline.adoc[Extend Tekton Pipeline]

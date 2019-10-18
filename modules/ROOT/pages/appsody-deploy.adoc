@@ -1,0 +1,191 @@
+= Appsody - Deploy to remote cluster
+:toc:
+
+== Configure Docker Registry
+
+We are going to use a managed OpenShift cluter on IBM Cloud
+
+Follow the documentation https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-images to expose the internal docker registry, this will allow you to push images from your local workstation to the remote registry.
+
+Here is the TLDR; for this section
+[source, bash]
+----
+oc create route reencrypt docker-registry --service=docker-registry -n default
+oc patch route docker-registry -n default --type='json' -p='[{"op": "add", "path": "/metadata/annotations/haproxy.router.openshift.io~1balance", "value":"source"}]'
+export DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
+docker login -u $(oc whoami) -p $(oc whoami -t) $DOCKER_REGISTRY
+----
+
+
+TIP: Working with insecure docker registries
+====
+If using the IBM Cloud OpenShift you should not have problems with docker login, but if you are using another opnshift cluster and get an error about https/ssl., then add the registry to the Docker Engine config (ie Docker->Preferences->Docker Engine) for example:
+[source, json]
+----
+{
+  "insecure-registries": [
+    "default-route-openshift-image-registry.apps-crc.testing", "1.2.3.4.nip.io:5000"
+  ]
+}
+----
+====
+
+== Create Application
+
+Create a new appsody application, or use existing one.
+
+[source, bash]
+----
+mkdir appsody-app
+cd appsody-app
+appsody init kabanero/nodejs-express
+----
+
+
+== Setup Application manifest
+
+Create a namespace to deploy the application for personal dev, for example `my-project`
+[source, bash]
+----
+oc new-project my-project
+export NAMESPACE=$(oc project -q)
+----
+
+Generate an appsody deploy yaml and rename it to `app-deploy-remote.yaml`
+[source, bash]
+----
+appsody deploy --generate-only
+mv app-deploy.yaml app-deploy-remote.yaml
+export APP_DEPLOY_YAML=app-deploy-remote.yaml
+----
+
+
+Set the `pullPolicy:Always` 
+[source, bash]
+----
+yq w -i ${APP_DEPLOY_YAML} spec.pullPolicy Always
+----
+
+
+== Build and Push Image
+
+Build and push the application image to the remote registry
+[source, bash]
+----
+export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
+export IMAGE_NAME=${APP_NAME}
+export IMAGE_TAG=${RANDOM}
+appsody deploy \
+  -f ${APP_DEPLOY_YAML} \
+  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG} \
+  --push \
+  -n ${NAMESPACE}
+----
+
+If you want to use Serverless then append `--kantive` to the appsody deploy 
+[source, bash]
+----
+export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
+export IMAGE_NAME=${APP_NAME}
+export IMAGE_TAG=${RANDOM}
+appsody deploy \
+  -f ${APP_DEPLOY_YAML} \
+  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG} \
+  --push \
+  -n ${NAMESPACE} --knative
+yq w -i app-deploy-remote.yaml spec.createKnativeService true
+----
+
+
+
+== Deploy the Application
+
+Deploy the application, by replacing the image location to use the local service for the docker-registry
+[source, bash]
+----
+sed -i -e 's#applicationImage: .*$#applicationImage: '"docker-registry.default.svc:5000/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"'#g' ${APP_DEPLOY_YAML}
+oc apply -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}
+----
+
+== Run the Application
+
+If not using knative
+[source, bash]
+----
+export APP_URL=http://$(oc get route ${APP_NAME} -n ${NAMESPACE} -o jsonpath="{.spec.host}")
+----
+
+If using knative
+[source, bash]
+----
+export APP_URL=$(oc get ksvc ${APP_NAME} -n ${NAMESPACE} -o jsonpath="{.status.url}")
+----
+
+
+Open with a browser or use curl
+[source, bash]
+----
+open ${APP_URL}
+curl ${APP_URL}
+----
+
+== Automate appsody deploy
+
+You can create a file `.env` and a script `deploy.sh` that you can run everytime you want to deploy to the remote cluster
+
+[source, bash]
+----
+APP_DEPLOY_YAML=app-deploy-remote.yaml
+appsody deploy --generate-only
+mv app-deploy.yaml ${APP_DEPLOY_YAML}
+yq w -i ${APP_DEPLOY_YAML} spec.pullPolicy Always
+
+cat <<EOF >.env
+DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
+NAMESPACE=$(oc project -q)
+APP_DEPLOY_YAML=${APP_DEPLOY_YAML}
+APP_NAME=$(yq r ${APP_DEPLOY_YAML} metadata.name)
+IMAGE_NAME=${APP_NAME}
+APP_KNATIVE=false
+EOF
+
+cat <<EOF >deploy.sh
+#!/bin/bash
+source .env
+IMAGE_TAG=\${RANDOM}
+if [ "\$APP_KNATIVE" = "true" ]; then
+  echo Deploying Serverless Service
+  APP_KNATIVE_FLAG="--knative"
+  yq w -i ${APP_DEPLOY_YAML} spec.createKnativeService true
+fi
+appsody deploy \
+  -f \${APP_DEPLOY_YAML} \
+  --tag \${DOCKER_REGISTRY}/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG} \
+  --push \
+  -n \${NAMESPACE} \${APP_KNATIVE_FLAG}
+sed -i '' -e 's#applicationImage: .*\$#applicationImage: '"docker-registry.default.svc:5000/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG}"'#g' \${APP_DEPLOY_YAML}
+oc apply -f \${APP_DEPLOY_YAML} -n \${NAMESPACE}
+if [ "\$APP_KNATIVE" = "true" ]; then
+  echo Getting Serveless Application URL...
+  APP_URL=\$(oc get ksvc \${APP_NAME} -n \${NAMESPACE} -o jsonpath="{.status.url}")
+else
+  echo Getting Application URL...
+  APP_URL=http://\$(oc get route \${APP_NAME} -n \${NAMESPACE} -o jsonpath="{.spec.host}")
+fi
+echo App deployed: \${APP_URL}
+EOF
+chmod +x deploy.sh
+----
+
+
+* You should use `appsody run` most of the time to work with your application locally, if there is a need to deploy to a remote cluster then use `./deploy.sh`.
+* The best practice is to push your code to a git repository, and letting the devops process take over to deploy to the cluster using one of these workflows:
+** xref:e2e-java-spring-boot2.adoc[E2E Java Spring Boot]
+** xref:e2e-java-microprofile.adoc[E2E Java Liberty Microprofile]
+** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
+
+== Cleaning up
+[source, bash]
+----
+oc delete -f ${APP_DEPLOY_YAML}
+----
