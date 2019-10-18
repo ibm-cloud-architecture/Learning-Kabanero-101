@@ -199,17 +199,22 @@ go get github.com/appsody/watcher/cmd/watcher
 ----
 
 
-Use `watcher`
+Run the following script to create `watcher.sh`
 
 [source, bash]
 ----
+APP_DEPLOY_YAML=app-deploy-remote.yaml
+cat <<EOF >watch.sh
+#!/bin/bash
 watcher \
   --startcmd=false \
   --cmd="./deploy.sh" \
-  --ignore="node_modules,app-deploy-remote.yaml" \
+  --ignore="node_modules,${APP_DEPLOY_YAML}" \
   --keepalive=true --dotfiles=false \
   -list \
   app.js
+EOF
+chmod +x watch.sh
 ----
 
 
