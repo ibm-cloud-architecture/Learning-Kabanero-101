@@ -3,7 +3,9 @@
 
 
 ## Learning Journey
-Access the learning modules https://ibm-cloud-architecture.github.io/Learning-Kabanero-101 .
+Access the learning modules https://ibm-cloud-architecture.github.io/Learning-Kabanero-101
+
+Kabanero Enterprise is part of [IBM Cloud Pak for Applications](https://www.ibm.com/support/knowledgecenter/SSCSJL/about-overview.html)
 
 Kabanero Enterprise is the commercial enterprise-ready and fully supported implementation of the Kabanero open source community project. Kabanero Enterprise integrates with, extends, and adds value to Red Hat OpenShift.
 
