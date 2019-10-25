@@ -1,8 +1,12 @@
 * xref:kabanero-overview.adoc[Overview]
 
+* Installing Kabanero Enterprise
+** https://cloud.ibm.com/catalog/content/ibm-cp-applications[Using IBM Cloud Console ↗^]
+** https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html[Using CLI Installer ↗^]
+
 * Workflows
-** xref:e2e-java-spring-boot2.adoc[E2E Java Spring Boot]
-** xref:e2e-java-microprofile.adoc[E2E Java Liberty Microprofile]
+** xref:e2e-java-spring-boot2.adoc[E2E Java Spring Boot 2]
+** xref:e2e-java-microprofile.adoc[E2E Java Microprofile]
 ** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
 
 * Tasks
@@ -19,8 +23,9 @@
 
 
 * External Resources
-** https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md[Create Appsody Stack ↗^]
+** https://developer.ibm.com/technologies/containers/tutorials/create-appsody-stack[Create Appsody Stack ↗^]
 ** https://github.com/gcharters/kabanero-dev-getting-started[Java MicroProfile Tutorial ↗^]
+** https://developer.ibm.com/components/cloud-pak-for-applications[IBM Cloud Pak for Applications @ IBM Developer ↗^]
 
 * xref:references.adoc[References]
 

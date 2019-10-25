@@ -1,4 +1,5 @@
 # Learning Kabanero Enterprise 101
+
 [![CircleCI](https://circleci.com/gh/ibm-cloud-architecture/Learning-Kabanero-101.svg?style=svg)](https://circleci.com/gh/ibm-cloud-architecture/Learning-Kabanero-101)
 
 

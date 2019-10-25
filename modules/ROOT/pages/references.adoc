@@ -26,8 +26,11 @@ Run serverless containers on Kubernetes with ease, Knative takes care of the det
 https://github.com/gcharters/kabanero-dev-getting-started[Java MicroProfile Tutorial^]::
 This tutorial will give you an introduction to the Kabanero developer experience. You'll create and deploy a Java MicroProfile based cloud-native application.
 
-https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md[Create new Appsody Stack Tutorial^]::
+https://developer.ibm.com/technologies/containers/tutorials/create-appsody-stack[Create new Appsody Stack Tutorial^]::
 This tutorial will take you through the creation of a brand new stack, showing what you need to do, as a stack developer, to allow users to run, build and deploy applications based upon it.
 
-https://www.ibm.com/support/knowledgecenter/en/SSCSJL/about-overview.html[IBM Cloud Pak™ for Applications^]::
+https://www.ibm.com/support/knowledgecenter/en/SSCSJL/about-overview.html[IBM Cloud Pak™ for Applications Docs^]::
 Provides a complete and consistent experience to speed development of applications built for Kubernetes, using agile DevOps processes.
+
+https://developer.ibm.com/components/cloud-pak-for-applications[IBM Cloud Pak™ for Applications @ IBM Developer^]::
+A hybrid, multicloud foundation for modernizing existing applications and developing new cloud-native apps

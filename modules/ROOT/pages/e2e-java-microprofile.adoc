@@ -1,4 +1,4 @@
-= End to End Java Liberty Microprofile Kabanero workflow
+= End to End Java Microprofile Kabanero workflow
 :imagesdir: images
 :toc:
 
