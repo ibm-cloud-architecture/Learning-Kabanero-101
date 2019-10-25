@@ -303,7 +303,7 @@ yq w -i app-deploy-remote.yaml spec.createKnativeService true</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sed -i -e 's#applicationImage: .*$#applicationImage: '"docker-registry.default.svc:5000/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"'#g' ${APP_DEPLOY_YAML}
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sed -i'.bak' -e 's#applicationImage: .*$#applicationImage: '"docker-registry.default.svc:5000/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"'#g' ${APP_DEPLOY_YAML} &amp;&amp; rm ${APP_DEPLOY_YAML}.bak
 oc apply -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}</code></pre>
 </div>
 </div>
@@ -353,12 +353,13 @@ curl ${APP_URL}</code></pre>
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">APP_DEPLOY_YAML=app-deploy-remote.yaml
 appsody deploy --generate-only
 mv app-deploy.yaml ${APP_DEPLOY_YAML}
+APP_NAME=$(yq r ${APP_DEPLOY_YAML} metadata.name)
 
 cat &lt;&lt;EOF &gt;.env
 DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
 NAMESPACE=$(oc project -q)
 APP_DEPLOY_YAML=${APP_DEPLOY_YAML}
-APP_NAME=$(yq r ${APP_DEPLOY_YAML} metadata.name)
+APP_NAME=${APP_NAME}
 IMAGE_NAME=${APP_NAME}
 APP_KNATIVE=false
 EOF
@@ -385,7 +386,7 @@ appsody deploy \
   --push \
   -n \${NAMESPACE} \${APP_KNATIVE_FLAG}
 
-sed -i '' -e 's#applicationImage: .*\$#applicationImage: '"docker-registry.default.svc:5000/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG}"'#g' \${APP_DEPLOY_YAML}
+sed -i'.bak' -e 's#applicationImage: .*\$#applicationImage: '"docker-registry.default.svc:5000/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG}"'#g' \${APP_DEPLOY_YAML} &amp;&amp; rm \${APP_DEPLOY_YAML}.bak
 
 oc apply -f \${APP_DEPLOY_YAML} -n \${NAMESPACE}
 
