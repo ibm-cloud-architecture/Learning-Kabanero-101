@@ -15,20 +15,19 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <div class="navbar-item">
-        <p>Learning Kabanero 101</p>
+        <p>Learning Kabanero Enterprise 101</p>
       </div>
     </div>
     <div id="topbar-nav" class="navbar-menu">
     </div>
   </nav>
-</header>
-<div class="body">
+</header><div class="body">
 <div class="nav-container" data-component="web" data-version="1.0.0">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="kabanero-overview.html">Learning Kabanero 101</a></h3>
+    <h3 class="title"><a href="kabanero-overview.html">Learning Kabanero Enterprise 101</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -37,13 +36,25 @@
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
+    <span class="nav-text">Installing Kabanero Enterprise</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <span class="nav-text"><a href="https://cloud.ibm.com/catalog/content/ibm-cp-applications" target="_blank" rel="noopener">Using IBM Cloud Console ↗</a></span>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">Using CLI Installer ↗</a></span>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <span class="nav-text">Workflows</span>
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="e2e-java-spring-boot2.html">E2E Java Spring Boot</a>
+    <a class="nav-link" href="e2e-java-spring-boot2.html">E2E Java Spring Boot 2</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="e2e-java-microprofile.html">E2E Java Liberty Microprofile</a>
+    <a class="nav-link" href="e2e-java-microprofile.html">E2E Java Microprofile</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="e2e-nodejs-express.html">E2E Node.js Express</a>
@@ -94,10 +105,13 @@
     <span class="nav-text">External Resources</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <span class="nav-text"><a href="https://github.com/henrynash/apposody-stack-creation/blob/master/stack-creation.md" target="_blank" rel="noopener">Create Appsody Stack ↗</a></span>
+    <span class="nav-text"><a href="https://developer.ibm.com/technologies/containers/tutorials/create-appsody-stack" target="_blank" rel="noopener">Create Appsody Stack ↗</a></span>
   </li>
   <li class="nav-item" data-depth="2">
     <span class="nav-text"><a href="https://github.com/gcharters/kabanero-dev-getting-started" target="_blank" rel="noopener">Java MicroProfile Tutorial ↗</a></span>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <span class="nav-text"><a href="https://developer.ibm.com/components/cloud-pak-for-applications" target="_blank" rel="noopener">IBM Cloud Pak for Applications @ IBM Developer ↗</a></span>
   </li>
 </ul>
   </li>
@@ -111,12 +125,12 @@
 </div>
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
-    <span class="title">Learning Kabanero 101</span>
+    <span class="title">Learning Kabanero Enterprise 101</span>
     <span class="version">1.0.0</span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <span class="title">Learning Kabanero 101</span>
+      <span class="title">Learning Kabanero Enterprise 101</span>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="kabanero-overview.html">1.0.0</a>
@@ -134,9 +148,9 @@
   <a href="kabanero-overview.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="kabanero-overview.html">Learning Kabanero 101</a></li>
+    <li><a href="kabanero-overview.html">Learning Kabanero Enterprise 101</a></li>
     <li>Workflows</li>
-    <li><a href="e2e-java-spring-boot2.html">E2E Java Spring Boot</a></li>
+    <li><a href="e2e-java-spring-boot2.html">E2E Java Spring Boot 2</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/e2e-java-spring-boot2.adoc">Edit this Page</a></div>
@@ -193,46 +207,36 @@
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://cloud.ibm.com/kubernetes/catalog/openshiftcluster">Openshift Cluster</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html">Kabenero Enterprise (Installed with IBM Cloud Pak for Applications)</a></p>
-<div class="ulist">
-<ul>
-<li>
-<p>Tekton Operator and Tekton Dashboard</p>
+<p><a href="https://cloud.ibm.com/kubernetes/catalog/openshiftcluster" target="_blank" rel="noopener">Openshift Cluster</a></p>
 </li>
 <li>
-<p>Knative Operator</p>
+<p>Kabanero Enterprise via IBM Cloud Pak for Applications</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Install IBM Cloud Pak for Applications using <a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">CLI Installer</a> or <a href="https://cloud.ibm.com/catalog/content/ibm-cp-applications" target="_blank" rel="noopener">IBM Cloud Catalog</a></p>
+</li>
+<li>
+<p><a href="https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0" target="_blank" rel="noopener">Install Appsody Operator that watches on all namespaces</a></p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Install Appsody Operator that watches on all namespaces <a href="https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0" class="bare">https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0</a></p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Docker for Desktop - <a href="https://docs.docker.com/docker-for-mac/install/">Mac</a>, <a href="https://docs.docker.com/docker-for-windows/install/">Windows</a></p>
+<p>Docker for Desktop - <a href="https://docs.docker.com/docker-for-mac/install/" target="_blank" rel="noopener">Mac</a>, <a href="https://docs.docker.com/docker-for-windows/install/" target="_blank" rel="noopener">Windows</a></p>
 </li>
 <li>
 <p>The following command line (CLI) tools and configured:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>docker - It comes with the Docker for Desktop installation.</p>
+<p><a href="https://www.okd.io/download.html" target="_blank" rel="noopener">oc</a></p>
 </li>
 <li>
-<p><a href="https://www.okd.io/download.html">oc</a></p>
+<p><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" target="_blank" rel="noopener">git</a></p>
 </li>
 <li>
-<p><a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a></p>
-</li>
-<li>
-<p><a href="https://appsody.dev/docs/getting-started/installation">appsody</a></p>
+<p><a href="https://appsody.dev/docs/getting-started/installation" target="_blank" rel="noopener">appsody</a></p>
 </li>
 </ul>
 </div>
