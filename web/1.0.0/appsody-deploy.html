@@ -154,7 +154,7 @@
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/appsody-deploy.adoc">Edit this Page</a></div>
-</div>
+  </div>
 <article class="doc">
 <h1 class="page">Appsody - Deploy to remote cluster</h1>
 <div id="toc" class="toc">
@@ -163,11 +163,9 @@
 <li><a href="#_configure_docker_registry">Configure Docker Registry</a></li>
 <li><a href="#_create_application">Create Application</a></li>
 <li><a href="#_setup_application_manifest">Setup Application manifest</a></li>
-<li><a href="#_build_and_push_image">Build and Push Image</a></li>
 <li><a href="#_deploy_the_application">Deploy the Application</a></li>
-<li><a href="#_run_the_application">Run the Application</a></li>
+<li><a href="#_access_the_application">Access the Application</a></li>
 <li><a href="#_automate_appsody_deploy">Automate appsody deploy</a></li>
-<li><a href="#_cleaning_up">Cleaning up</a></li>
 </ul>
 </div>
 <div class="sect1">
@@ -252,45 +250,7 @@ export NAMESPACE=$(oc project -q)</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody deploy --generate-only
-mv app-deploy.yaml app-deploy-remote.yaml
-export APP_DEPLOY_YAML=app-deploy-remote.yaml</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_build_and_push_image"><a class="anchor" href="#_build_and_push_image"></a>Build and Push Image</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Build and push the application image to the remote registry</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
-export IMAGE_NAME=${APP_NAME}
-export IMAGE_TAG=${RANDOM}
-appsody deploy \
-  -f ${APP_DEPLOY_YAML} \
-  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG} \
-  --push \
-  -n ${NAMESPACE}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you want to use Serverless then append <code>--knative</code> to the appsody deploy</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
-export IMAGE_NAME=${APP_NAME}
-export IMAGE_TAG=${RANDOM}
-appsody deploy \
-  -f ${APP_DEPLOY_YAML} \
-  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG} \
-  --push \
-  -n ${NAMESPACE} --knative
-yq w -i app-deploy-remote.yaml spec.createKnativeService true</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody deploy --generate-only</code></pre>
 </div>
 </div>
 </div>
@@ -299,18 +259,41 @@ yq w -i app-deploy-remote.yaml spec.createKnativeService true</code></pre>
 <h2 id="_deploy_the_application"><a class="anchor" href="#_deploy_the_application"></a>Deploy the Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Deploy the application, by replacing the image location to use the local service for the docker-registry</p>
+<p>Build and push the application image to the remote registry</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">sed -i'.bak' -e 's#applicationImage: .*$#applicationImage: '"docker-registry.default.svc:5000/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"'#g' ${APP_DEPLOY_YAML} &amp;&amp; rm ${APP_DEPLOY_YAML}.bak
-oc apply -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
+export APP_NAME=$(yq r app-deploy.yaml metadata.name)
+export IMAGE_NAME=${APP_NAME}
+export IMAGE_TAG=${RANDOM}
+appsody deploy \
+  --tag "${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}" \
+  --push-url "${DOCKER_REGISTRY}" \
+  --pull-url "${INTERNAL_DOCKER_REGISTRY}"
+  -n ${NAMESPACE}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want to use Serverless then append <code>--knative</code> to the appsody deploy</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
+export APP_NAME=$(yq r app-deploy.yaml metadata.name)
+export IMAGE_NAME=${APP_NAME}
+export IMAGE_TAG=${RANDOM}
+appsody deploy \
+  --tag "${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}" \
+  --push-url "${DOCKER_REGISTRY}" \
+  --pull-url "${INTERNAL_DOCKER_REGISTRY}"
+  -n ${NAMESPACE} --knative</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_run_the_application"><a class="anchor" href="#_run_the_application"></a>Run the Application</h2>
+<h2 id="_access_the_application"><a class="anchor" href="#_access_the_application"></a>Access the Application</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>If not using knative</p>
@@ -350,16 +333,13 @@ curl ${APP_URL}</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">APP_DEPLOY_YAML=app-deploy-remote.yaml
-appsody deploy --generate-only
-mv app-deploy.yaml ${APP_DEPLOY_YAML}
-APP_NAME=$(yq r ${APP_DEPLOY_YAML} metadata.name)
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody deploy --generate-only
 
 cat &lt;&lt;EOF &gt;.env
+INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
 DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
 NAMESPACE=$(oc project -q)
-APP_DEPLOY_YAML=${APP_DEPLOY_YAML}
-APP_NAME=${APP_NAME}
+APP_NAME=$(yq r app-deploy.yaml metadata.name)
 IMAGE_NAME=${APP_NAME}
 APP_KNATIVE=false
 EOF
@@ -377,18 +357,13 @@ fi
 if [ "\$APP_KNATIVE" = "true" ]; then
   echo Deploying Serverless Service
   APP_KNATIVE_FLAG="--knative"
-  yq w -i ${APP_DEPLOY_YAML} spec.createKnativeService true
 fi
 
 appsody deploy \
-  -f \${APP_DEPLOY_YAML} \
-  --tag \${DOCKER_REGISTRY}/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG} \
-  --push \
+  --tag \${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG} \
+  --push-url \${DOCKER_REGISTRY} \
+  --pull-url \${INTERNAL_DOCKER_REGISTRY} \
   -n \${NAMESPACE} \${APP_KNATIVE_FLAG}
-
-sed -i'.bak' -e 's#applicationImage: .*\$#applicationImage: '"docker-registry.default.svc:5000/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG}"'#g' \${APP_DEPLOY_YAML} &amp;&amp; rm \${APP_DEPLOY_YAML}.bak
-
-oc apply -f \${APP_DEPLOY_YAML} -n \${NAMESPACE}
 
 if [ "\$APP_KNATIVE" = "true" ]; then
   echo Getting Serveless Application URL...
@@ -404,34 +379,23 @@ chmod +x deploy.sh</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You automatically run <code>deploy.sh</code> on file change. You can use an utility like appsody watcher.</p>
+<p>You can automatically run <code>deploy.sh</code> on file change. You can use an utility like appsody watcher.</p>
 </div>
 <div class="paragraph">
-<p>Install <code>watcher</code></p>
+<p>Install a tool to watch files and run a command when a file changes. For example <a href="https://github.com/emcrisostomo/fswatch" target="_blank" rel="noopener">fswatch</a></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># install appsody watcher binary
-go get github.com/appsody/watcher/cmd/watcher</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># install appsody fswatch binary
+brew install fswatch</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Run the following script to create <code>watcher.sh</code></p>
+<p>Run the following command excluding the directory <code>.git/</code> and the file <code>app-deploy.yaml</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">APP_DEPLOY_YAML=app-deploy-remote.yaml
-cat &lt;&lt;EOF &gt;watch.sh
-#!/bin/bash
-watcher \
-  --startcmd=false \
-  --cmd="./deploy.sh" \
-  --ignore="node_modules,${APP_DEPLOY_YAML}" \
-  --keepalive=true --dotfiles=false \
-  -list \
-  app.js
-EOF
-chmod +x watch.sh</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">fswatch -e .git/ -e app-deploy.yaml -o . | xargs -n1 -I{} "./deploy.sh"</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -456,16 +420,6 @@ chmod +x watch.sh</code></pre>
 </div>
 </li>
 </ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_cleaning_up"><a class="anchor" href="#_cleaning_up"></a>Cleaning up</h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc delete -f ${APP_DEPLOY_YAML}</code></pre>
-</div>
 </div>
 </div>
 </div>
