@@ -122,7 +122,6 @@ cat <<EOF >.env
 INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
 DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
 NAMESPACE=$(oc project -q)
-APP_DEPLOY_YAML=${APP_DEPLOY_YAML}
 APP_NAME=$(yq r app-deploy.yaml metadata.name)
 IMAGE_NAME=${APP_NAME}
 APP_KNATIVE=false
@@ -162,32 +161,21 @@ EOF
 chmod +x deploy.sh
 ----
 
-You automatically run `deploy.sh` on file change. You can use an utility like appsody watcher.
+You can automatically run `deploy.sh` on file change. You can use an utility like appsody watcher.
 
-Install `watcher`
+Install a tool to watch files and run a command when a file changes. For example https://github.com/emcrisostomo/fswatch[fswatch^]
 [source, bash]
 ----
-# install appsody watcher binary
-go get github.com/appsody/watcher/cmd/watcher
+# install appsody fswatch binary
+brew install fswatch
 ----
 
 
-Run the following script to create `watcher.sh`
+Run the following command excluding the directory `.git/` and the file `app-deploy.yaml`
 
 [source, bash]
 ----
-APP_DEPLOY_YAML=app-deploy-remote.yaml
-cat <<EOF >watch.sh
-#!/bin/bash
-watcher \
-  --startcmd=false \
-  --cmd="./deploy.sh" \
-  --ignore="node_modules,${APP_DEPLOY_YAML}" \
-  --keepalive=true --dotfiles=false \
-  -list \
-  app.js
-EOF
-chmod +x watch.sh
+fswatch -e .git/ -e app-deploy.yaml -o . | xargs -n1 -I{} "./deploy.sh"
 ----
 
 
@@ -197,8 +185,4 @@ chmod +x watch.sh
 ** xref:e2e-java-microprofile.adoc[E2E Java Liberty Microprofile]
 ** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
 
-== Cleaning up
-[source, bash]
-----
-oc delete -f ${APP_DEPLOY_YAML}
-----
+
