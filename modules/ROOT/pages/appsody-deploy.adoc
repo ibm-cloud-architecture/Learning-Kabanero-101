@@ -55,51 +55,39 @@ Generate an appsody deploy yaml and rename it to `app-deploy-remote.yaml`
 [source, bash]
 ----
 appsody deploy --generate-only
-mv app-deploy.yaml app-deploy-remote.yaml
-export APP_DEPLOY_YAML=app-deploy-remote.yaml
 ----
 
-== Build and Push Image
+== Deploy the Application
 
 Build and push the application image to the remote registry
 [source, bash]
 ----
-export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
+export INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
+export APP_NAME=$(yq r app-deploy.yaml metadata.name)
 export IMAGE_NAME=${APP_NAME}
 export IMAGE_TAG=${RANDOM}
 appsody deploy \
-  -f ${APP_DEPLOY_YAML} \
-  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG} \
-  --push \
+  --tag "${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}" \
+  --push-url "${DOCKER_REGISTRY}" \
+  --pull-url "${INTERNAL_DOCKER_REGISTRY}"
   -n ${NAMESPACE}
 ----
 
-If you want to use Serverless then append `--knative` to the appsody deploy 
+If you want to use Serverless then append `--knative` to the appsody deploy
 [source, bash]
 ----
-export APP_NAME=$(yq r app-deploy-remote.yaml metadata.name)
+export INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
+export APP_NAME=$(yq r app-deploy.yaml metadata.name)
 export IMAGE_NAME=${APP_NAME}
 export IMAGE_TAG=${RANDOM}
 appsody deploy \
-  -f ${APP_DEPLOY_YAML} \
-  --tag ${DOCKER_REGISTRY}/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG} \
-  --push \
+  --tag "${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}" \
+  --push-url "${DOCKER_REGISTRY}" \
+  --pull-url "${INTERNAL_DOCKER_REGISTRY}"
   -n ${NAMESPACE} --knative
-yq w -i app-deploy-remote.yaml spec.createKnativeService true
 ----
 
-
-
-== Deploy the Application
-
-Deploy the application, by replacing the image location to use the local service for the docker-registry
-[source, bash]
-----
-sed -i'.bak' -e 's#applicationImage: .*$#applicationImage: '"docker-registry.default.svc:5000/${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}"'#g' ${APP_DEPLOY_YAML} && rm ${APP_DEPLOY_YAML}.bak
-oc apply -f ${APP_DEPLOY_YAML} -n ${NAMESPACE}
-----
-
-== Run the Application
+== Access the Application
 
 If not using knative
 [source, bash]
@@ -128,16 +116,13 @@ Create a `.env` file and a script `deploy.sh`. Use `./deploy.sh` everytime you w
 Run the following script in your terminal to create the two files `.env` and `deploy.sh`
 [source, bash]
 ----
-APP_DEPLOY_YAML=app-deploy-remote.yaml
 appsody deploy --generate-only
-mv app-deploy.yaml ${APP_DEPLOY_YAML}
-APP_NAME=$(yq r ${APP_DEPLOY_YAML} metadata.name)
 
 cat <<EOF >.env
+INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
 DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
 NAMESPACE=$(oc project -q)
-APP_DEPLOY_YAML=${APP_DEPLOY_YAML}
-APP_NAME=${APP_NAME}
+APP_NAME=$(yq r app-deploy.yaml metadata.name)
 IMAGE_NAME=${APP_NAME}
 APP_KNATIVE=false
 EOF
@@ -155,18 +140,13 @@ fi
 if [ "\$APP_KNATIVE" = "true" ]; then
   echo Deploying Serverless Service
   APP_KNATIVE_FLAG="--knative"
-  yq w -i ${APP_DEPLOY_YAML} spec.createKnativeService true
 fi
 
 appsody deploy \
-  -f \${APP_DEPLOY_YAML} \
-  --tag \${DOCKER_REGISTRY}/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG} \
-  --push \
+  --tag \${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG} \
+  --push-url \${DOCKER_REGISTRY} \
+  --pull-url \${INTERNAL_DOCKER_REGISTRY} \
   -n \${NAMESPACE} \${APP_KNATIVE_FLAG}
-
-sed -i'.bak' -e 's#applicationImage: .*\$#applicationImage: '"docker-registry.default.svc:5000/\${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG}"'#g' \${APP_DEPLOY_YAML} && rm \${APP_DEPLOY_YAML}.bak
-
-oc apply -f \${APP_DEPLOY_YAML} -n \${NAMESPACE}
 
 if [ "\$APP_KNATIVE" = "true" ]; then
   echo Getting Serveless Application URL...
@@ -181,32 +161,21 @@ EOF
 chmod +x deploy.sh
 ----
 
-You automatically run `deploy.sh` on file change. You can use an utility like appsody watcher.
+You can automatically run `deploy.sh` on file change. You can use an utility like appsody watcher.
 
-Install `watcher`
+Install a tool to watch files and run a command when a file changes. For example https://github.com/emcrisostomo/fswatch[fswatch^]
 [source, bash]
 ----
-# install appsody watcher binary
-go get github.com/appsody/watcher/cmd/watcher
+# install appsody fswatch binary
+brew install fswatch
 ----
 
 
-Run the following script to create `watcher.sh`
+Run the following command excluding the directory `.git/` and the file `app-deploy.yaml`
 
 [source, bash]
 ----
-APP_DEPLOY_YAML=app-deploy-remote.yaml
-cat <<EOF >watch.sh
-#!/bin/bash
-watcher \
-  --startcmd=false \
-  --cmd="./deploy.sh" \
-  --ignore="node_modules,${APP_DEPLOY_YAML}" \
-  --keepalive=true --dotfiles=false \
-  -list \
-  app.js
-EOF
-chmod +x watch.sh
+fswatch -e .git/ -e app-deploy.yaml -o . | xargs -n1 -I{} "./deploy.sh"
 ----
 
 
@@ -216,8 +185,4 @@ chmod +x watch.sh
 ** xref:e2e-java-microprofile.adoc[E2E Java Liberty Microprofile]
 ** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
 
-== Cleaning up
-[source, bash]
-----
-oc delete -f ${APP_DEPLOY_YAML}
-----
+
