@@ -32,7 +32,7 @@ For *application developers*, the Kabanero experience is realized as tooling tha
 
 * https://appsody.dev[Appsody]: A Command-line interface with commands for creating, building, running, and deploying applications. Appsody also has extensions that are used by other portions of the architecture, in order to reassemble the application as a container image and to deploy it to a running container, and those will be covered in the respective sections of this overview.
 
-* https://www.eclipse.org/codewind/[Codewind]: Hosted IDE (Codewind for Eclipse Che) and IDE extensions (Eclipse and Visual Studio Code) with a set of commands for creating, building, running, and profiling applications. When compared to Appsody, Codewind lacks the ability to deploy an application directly to a Kubernetes cluster, but it adds useful profiling capabilities where developers can inspect the usage of system resources between different local iterations on the source code.
+* https://www.eclipse.org/codewind/[Codewind]: An IDE extension to several different IDEs (Codewind for Visual Studio Code, Eclipse, and the hosted Eclipse Che IDE) with tools for creating, building, running, and profiling containerized applications.  Allows you to start developing directly with containers without leaving your IDE of choice and adds useful profiling capabilities where developers can inspect the usage of system resources or microservice response times between different local iterations of the source code.
 
 
 == Architect Experience
