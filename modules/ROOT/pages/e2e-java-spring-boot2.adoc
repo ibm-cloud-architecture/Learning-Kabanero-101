@@ -621,8 +621,8 @@ Once you create it, you will see something like below.
 
 [source, bash]
 ----
-$ oc new-project kabanero-samples-java
-Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+$ oc new-project kabanero-samples
+Already on project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -642,8 +642,8 @@ It gives you the below message if you are already in that space.
 
 [source, bash]
 ----
-$ oc project kabanero-samples-java
-Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+$ oc project kabanero-samples
+Already on project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
 ----
 
 - Check that the current context is your team's project space.
@@ -658,7 +658,7 @@ You will see something like below.
 [source, bash]
 ----
 $ oc project -q
-kabanero-samples-java
+kabanero-samples
 ----
 
 === Create application deployment manifest
@@ -706,7 +706,7 @@ spec:
   expose: true
 ----
 
-By default, the application is deployed in the `kabanero` namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called `kabanero-samples-java` and we can specify it under the metadata as below.
+By default, the application is deployed in the `kabanero` namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called `kabanero-samples` and we can specify it under the metadata as below.
 
 [source, yaml]
 ----
@@ -714,7 +714,7 @@ apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
   name: appsody-sample-springboot
-  namespace: kabanero-samples-java
+  namespace: kabanero-samples
 spec:
   # Add fields here
   version: 1.0.0
@@ -796,11 +796,11 @@ You can access it at the `HOST/PORT` available. For instance here it will be `te
 
 - You can also access it on the Cloud Pak Landing page. You will find a `Tekton Dashboard`.
 
-image::sb_lab1_kabanero_enterprise.png[]
+- Navigate to the menu in the upper left and select instances.
 
-image::sb_lab1_kabanero_ent_dashboard.png[]
+- Then click the link under the `Tekton` label to navigate to the `Tekton Dashboard`.
 
-image::sb_lab1_kabanero_ent_instance.png[]
+image::tekton_link_42.png[]
 
 image::sb_lab1_tekton_dashboard.png[]
 
@@ -842,7 +842,8 @@ image::sb_lab1_webhook_settings_access_token_existing.png[]
 Namespace - kabanero
 Pipeline - java-spring-boot2-build-deploy-pipeline
 Service account - kabaner-operator
-Docker Registry - docker-registry.default.svc:5000/<your_project>
+OCP 3.11 - Docker Registry - docker-registry.default.svc:5000/<your_project>
+OCP 4.X - Docker Registry - image-registry.openshift-image-registry.svc:5000/<your_project>
 ----
 
 image::sb_lab1_pipeline_settings.png[]
@@ -877,11 +878,23 @@ image::sb_lab1_pipeline_runs.png[]
 
 - When the application is built and deployed the application will be available via the expose `Route`.
 
+==== OCP 3.11 Instructions
+
 - Go to the OpenShift Console, switch to the project, and select `Applications > Routes`
 
 You will see a route for your application, click on the url to open your application.
 
 image::sb_lab1_application_route.png[]
+
+==== OCP 4.X instructions
+
+- Open the menu in the upper left of the OpenShift Console and navigate to Topology.
+
+- Select your Application in the center, and view the route(s) on the side.
+
+- Note: Please ensure you are in the developer role (should be default if following this guide)
+
+image::dc_springboot_route.png[align="center"]
 
 - Or you can also get the route from the oc CLI.
 
@@ -894,12 +907,12 @@ For instance,
 
 [source,bash]
 ----
-$ oc get routes -n kabanero-samples-java
+$ oc get routes -n kabanero-samples
 NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
-appsody-sample-springboot   appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-springboot   8080                    None
+appsody-sample-springboot   appsody-sample-springboot-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-springboot   8080                    None
 ----
 
-You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-springboot-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
+You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-springboot-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
 
 == Serverless autoscaling the Application with Knative
 

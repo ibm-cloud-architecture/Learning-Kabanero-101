@@ -528,6 +528,35 @@ $ oc project -q
 kabanero-samples
 ----
 
+- In order to deploy you app to the new project (kabanero-samples), perform the following:
+
+- First check that you have kabanero available
+
+[source, bash]
+----
+$ oc get kabaneros -n kabanero
+NAME       AGE       VERSION   READY
+kabanero   24h       0.3.4     True
+----
+
+- Next, we will have to edit the yaml file configuring kabanero with the following command. 
+  - This will bring up your default editor
+
+[source, bash]
+----
+$ oc edit kabanero kabanero -n kabanero
+----
+
+- Finally, navigate to the `spec` label within the file and add the following targetNamespaces label.
+
+[source, bash]
+----
+spec:
+  targetNamespaces:
+    - kabanero-samples
+----
+
+
 === Create application deployment manifest
 
 - Extract the appsody deployment config.
@@ -637,11 +666,11 @@ You can access it at the `HOST/PORT` available. For instance, here it will be `t
 
 - You can also access it on the Cloud Pak Landing page. You will find a `Tekton Dashboard`.
 
-image::sb_lab1_kabanero_enterprise.png[Kabanero Menu,300]
+- Navigate to the menu in the upper left and select instances.
 
-image::sb_lab1_kabanero_ent_dashboard.png[align="center"]
+- Then click the link under the `Tekton` label to navigate to the `Tekton Dashboard`.
 
-image::sb_lab1_kabanero_ent_instance.png[align="center"]
+image::tekton_link_42.png[align="center"]
 
 image::sb_lab1_tekton_dashboard.png[]
 
@@ -684,7 +713,8 @@ NOTE: Replace <your_project> with the name of the target namespace in our case `
 Namespace - kabanero
 Pipeline - nodejs-express-build-deploy-pipeline
 Service account - kabaner-operator
-Docker Registry - docker-registry.default.svc:5000/<your_project>
+OCP 3.11 - Docker Registry - docker-registry.default.svc:5000/<your_project>
+OCP 4.X - Docker Registry - image-registry.openshift-image-registry.svc:5000/<your_project>
 ----
 
 image::js_lab1_pipeline_settings.png[align="center"]
@@ -719,11 +749,23 @@ image::js_lab1_pipeline_runs.png[align="center"]
 
 - When the application is built and deployed the application will be available via the expose `Route`.
 
+== OCP 3.11 Instructions
+
 - Go to the OpenShift Console, switch to the project, and select `Applications > Routes`
 
 You will see a route for your application, click on the url to open your application.
 
 image::js_lab1_application_route.png[align="center"]
+
+== OCP 4.X instructions
+
+- Open the menu in the upper left of the OpenShift Console and navigate to Topology.
+
+- Select your Application in the center, and view the route(s) on the side.
+
+- Note: Please ensure you are in the developer role (should be default if following this guide)
+
+image::dc_lab1_route_location_42.png[align="center"]
 
 - Or you can also get the route from the oc CLI.
 
