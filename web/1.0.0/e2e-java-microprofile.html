@@ -1182,8 +1182,8 @@ Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 -
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc new-project kabanero-samples-java
-Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc new-project kabanero-samples
+Already on project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -1209,8 +1209,8 @@ to build a new example application in Ruby.</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project kabanero-samples-java
-Already on project "kabanero-samples-java" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project kabanero-samples
+Already on project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -1231,7 +1231,7 @@ Already on project "kabanero-samples-java" on server "https://c100-e.us-east.con
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project -q
-kabanero-samples-java</code></pre>
+kabanero-samples</code></pre>
 </div>
 </div>
 </div>
@@ -1286,7 +1286,7 @@ spec:
 </div>
 </div>
 <div class="paragraph">
-<p>By default, the application is deployed in the <code>kabanero</code> namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called <code>kabanero-samples-java</code> and we can specify it under the metadata as below.</p>
+<p>By default, the application is deployed in the <code>kabanero</code> namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called <code>kabanero-samples</code> and we can specify it under the metadata as below.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1294,7 +1294,7 @@ spec:
 kind: AppsodyApplication
 metadata:
   name: appsody-sample-microprofile
-  namespace: kabanero-samples-java</code></pre>
+  namespace: kabanero-samples</code></pre>
 </div>
 </div>
 </div>
@@ -1397,21 +1397,17 @@ tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a77914354
 <li>
 <p>You can also access it on the Cloud Pak Landing page. You will find a <code>Tekton Dashboard</code>.</p>
 </li>
+<li>
+<p>Navigate to the menu in the upper left and select instances.</p>
+</li>
+<li>
+<p>Then click the link under the <code>Tekton</code> label to navigate to the <code>Tekton Dashboard</code>.</p>
+</li>
 </ul>
 </div>
-<div class="imageblock">
+<div class="imageblock text-center">
 <div class="content">
-<img src="_images/sb_lab1_kabanero_enterprise.png" alt="sb lab1 kabanero enterprise">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/sb_lab1_kabanero_ent_dashboard.png" alt="sb lab1 kabanero ent dashboard">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/sb_lab1_kabanero_ent_instance.png" alt="sb lab1 kabanero ent instance">
+<img src="_images/tekton_link_42.png" alt="tekton link 42">
 </div>
 </div>
 <div class="imageblock">
@@ -1507,7 +1503,8 @@ Access Token - &lt;For this, you need to create a Github access token with permi
 <pre>Namespace - kabanero
 Pipeline - java-microprofile-build-deploy-pipeline
 Service account - kabaner-operator
-Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
+OCP 3.11 - Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;
+OCP 4.X - Docker Registry - image-registry.openshift-image-registry.svc:5000/&lt;your_project&gt;</pre>
 </div>
 </div>
 <div class="imageblock">
@@ -1573,6 +1570,8 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 <img src="_images/sb_lab1_pipeline_runs.png" alt="sb lab1 pipeline runs">
 </div>
 </div>
+<div class="sect3">
+<h4 id="_ocp_3_11_instructions"><a class="anchor" href="#_ocp_3_11_instructions"></a>OCP 3.11 Instructions</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1589,6 +1588,27 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 <div class="imageblock">
 <div class="content">
 <img src="_images/sb_lab1_application_route.png" alt="sb lab1 application route">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ocp_4_x_instructions"><a class="anchor" href="#_ocp_4_x_instructions"></a>OCP 4.X instructions</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Open the menu in the upper left of the OpenShift Console and navigate to Topology.</p>
+</li>
+<li>
+<p>Select your Application in the center, and view the route(s) on the side.</p>
+</li>
+<li>
+<p>Note: Please ensure you are in the developer role (should be default if following this guide)</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/dc_microprofile_route.png" alt="dc microprofile route">
 </div>
 </div>
 <div class="ulist">
@@ -1608,13 +1628,14 @@ Docker Registry - docker-registry.default.svc:5000/&lt;your_project&gt;</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get routes -n kabanero-samples-java
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get routes -n kabanero-samples
 NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
-appsody-sample-microprofile   appsody-sample-microprofile-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-microprofile   8080                    None</code></pre>
+appsody-sample-microprofile   appsody-sample-microprofile-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-microprofile   8080                    None</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You can now acccess the application at &lt;HOST/PORT&gt;, here it is <code>appsody-sample-microprofile-kabanero-samples-java.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
+<p>You can now acccess the application at &lt;HOST/PORT&gt;, here it is <code>appsody-sample-microprofile-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
+</div>
 </div>
 </div>
 </div>
