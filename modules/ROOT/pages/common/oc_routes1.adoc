@@ -1,0 +1,7 @@
+==== OCP 3.11 Instructions
+
+- Go to the OpenShift Console, switch to the project, and select `Applications > Routes`
+
+You will see a route for your application, click on the url to open your application.
+
+image::sb_lab1_application_route.png[]

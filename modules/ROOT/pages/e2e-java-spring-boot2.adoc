@@ -661,6 +661,10 @@ $ oc project -q
 kabanero-samples
 ----
 
+==== Target Namespace: Kabanero 4.2
+
+include::common/kabanero42.adoc[]
+
 === Create application deployment manifest
 
 - Extract the appsody deployment config.
@@ -878,13 +882,7 @@ image::sb_lab1_pipeline_runs.png[]
 
 - When the application is built and deployed the application will be available via the expose `Route`.
 
-==== OCP 3.11 Instructions
-
-- Go to the OpenShift Console, switch to the project, and select `Applications > Routes`
-
-You will see a route for your application, click on the url to open your application.
-
-image::sb_lab1_application_route.png[]
+include::common/oc_routes1.adoc[]
 
 ==== OCP 4.X instructions
 

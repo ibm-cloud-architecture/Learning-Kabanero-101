@@ -528,34 +528,9 @@ $ oc project -q
 kabanero-samples
 ----
 
-- In order to deploy you app to the new project (kabanero-samples), perform the following:
+==== Target Namespace: Kabanero 4.2
 
-- First check that you have kabanero available
-
-[source, bash]
-----
-$ oc get kabaneros -n kabanero
-NAME       AGE       VERSION   READY
-kabanero   24h       0.3.4     True
-----
-
-- Next, we will have to edit the yaml file configuring kabanero with the following command. 
-  - This will bring up your default editor
-
-[source, bash]
-----
-$ oc edit kabanero kabanero -n kabanero
-----
-
-- Finally, navigate to the `spec` label within the file and add the following targetNamespaces label.
-
-[source, bash]
-----
-spec:
-  targetNamespaces:
-    - kabanero-samples
-----
-
+include::common/kabanero42.adoc[]
 
 === Create application deployment manifest
 
@@ -749,13 +724,7 @@ image::js_lab1_pipeline_runs.png[align="center"]
 
 - When the application is built and deployed the application will be available via the expose `Route`.
 
-== OCP 3.11 Instructions
-
-- Go to the OpenShift Console, switch to the project, and select `Applications > Routes`
-
-You will see a route for your application, click on the url to open your application.
-
-image::js_lab1_application_route.png[align="center"]
+include::common/oc_routes1.adoc[]
 
 == OCP 4.X instructions
 
