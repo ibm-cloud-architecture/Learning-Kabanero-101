@@ -197,7 +197,6 @@
 <li><a href="#_deploy_the_application">Deploy the Application</a></li>
 </ul>
 </li>
-<li><a href="#_ocp_3_11_instructions">OCP 3.11 Instructions</a></li>
 <li><a href="#_ocp_4_x_instructions">OCP 4.X instructions</a></li>
 <li><a href="#_serverless_autoscaling_the_application_with_knative">Serverless autoscaling the Application with Knative</a></li>
 </ul>
@@ -216,9 +215,6 @@
 <ul>
 <li>
 <p>Install IBM Cloud Pak for Applications using <a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">CLI Installer</a> or <a href="https://cloud.ibm.com/catalog/content/ibm-cp-applications" target="_blank" rel="noopener">IBM Cloud Catalog</a></p>
-</li>
-<li>
-<p><a href="https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0" target="_blank" rel="noopener">Install Appsody Operator that watches on all namespaces</a></p>
 </li>
 </ul>
 </div>
@@ -1228,6 +1224,8 @@ Already on project "kabanero-samples" on server "https://c100-e.us-east.containe
 kabanero-samples</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_target_namespace_kabanero_4_2"><a class="anchor" href="#_target_namespace_kabanero_4_2"></a>Target Namespace: Kabanero 4.2</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1272,6 +1270,7 @@ kabanero   24h       0.3.4     True</code></pre>
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">spec:
   targetNamespaces:
     - kabanero-samples</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1619,12 +1618,8 @@ OCP 4.X - Docker Registry - image-registry.openshift-image-registry.svc:5000/&lt
 </li>
 </ul>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_ocp_3_11_instructions"><a class="anchor" href="#_ocp_3_11_instructions"></a>OCP 3.11 Instructions</h2>
-<div class="sectionbody">
+<div class="sect3">
+<h4 id="_ocp_3_11_instructions"><a class="anchor" href="#_ocp_3_11_instructions"></a>OCP 3.11 Instructions</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1635,9 +1630,11 @@ OCP 4.X - Docker Registry - image-registry.openshift-image-registry.svc:5000/&lt
 <div class="paragraph">
 <p>You will see a route for your application, click on the url to open your application.</p>
 </div>
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<img src="_images/js_lab1_application_route.png" alt="js lab1 application route">
+<img src="_images/sb_lab1_application_route.png" alt="sb lab1 application route">
+</div>
+</div>
 </div>
 </div>
 </div>

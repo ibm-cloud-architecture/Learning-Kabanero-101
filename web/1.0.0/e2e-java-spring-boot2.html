@@ -216,9 +216,6 @@
 <li>
 <p>Install IBM Cloud Pak for Applications using <a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">CLI Installer</a> or <a href="https://cloud.ibm.com/catalog/content/ibm-cp-applications" target="_blank" rel="noopener">IBM Cloud Catalog</a></p>
 </li>
-<li>
-<p><a href="https://github.com/appsody/appsody-operator/tree/master/deploy/releases/0.1.0" target="_blank" rel="noopener">Install Appsody Operator that watches on all namespaces</a></p>
-</li>
 </ul>
 </div>
 </li>
@@ -1436,6 +1433,55 @@ Already on project "kabanero-samples" on server "https://c100-e.us-east.containe
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc project -q
 kabanero-samples</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_target_namespace_kabanero_4_2"><a class="anchor" href="#_target_namespace_kabanero_4_2"></a>Target Namespace: Kabanero 4.2</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>In order to deploy you app to the new project (kabanero-samples), perform the following:</p>
+</li>
+<li>
+<p>First check that you have kabanero available</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get kabaneros -n kabanero
+NAME       AGE       VERSION   READY
+kabanero   24h       0.3.4     True</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Next, we will have to edit the yaml file configuring kabanero with the following command.</p>
+</li>
+<li>
+<p>This will bring up your default editor</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc edit kabanero kabanero -n kabanero</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Finally, navigate to the <code>spec</code> label within the file and add the following targetNamespaces label.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">spec:
+  targetNamespaces:
+    - kabanero-samples</code></pre>
+</div>
 </div>
 </div>
 </div>
