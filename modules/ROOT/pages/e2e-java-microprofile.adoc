@@ -665,22 +665,6 @@ For more details on how to generate Github personal access token refer https://h
 
 === Accessing Tekton dashboard
 
-- To access the Tekton Dashboard, run the below command.
-
-[source, bash]
-----
-$ oc get route -n kabanero
-NAME               HOST/PORT                                                                                                          PATH      SERVICES           PORT      TERMINATION          WILDCARD
-icpa-landing       ibm-cp-applications.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                   icpa-landing       <all>     reencrypt/Redirect   None
-kabanero-cli       kabanero-cli-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                 kabanero-cli       <all>     passthrough          None
-kabanero-landing   kabanero-landing-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             kabanero-landing   <all>     passthrough          None
-tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             tekton-dashboard   <all>     reencrypt/Redirect   None
-----
-
-You can access it at the `HOST/PORT` available. For instance here it will be `tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
-
-- You can also access it on the Cloud Pak Landing page. You will find a `Tekton Dashboard`.
-
 - Navigate to the menu in the upper left and select instances.
 
 - Then click the link under the `Tekton` label to navigate to the `Tekton Dashboard`.
@@ -786,12 +770,40 @@ For instance,
 ----
 $ oc get routes -n kabanero-samples
 NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
-appsody-sample-microprofile   appsody-sample-microprofile-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-microprofile   8080                    None
+appsody-sample-microprofile   appsody-sample-microprofile-kabanero-samples.ocp.example.com            appsody-sample-microprofile   8080                    None
 ----
 
 You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-microprofile-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
 
-== Enabling knative in your application
+=== Add the target namespace to ServiceMeshMemberRoll
+
+- Edit the resource `smmr` :
+[source, bash]
+----
+oc edit smmr -n istio-system
+----
+
+- Append the target namespace into the SMMR resource `spec` for example `kabanero-samples` leave any other namespaces already present:
+[source, yaml]
+----
+spec:
+  members:
+  - knative-serving
+  - tekton-pipelines
+  - kabanero
+  - kabanero-samples
+----
+
+- Verify the namespace `kabanero-samples` was added by following this command:
+[source, bash]
+----
+oc get smmr -n istio-system
+
+NAME      MEMBERS
+default   [knative-serving tekton-pipelines kabanero kabanero-samples]
+----
+
+=== Update the Application for Serverless
 
 - Edit the file `app-deploy.yaml`.
 
@@ -802,13 +814,63 @@ You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-m
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: my-appsody-app
+  name: appsody-sample-smircroprofile
+  namespace: kabanero-samples
 spec:
-  stack: java-microprofile
   createKnativeService: true
 ----
 
-Git push the change, tekton pipeline runs, show the app again running and inspect extra resource associated with Kantive
-Knative Service oc get ksvc
-Knative Configurations oc get configurations
-Knative Revisions oc get revisions
+- Git push the change, and see tekton pipeline runs again.
+
+- Show the Knative resource
+[source, bash]
+----
+oc get service.serving.knative.dev/appsody-sample-smircroprofile
+
+NAME                            URL                                                                                                                                            LATESTCREATED                         LATESTREADY                           READY     REASON
+appsody-sample-smircroprofile   http://appsody-sample-smircroprofile.kabanero-samples.ocp.example.com  appsody-sample-smircroprofile-mtl4q   appsody-sample-smircroprofile-mtl4q   True
+----
+
+- Show the Knative route
+[source, bash]
+----
+oc get route.serving.knative.dev/appsody-sample-smircroprofile
+
+NAME                            URL                                                                                                                                            READY     REASON
+appsody-sample-smircroprofile   http://appsody-sample-smircroprofile.kabanero-samples.ocp.example.com  True
+----
+
+- Show the Knative configuration
+[source, bash]
+----
+oc get configuration.serving.knative.dev/appsody-sample-smircroprofile
+
+NAME                            LATESTCREATED                         LATESTREADY                           READY     REASON
+appsody-sample-smircroprofile   appsody-sample-smircroprofile-mtl4q   appsody-sample-smircroprofile-mtl4q   True
+----
+
+- Show the Knative latest ready revision
+[source, bash]
+----
+oc get revision.serving.knative.dev/appsody-sample-smircroprofile-mtl4q
+
+NAME                                  SERVICE NAME                          GENERATION   READY     REASON
+appsody-sample-smircroprofile-mtl4q   appsody-sample-smircroprofile-mtl4q   2            True
+----
+
+Visit the Knative public url `http://appsody-sample-smircroprofile.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud` and list the pods
+[source, bash]
+----
+oc get pods
+
+NAME                                                              READY     STATUS    RESTARTS   AGE
+appsody-sample-smircroprofile-mtl4q-deployment-7bf6dbddf6-rr89p   2/2       Running   0          27s
+----
+
+- Wait 1 minute and you will then see the pods are not longer running
+[source, bash]
+----
+oc get pods
+
+No resources found.
+----

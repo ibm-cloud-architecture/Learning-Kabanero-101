@@ -625,22 +625,6 @@ For more details on how to generate Github personal access token refer https://h
 
 === Accessing Tekton dashboard
 
-- To access the Tekton Dashboard, run the below command.
-
-[source, bash]
-----
-$ oc get route -n kabanero
-NAME               HOST/PORT                                                                                                          PATH      SERVICES           PORT      TERMINATION          WILDCARD
-icpa-landing       ibm-cp-applications.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                   icpa-landing       <all>     reencrypt/Redirect   None
-kabanero-cli       kabanero-cli-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                 kabanero-cli       <all>     passthrough          None
-kabanero-landing   kabanero-landing-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             kabanero-landing   <all>     passthrough          None
-tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             tekton-dashboard   <all>     reencrypt/Redirect   None
-----
-
-You can access it at the `HOST/PORT` available. For instance, here it will be `tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
-
-- You can also access it on the Cloud Pak Landing page. You will find a `Tekton Dashboard`.
-
 - Navigate to the menu in the upper left and select instances.
 
 - Then click the link under the `Tekton` label to navigate to the `Tekton Dashboard`.
@@ -749,13 +733,43 @@ For instance,
 ----
 $ oc get routes -n kabanero-samples
 NAME                            HOST/PORT                                                                                                                               PATH      SERVICES                        PORT      TERMINATION   WILDCARD
-appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-nodejs-express   3000                    None
+appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.ocp.example.com            appsody-sample-nodejs-express   3000                    None
 ----
 
 You can now acccess the application at <HOST/PORT>, here it is `https://appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
 
 
 == Serverless autoscaling the Application with Knative
+
+=== Add the target namespace to ServiceMeshMemberRoll
+
+- Edit the resource `smmr` :
+[source, bash]
+----
+oc edit smmr -n istio-system
+----
+
+- Append the target namespace into the SMMR resource `spec` for example `kabanero-samples` leave any other namespaces already present:
+[source, yaml]
+----
+spec:
+  members:
+  - knative-serving
+  - tekton-pipelines
+  - kabanero
+  - kabanero-samples
+----
+
+- Verify the namespace `kabanero-samples` was added by following this command:
+[source, bash]
+----
+oc get smmr -n istio-system
+
+NAME      MEMBERS
+default   [knative-serving tekton-pipelines kabanero kabanero-samples]
+----
+
+=== Update the Application for Serverless
 
 - Edit the file `app-deploy.yaml`.
 
@@ -769,9 +783,6 @@ metadata:
   name: appsody-sample-nodejs-express
   namespace: kabanero-samples
 spec:
-  version: 1.0.0
-  applicationImage: appsody-sample-nodejs-express
-  stack: nodejs-express
   createKnativeService: true
 ----
 
@@ -783,7 +794,7 @@ spec:
 oc get service.serving.knative.dev/appsody-sample-nodejs-express
 
 NAME                            URL                                                                                                                                            LATESTCREATED                         LATESTREADY                           READY     REASON
-appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True
+appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.ocp.example.com  appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True
 ----
 
 - Show the Knative route
@@ -792,7 +803,7 @@ appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-sa
 oc get route.serving.knative.dev/appsody-sample-nodejs-express
 
 NAME                            URL                                                                                                                                            READY     REASON
-appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True
+appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.ocp.example.com  True
 ----
 
 - Show the Knative configuration
