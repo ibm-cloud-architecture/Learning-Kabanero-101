@@ -5,7 +5,7 @@
 
 This guide will help you setup the appsody CLI and CodeWind to work with the same set of appsody stacks using the same repo.
 
-- Edit the appsody CLI file  `~/.appsody/.appsody.yaml` to point to the CodeWind file `codewind-workspace/.appsody`. 
+- Edit the appsody CLI file  `~/.appsody/.appsody.yaml` to point to the CodeWind file `codewind-workspace/.appsody`.
 [source, yaml]
 ----
 home: /Users/<username>/codewind-workspace/.appsody
@@ -15,7 +15,7 @@ Adjust the `<username>` to match your system, now both Appsody CLI and CodeWind 
 - Add the kabanero repo using the appsody CLI, adjust the URL to match the version of Kabanero Enterprise
 [source, bash]
 ----
-appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml
+appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml
 ----
 
 - Set the `kabanero` repo as default

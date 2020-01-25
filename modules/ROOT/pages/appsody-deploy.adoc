@@ -1,30 +1,57 @@
 = Appsody - Deploy to remote cluster
+
+IMPORTANT: Recently updated to include RedHat OpenShift 4.x
+
 :toc:
 
-== Configure Docker Registry
+
+
+== Configure Image Registry
 
 We are going to use a managed OpenShift cluter on IBM Cloud
 
-Follow the documentation https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-images to expose the internal docker registry, this will allow you to push images from your local workstation to the remote registry.
+Follow the documentation https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-images to expose the internal image registry, this will allow you to push images from your local workstation to the remote registry.
 
 Here is the TLDR; for this section
+
+- Create a route for OCP 4.x
+[source, bash]
+----
+oc create route reencrypt image-registry --service=image-registry -n openshift-image-registry
+oc patch route image-registry -n openshift-image-registry --type='json' -p='[{"op": "add", "path": "/metadata/annotations/haproxy.router.openshift.io~1balance", "value":"source"}]'
+export INTERNAL_IMAGE_REGISTRY=image-registry.openshift-image-registry.svc:5000
+export IMAGE_REGISTRY=$(oc get route image-registry -n openshift-image-registry -o jsonpath="{.spec.host}")
+docker login -u $(oc whoami) -p $(oc whoami -t) $IMAGE_REGISTRY
+----
+
+TIP: Docker login not working with oc whoami
+====
+If you are using the `kubeadmin` account on OCP 4.x, the command `oc whoami` returns `kube:admin` and this value will not let you login using docker cli, to workaround use the username `kubeadmin` explicit in the command
+[source, bash]
+----
+docker login -u kubeadmin -p $(oc whoami -t) $IMAGE_REGISTRY
+----
+====
+
+- Create a route for OCP 3.11
 [source, bash]
 ----
 oc create route reencrypt docker-registry --service=docker-registry -n default
 oc patch route docker-registry -n default --type='json' -p='[{"op": "add", "path": "/metadata/annotations/haproxy.router.openshift.io~1balance", "value":"source"}]'
-export DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
-docker login -u $(oc whoami) -p $(oc whoami -t) $DOCKER_REGISTRY
+export INTERNAL_IMAGE_REGISTRY=docker-registry.default.svc:5000
+export IMAGE_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
+docker login -u $(oc whoami) -p $(oc whoami -t) $IMAGE_REGISTRY
 ----
 
 
-TIP: Working with insecure docker registries
+TIP: Working with insecured image registries
 ====
 If using the IBM Cloud OpenShift you should not have problems with docker login, but if you are using another opnshift cluster and get an error about https/ssl., then add the registry to the Docker Engine config (ie Docker->Preferences->Docker Engine) for example:
 [source, json]
 ----
 {
   "insecure-registries": [
-    "default-route-openshift-image-registry.apps-crc.testing", "1.2.3.4.nip.io:5000"
+    "default-route-openshift-image-registry.apps-crc.testing","image-registry-openshift-image-registry.apps.foobar.os.fyre.ibm.com","1.2.3.4.nip.io:5000"
   ]
 }
 ----
@@ -54,7 +81,7 @@ export NAMESPACE=$(oc project -q)
 Generate an appsody deploy yaml and rename it to `app-deploy-remote.yaml`
 [source, bash]
 ----
-appsody deploy --generate-only
+appsody deploy --generate-only -n $NAMESPACE
 ----
 
 == Deploy the Application
@@ -62,28 +89,26 @@ appsody deploy --generate-only
 Build and push the application image to the remote registry
 [source, bash]
 ----
-export INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
 export APP_NAME=$(yq r app-deploy.yaml metadata.name)
 export IMAGE_NAME=${APP_NAME}
 export IMAGE_TAG=${RANDOM}
 appsody deploy \
   --tag "${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}" \
-  --push-url "${DOCKER_REGISTRY}" \
-  --pull-url "${INTERNAL_DOCKER_REGISTRY}"
+  --push-url "${IMAGE_REGISTRY}" \
+  --pull-url "${INTERNAL_IMAGE_REGISTRY}"
   -n ${NAMESPACE}
 ----
 
 If you want to use Serverless then append `--knative` to the appsody deploy
 [source, bash]
 ----
-export INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
 export APP_NAME=$(yq r app-deploy.yaml metadata.name)
 export IMAGE_NAME=${APP_NAME}
 export IMAGE_TAG=${RANDOM}
 appsody deploy \
   --tag "${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}" \
-  --push-url "${DOCKER_REGISTRY}" \
-  --pull-url "${INTERNAL_DOCKER_REGISTRY}"
+  --push-url "${IMAGE_REGISTRY}" \
+  --pull-url "${INTERNAL_IMAGE_REGISTRY}"
   -n ${NAMESPACE} --knative
 ----
 
@@ -116,14 +141,14 @@ Create a `.env` file and a script `deploy.sh`. Use `./deploy.sh` everytime you w
 Run the following script in your terminal to create the two files `.env` and `deploy.sh`
 [source, bash]
 ----
-appsody deploy --generate-only
+appsody deploy --generate-only -n $NAMESPACE
 
 cat <<EOF >.env
-INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
-DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
-NAMESPACE=$(oc project -q)
+INTERNAL_IMAGE_REGISTRY=${INTERNAL_IMAGE_REGISTRY}
+IMAGE_REGISTRY=${IMAGE_REGISTRY}
+NAMESPACE=${NAMESPACE}
 APP_NAME=$(yq r app-deploy.yaml metadata.name)
-IMAGE_NAME=${APP_NAME}
+IMAGE_NAME=\${APP_NAME}
 APP_KNATIVE=false
 EOF
 
@@ -144,8 +169,8 @@ fi
 
 appsody deploy \
   --tag \${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG} \
-  --push-url \${DOCKER_REGISTRY} \
-  --pull-url \${INTERNAL_DOCKER_REGISTRY} \
+  --push-url \${IMAGE_REGISTRY} \
+  --pull-url \${INTERNAL_IMAGE_REGISTRY} \
   -n \${NAMESPACE} \${APP_KNATIVE_FLAG}
 
 if [ "\$APP_KNATIVE" = "true" ]; then

@@ -62,7 +62,7 @@ The *Kabanero Foundation* sits on the opposite side of the developer experience,
 With these components deployed to a Kubernetes cluster, the Kabanero Foundation monitors changes to source code repositories (such as git) and triggers pipeline runs that will extract the source code, reassemble it according to the structure and runtime specifications of the underlying Kabanero Collection, execute all the build and verification steps, and then make the final application container pods available in the cluster.
 
 
-== Workflows
+== Workflows (Recently updated for OpenShift 4.x)
 
 The following sections contain concrete examples of how different roles would interact with Kabanero to achieve concrete goals.
 

@@ -2,7 +2,8 @@
 
 * Installing Kabanero Enterprise
 ** https://cloud.ibm.com/catalog/content/ibm-cp-applications[Using IBM Cloud Console ↗^]
-** https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html[Using CLI Installer ↗^]
+** https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.x/install-icpa-cli.html[OCP4 CLI Installer ↗^]
+** https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html[OCP3 CLI Installer ↗^]
 
 * Workflows
 ** xref:e2e-java-spring-boot2.adoc[E2E Java Spring Boot 2]
