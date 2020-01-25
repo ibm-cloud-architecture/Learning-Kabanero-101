@@ -42,7 +42,10 @@
     <span class="nav-text"><a href="https://cloud.ibm.com/catalog/content/ibm-cp-applications" target="_blank" rel="noopener">Using IBM Cloud Console ↗</a></span>
   </li>
   <li class="nav-item" data-depth="2">
-    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">Using CLI Installer ↗</a></span>
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.x/install-icpa-cli.html" target="_blank" rel="noopener">OCP4 CLI Installer ↗</a></span>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">OCP3 CLI Installer ↗</a></span>
   </li>
 </ul>
   </li>
@@ -157,35 +160,48 @@
   </div>
 <article class="doc">
 <h1 class="page">Appsody - Deploy to remote cluster</h1>
-<div id="toc" class="toc">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_configure_docker_registry">Configure Docker Registry</a></li>
-<li><a href="#_create_application">Create Application</a></li>
-<li><a href="#_setup_application_manifest">Setup Application manifest</a></li>
-<li><a href="#_deploy_the_application">Deploy the Application</a></li>
-<li><a href="#_access_the_application">Access the Application</a></li>
-<li><a href="#_automate_appsody_deploy">Automate appsody deploy</a></li>
-</ul>
+<div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Recently updated to include RedHat OpenShift 4.x
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 <div class="sect1">
-<h2 id="_configure_docker_registry"><a class="anchor" href="#_configure_docker_registry"></a>Configure Docker Registry</h2>
+<h2 id="_configure_image_registry"><a class="anchor" href="#_configure_image_registry"></a>Configure Image Registry</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>We are going to use a managed OpenShift cluter on IBM Cloud</p>
 </div>
 <div class="paragraph">
-<p>Follow the documentation <a href="https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-images" class="bare">https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-images</a> to expose the internal docker registry, this will allow you to push images from your local workstation to the remote registry.</p>
+<p>Follow the documentation <a href="https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-images" class="bare">https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-images</a> to expose the internal image registry, this will allow you to push images from your local workstation to the remote registry.</p>
 </div>
 <div class="paragraph">
 <p>Here is the TLDR; for this section</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a route for OCP 4.x</p>
+</li>
+</ul>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create route reencrypt docker-registry --service=docker-registry -n default
-oc patch route docker-registry -n default --type='json' -p='[{"op": "add", "path": "/metadata/annotations/haproxy.router.openshift.io~1balance", "value":"source"}]'
-export DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
-docker login -u $(oc whoami) -p $(oc whoami -t) $DOCKER_REGISTRY</code></pre>
+<pre>oc create route reencrypt image-registry --service=image-registry -n openshift-image-registry
+oc patch route image-registry -n openshift-image-registry --type='json' -p='[{"op": "add", "path": "/metadata/annotations/haproxy.router.openshift.io~1balance", "value":"source"}]'
+export INTERNAL_IMAGE_REGISTRY=image-registry.openshift-image-registry.svc:5000
+export IMAGE_REGISTRY=$(oc get route image-registry -n openshift-image-registry -o jsonpath="{.spec.host}")
+docker login -u $(oc whoami) -p $(oc whoami -t) $IMAGE_REGISTRY</pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -195,7 +211,47 @@ docker login -u $(oc whoami) -p $(oc whoami -t) $DOCKER_REGISTRY</code></pre>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Working with insecure docker registries
+Docker login not working with oc whoami
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>If you are using the <code>kubeadmin</code> account on OCP 4.x, the command <code>oc whoami</code> returns <code>kube:admin</code> and this value will not let you login using docker cli, to workaround use the username <code>kubeadmin</code> explicit in the command</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">docker login -u kubeadmin -p $(oc whoami -t) $IMAGE_REGISTRY</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a route for OCP 3.11</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc create route reencrypt docker-registry --service=docker-registry -n default
+oc patch route docker-registry -n default --type='json' -p='[{"op": "add", "path": "/metadata/annotations/haproxy.router.openshift.io~1balance", "value":"source"}]'
+export INTERNAL_IMAGE_REGISTRY=docker-registry.default.svc:5000
+export IMAGE_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
+docker login -u $(oc whoami) -p $(oc whoami -t) $IMAGE_REGISTRY</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Working with insecured image registries
 </td>
 </tr>
 </table>
@@ -209,7 +265,7 @@ Working with insecure docker registries
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
   "insecure-registries": [
-    "default-route-openshift-image-registry.apps-crc.testing", "1.2.3.4.nip.io:5000"
+    "default-route-openshift-image-registry.apps-crc.testing","image-registry-openshift-image-registry.apps.foobar.os.fyre.ibm.com","1.2.3.4.nip.io:5000"
   ]
 }</code></pre>
 </div>
@@ -250,7 +306,7 @@ export NAMESPACE=$(oc project -q)</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody deploy --generate-only</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody deploy --generate-only -n $NAMESPACE</code></pre>
 </div>
 </div>
 </div>
@@ -263,14 +319,13 @@ export NAMESPACE=$(oc project -q)</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
-export APP_NAME=$(yq r app-deploy.yaml metadata.name)
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export APP_NAME=$(yq r app-deploy.yaml metadata.name)
 export IMAGE_NAME=${APP_NAME}
 export IMAGE_TAG=${RANDOM}
 appsody deploy \
   --tag "${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}" \
-  --push-url "${DOCKER_REGISTRY}" \
-  --pull-url "${INTERNAL_DOCKER_REGISTRY}"
+  --push-url "${IMAGE_REGISTRY}" \
+  --pull-url "${INTERNAL_IMAGE_REGISTRY}"
   -n ${NAMESPACE}</code></pre>
 </div>
 </div>
@@ -279,14 +334,13 @@ appsody deploy \
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
-export APP_NAME=$(yq r app-deploy.yaml metadata.name)
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export APP_NAME=$(yq r app-deploy.yaml metadata.name)
 export IMAGE_NAME=${APP_NAME}
 export IMAGE_TAG=${RANDOM}
 appsody deploy \
   --tag "${NAMESPACE}/${IMAGE_NAME}:${IMAGE_TAG}" \
-  --push-url "${DOCKER_REGISTRY}" \
-  --pull-url "${INTERNAL_DOCKER_REGISTRY}"
+  --push-url "${IMAGE_REGISTRY}" \
+  --pull-url "${INTERNAL_IMAGE_REGISTRY}"
   -n ${NAMESPACE} --knative</code></pre>
 </div>
 </div>
@@ -333,14 +387,14 @@ curl ${APP_URL}</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody deploy --generate-only
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody deploy --generate-only -n $NAMESPACE
 
 cat &lt;&lt;EOF &gt;.env
-INTERNAL_DOCKER_REGISTRY=docker-registry.default.svc:5000
-DOCKER_REGISTRY=$(oc get route docker-registry -n default -o jsonpath="{.spec.host}")
-NAMESPACE=$(oc project -q)
+INTERNAL_IMAGE_REGISTRY=${INTERNAL_IMAGE_REGISTRY}
+IMAGE_REGISTRY=${IMAGE_REGISTRY}
+NAMESPACE=${NAMESPACE}
 APP_NAME=$(yq r app-deploy.yaml metadata.name)
-IMAGE_NAME=${APP_NAME}
+IMAGE_NAME=\${APP_NAME}
 APP_KNATIVE=false
 EOF
 
@@ -361,8 +415,8 @@ fi
 
 appsody deploy \
   --tag \${NAMESPACE}/\${IMAGE_NAME}:\${IMAGE_TAG} \
-  --push-url \${DOCKER_REGISTRY} \
-  --pull-url \${INTERNAL_DOCKER_REGISTRY} \
+  --push-url \${IMAGE_REGISTRY} \
+  --pull-url \${INTERNAL_IMAGE_REGISTRY} \
   -n \${NAMESPACE} \${APP_KNATIVE_FLAG}
 
 if [ "\$APP_KNATIVE" = "true" ]; then

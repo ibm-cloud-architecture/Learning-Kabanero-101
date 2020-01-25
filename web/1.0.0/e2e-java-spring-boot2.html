@@ -42,7 +42,10 @@
     <span class="nav-text"><a href="https://cloud.ibm.com/catalog/content/ibm-cp-applications" target="_blank" rel="noopener">Using IBM Cloud Console ↗</a></span>
   </li>
   <li class="nav-item" data-depth="2">
-    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">Using CLI Installer ↗</a></span>
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.x/install-icpa-cli.html" target="_blank" rel="noopener">OCP4 CLI Installer ↗</a></span>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">OCP3 CLI Installer ↗</a></span>
   </li>
 </ul>
   </li>
@@ -198,8 +201,29 @@
 <li><a href="#_deploy_the_application">Deploy the Application</a></li>
 </ul>
 </li>
-<li><a href="#_serverless_autoscaling_the_application_with_knative">Serverless autoscaling the Application with Knative</a></li>
+<li><a href="#_serverless_autoscaling_the_application_with_knative">Serverless autoscaling the Application with Knative</a>
+<ul class="sectlevel2">
+<li><a href="#_add_the_target_namespace_to_servicemeshmemberroll">Add the target namespace to ServiceMeshMemberRoll</a></li>
+<li><a href="#_update_the_application_for_serverless">Update the Application for Serverless</a></li>
 </ul>
+</li>
+</ul>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Recently updated to include RedHat OpenShift 4.x
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 <div class="sect1">
 <h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
@@ -207,14 +231,20 @@
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://cloud.ibm.com/kubernetes/catalog/openshiftcluster" target="_blank" rel="noopener">Openshift Cluster</a></p>
+<p><a href="https://cloud.ibm.com/kubernetes/catalog/openshiftcluster" target="_blank" rel="noopener">RedHat Openshift Cluster</a></p>
 </li>
 <li>
 <p>Kabanero Enterprise via IBM Cloud Pak for Applications</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Install IBM Cloud Pak for Applications using <a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">CLI Installer</a> or <a href="https://cloud.ibm.com/catalog/content/ibm-cp-applications" target="_blank" rel="noopener">IBM Cloud Catalog</a></p>
+<p>Install Cloud Pak for Application 4.x on RedHat OpenShift 4.x using <a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.x/install-icpa-cli.html" target="_blank" rel="noopener">CLI Installer for OCP4</a></p>
+</li>
+<li>
+<p>Install Cloud Pak for Application 3.x on RedHat OpenShift 3.x using <a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">CLI Installer for OCP3</a></p>
+</li>
+<li>
+<p>Install Cloud Pak for Application from IBM Cloud Catalog <a href="https://cloud.ibm.com/catalog/content/ibm-cp-applications" target="_blank" rel="noopener">IBM Cloud Catalog</a></p>
 </li>
 </ul>
 </div>
@@ -253,7 +283,7 @@
 </ul>
 </div>
 <div class="paragraph">
-<p><code><a href="https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml" class="bare">https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml</a></code></p>
+<p><code><a href="https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml" class="bare">https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml</a></code></p>
 </div>
 <div class="ulist">
 <ul>
@@ -264,7 +294,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -290,7 +320,7 @@
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody repo list
 
 NAME        	URL
-*kabanero   	https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml
+*kabanero   	https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml
 appsodyhub  	https://github.com/appsody/stacks/releases/latest/download/incubator-index.yaml
 experimental	https://github.com/appsody/stacks/releases/latest/download/experimental-index.yaml</code></pre>
 </div>
@@ -326,11 +356,11 @@ experimental	https://github.com/appsody/stacks/releases/latest/download/experime
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody list kabanero
 
 REPO    	ID               	VERSION  	TEMPLATES        	DESCRIPTION
-kabanero	java-microprofile	0.2.11   	*default         	Eclipse MicroProfile on Open Liberty &amp; OpenJ9 using Maven
-kabanero	java-spring-boot2	0.3.9    	*default, kotlin 	Spring Boot using OpenJ9 and Maven
-kabanero	nodejs           	0.2.5    	*simple          	Runtime for Node.js applications
-kabanero	nodejs-express   	0.2.5    	*simple, skaffold	Express web framework for Node.js
-kabanero	nodejs-loopback  	0.1.4    	*scaffold        	LoopBack 4 API Framework for Node.js</code></pre>
+kabanero	java-microprofile	0.2.19   	*default         	Eclipse MicroProfile on Open Liberty &amp; OpenJ9 using Maven
+kabanero	java-spring-boot2	0.3.18   	*default, kotlin 	Spring Boot using OpenJ9 and Maven
+kabanero	nodejs           	0.2.6    	*simple          	Runtime for Node.js applications
+kabanero	nodejs-express   	0.2.8    	scaffold, *simple	Express web framework for Node.js
+kabanero	nodejs-loopback  	0.1.6    	*scaffold        	LoopBack 4 API Framework for Node.js</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -1652,29 +1682,6 @@ git push -u origin master</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>To access the Tekton Dashboard, run the below command.</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get route -n kabanero
-NAME               HOST/PORT                                                                                                          PATH      SERVICES           PORT      TERMINATION          WILDCARD
-icpa-landing       ibm-cp-applications.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                   icpa-landing       &lt;all&gt;     reencrypt/Redirect   None
-kabanero-cli       kabanero-cli-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud                 kabanero-cli       &lt;all&gt;     passthrough          None
-kabanero-landing   kabanero-landing-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             kabanero-landing   &lt;all&gt;     passthrough          None
-tekton-dashboard   tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             tekton-dashboard   &lt;all&gt;     reencrypt/Redirect   None</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can access it at the <code>HOST/PORT</code> available. For instance here it will be <code>tekton-dashboard-kabanero.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</code>.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>You can also access it on the Cloud Pak Landing page. You will find a <code>Tekton Dashboard</code>.</p>
-</li>
-<li>
 <p>Navigate to the menu in the upper left and select instances.</p>
 </li>
 <li>
@@ -1911,7 +1918,7 @@ OCP 4.X - Docker Registry - image-registry.openshift-image-registry.svc:5000/&lt
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get routes -n kabanero-samples
 NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
-appsody-sample-springboot   appsody-sample-springboot-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud             appsody-sample-springboot   8080                    None</code></pre>
+appsody-sample-springboot   appsody-sample-springboot-kabanero-samples.ocp.example.com            appsody-sample-springboot   8080                    None</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1924,6 +1931,55 @@ appsody-sample-springboot   appsody-sample-springboot-kabanero-samples.csantana-
 <div class="sect1">
 <h2 id="_serverless_autoscaling_the_application_with_knative"><a class="anchor" href="#_serverless_autoscaling_the_application_with_knative"></a>Serverless autoscaling the Application with Knative</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_add_the_target_namespace_to_servicemeshmemberroll"><a class="anchor" href="#_add_the_target_namespace_to_servicemeshmemberroll"></a>Add the target namespace to ServiceMeshMemberRoll</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Edit the resource <code>smmr</code> :</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc edit smmr -n istio-system</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Append the target namespace into the SMMR resource <code>spec</code> for example <code>kabanero-samples</code> leave any other namespaces already present:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>spec:
+  members:
+  - knative-serving
+  - tekton-pipelines
+  - kabanero
+  - kabanero-samples</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Verify the namespace <code>kabanero-samples</code> was added by following this command:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>oc get smmr -n istio-system
+
+NAME      MEMBERS
+default   [knative-serving tekton-pipelines kabanero kabanero-samples]</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_update_the_application_for_serverless"><a class="anchor" href="#_update_the_application_for_serverless"></a>Update the Application for Serverless</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1936,15 +1992,12 @@ appsody-sample-springboot   appsody-sample-springboot-kabanero-samples.csantana-
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: appsody.dev/v1beta1
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
   name: appsody-sample-springboot
   namespace: kabanero-samples
 spec:
-  version: 1.0.0
-  applicationImage: appsody-sample-springboot
-  stack: java-spring-boot2
   createKnativeService: true</code></pre>
 </div>
 </div>
@@ -1954,82 +2007,87 @@ spec:
 <p>Git push the change, and see tekton pipeline runs again.</p>
 </li>
 <li>
-<p>Show the Knative resource.</p>
+<p>Show the Knative resource</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get service.serving.knative.dev/appsody-sample-springboot
-NAME                        URL                                                                                                                                        LATESTCREATED                     LATESTREADY                       READY     REASON
-appsody-sample-springboot   http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   True</code></pre>
+<pre>oc get service.serving.knative.dev/appsody-sample-springboot
+
+NAME                            URL                                                                                                                                            LATESTCREATED                         LATESTREADY                           READY     REASON
+appsody-sample-springboot   http://appsody-sample-springboot.kabanero-samples.ocp.example.com  appsody-sample-springboot-mtl4q   appsody-sample-springboot-mtl4q   True</pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Show the Knative route.</p>
+<p>Show the Knative route</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get route.serving.knative.dev/appsody-sample-springboot
-NAME                        URL                                                                                                                                        READY     REASON
-appsody-sample-springboot   http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud   True</code></pre>
+<pre>oc get route.serving.knative.dev/appsody-sample-springboot
+
+NAME                            URL                                                                                                                                            READY     REASON
+appsody-sample-springboot   http://appsody-sample-springboot.kabanero-samples.ocp.example.com  True</pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Show the Knative configuration.</p>
+<p>Show the Knative configuration</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get configuration.serving.knative.dev/appsody-sample-springboot
-NAME                        LATESTCREATED                     LATESTREADY                       READY     REASON
-appsody-sample-springboot   appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   True</code></pre>
+<pre>oc get configuration.serving.knative.dev/appsody-sample-springboot
+
+NAME                            LATESTCREATED                         LATESTREADY                           READY     REASON
+appsody-sample-springboot   appsody-sample-springboot-mtl4q   appsody-sample-springboot-mtl4q   True</pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Show the Knative latest ready revision.</p>
+<p>Show the Knative latest ready revision</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get revision.serving.knative.dev/appsody-sample-springboot-cbq47
-NAME                              SERVICE NAME                      GENERATION   READY     REASON
-appsody-sample-springboot-cbq47   appsody-sample-springboot-cbq47   2            True</code></pre>
+<pre>oc get revision.serving.knative.dev/appsody-sample-springboot-mtl4q
+
+NAME                                  SERVICE NAME                          GENERATION   READY     REASON
+appsody-sample-springboot-mtl4q   appsody-sample-springboot-mtl4q   2            True</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Visit the Knative public url <a href="http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud" class="bare">http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</a> and list the pods.</p>
+<p>Visit the Knative public url <code><a href="http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud" class="bare">http://appsody-sample-springboot.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud</a></code> and list the pods</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pods
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods
 
-NAME                                                          READY     STATUS    RESTARTS   AGE
-appsody-sample-springboot-cbq47-deployment-7dd6b4d559-phmv7   2/2       Running   0          1m</code></pre>
+NAME                                                              READY     STATUS    RESTARTS   AGE
+appsody-sample-springboot-mtl4q-deployment-7bf6dbddf6-rr89p   2/2       Running   0          27s</code></pre>
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Wait 1 minute and you will the see the pods are not longer running</p>
+<p>Wait 1 minute and you will then see the pods are not longer running</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get pods
+<pre>oc get pods
 
-No resources found.</code></pre>
+No resources found.</pre>
+</div>
 </div>
 </div>
 </div>
