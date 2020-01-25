@@ -2,6 +2,8 @@
 :toc:
 :imagesdir: images
 
+IMPORTANT: Recently updated to include RedHat OpenShift 4.x
+
 == Prerequisites
 
 include::common/prerequisites.adoc[]

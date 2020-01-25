@@ -1,6 +1,8 @@
 = End to End Java Microprofile Kabanero workflow
-:imagesdir: images
 :toc:
+:imagesdir: images
+
+IMPORTANT: Recently updated to include RedHat OpenShift 4.x
 
 == Prerequisites
 
