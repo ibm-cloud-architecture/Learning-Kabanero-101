@@ -663,7 +663,7 @@ kabanero-samples
 
 ==== Target Namespace: Kabanero 4.2
 
-include::common/kabanero42.adoc[]
+include::common/target-kabanero.adoc[]
 
 === Create application deployment manifest
 

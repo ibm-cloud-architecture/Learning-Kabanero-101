@@ -528,9 +528,9 @@ $ oc project -q
 kabanero-samples
 ----
 
-==== Target Namespace: Kabanero 4.2
+=== Add new Target Namespace
 
-include::common/kabanero42.adoc[]
+include::common/target-kabanero.adoc[]
 
 === Create application deployment manifest
 
