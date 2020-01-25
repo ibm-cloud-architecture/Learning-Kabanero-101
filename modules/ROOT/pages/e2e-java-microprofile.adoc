@@ -12,13 +12,13 @@ include::common/prerequisites.adoc[]
 
 - From the Cloud Pak for Applications landing page get the `Collection Hub` URL. For example in our example it is as follows.
 
-`https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml`
+`https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml`
 
 - Use the appsody CLI to add the Collection repo.
 
 [source, bash]
 ----
-appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml
+appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml
 ----
 
 - If possible, remove other repos that are existing.
@@ -37,7 +37,7 @@ This returns you something like below.
 $ appsody repo list
 
 NAME        	URL
-*kabanero   	https://github.com/kabanero-io/collections/releases/download/v0.1.2/kabanero-index.yaml
+*kabanero   	https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml
 appsodyhub  	https://github.com/appsody/stacks/releases/latest/download/incubator-index.yaml
 experimental	https://github.com/appsody/stacks/releases/latest/download/experimental-index.yaml
 ----
