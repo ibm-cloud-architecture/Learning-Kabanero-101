@@ -191,6 +191,20 @@ Recently updated to include RedHat OpenShift 4.x
 <div class="ulist">
 <ul>
 <li>
+<p>Setup docker login for CRC (Code Ready Containers)</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>export INTERNAL_IMAGE_REGISTRY=default-route.openshift-image-registry.svc:5000
+export IMAGE_REGISTRY=$(oc get route default-route  -n openshift-image-registry -o jsonpath="{.spec.host}")
+docker login -u kubeadmin -p $(oc whoami -t) $IMAGE_REGISTRY</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
 <p>Create a route for OCP 4.x</p>
 </li>
 </ul>
