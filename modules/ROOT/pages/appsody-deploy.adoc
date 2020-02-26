@@ -51,7 +51,9 @@ If using the IBM Cloud OpenShift you should not have problems with docker login,
 ----
 {
   "insecure-registries": [
-    "default-route-openshift-image-registry.apps-crc.testing","image-registry-openshift-image-registry.apps.foobar.os.fyre.ibm.com","1.2.3.4.nip.io:5000"
+    "default-route-openshift-image-registry.apps-crc.testing",
+    "image-registry-openshift-image-registry.apps.foobar.os.fyre.ibm.com",
+    "1.2.3.4.nip.io:5000"
   ]
 }
 ----
