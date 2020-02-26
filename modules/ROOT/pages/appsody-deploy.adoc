@@ -17,7 +17,7 @@ Here is the TLDR; for this section
 - Setup docker login for CRC (Code Ready Containers)
 [source, bash]
 ----
-export INTERNAL_IMAGE_REGISTRY=default-route.openshift-image-registry.svc:5000
+export INTERNAL_IMAGE_REGISTRY=image-registry.openshift-image-registry.svc:5000
 export IMAGE_REGISTRY=$(oc get route default-route  -n openshift-image-registry -o jsonpath="{.spec.host}")
 docker login -u kubeadmin -p $(oc whoami -t) $IMAGE_REGISTRY
 ----
