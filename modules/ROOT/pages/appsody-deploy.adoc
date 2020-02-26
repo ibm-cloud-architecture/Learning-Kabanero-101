@@ -21,6 +21,9 @@ oc create route reencrypt image-registry --service=image-registry -n openshift-i
 oc patch route image-registry -n openshift-image-registry --type='json' -p='[{"op": "add", "path": "/metadata/annotations/haproxy.router.openshift.io~1balance", "value":"source"}]'
 export INTERNAL_IMAGE_REGISTRY=image-registry.openshift-image-registry.svc:5000
 export IMAGE_REGISTRY=$(oc get route image-registry -n openshift-image-registry -o jsonpath="{.spec.host}")
+----
+[source, bash]
+----
 docker login -u $(oc whoami) -p $(oc whoami -t) $IMAGE_REGISTRY
 ----
 
