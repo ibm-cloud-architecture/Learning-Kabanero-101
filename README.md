@@ -19,5 +19,7 @@ This learning journey provides a set of workflows integrating the following tool
 - [Tekton](https://tekton.dev)
 - [Knative](https://knative.dev/)
 
+
+
 ## Contributing
 Please refer to the [how to contribute?](CONTRIBUTING.md) on how you can contribute to the learning documentation.
