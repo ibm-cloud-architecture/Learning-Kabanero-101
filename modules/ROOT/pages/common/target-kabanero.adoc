@@ -5,11 +5,11 @@
 [source, bash]
 ----
 $ oc get kabaneros -n kabanero
-NAME       AGE       VERSION   READY
-kabanero   24h       0.3.4     True
+NAME       AGE   VERSION   READY
+kabanero   44h   0.6.1     True
 ----
 
-- Next, we will have to edit the yaml file configuring kabanero with the following command. 
+- Next, we will have to edit the yaml file configuring kabanero with the following command.
   - This will bring up your default editor
 
 [source, bash]

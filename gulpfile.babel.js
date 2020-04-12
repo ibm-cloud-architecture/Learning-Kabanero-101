@@ -51,6 +51,10 @@ function serve(done) {
     server.init({
         server: {
             baseDir: "./gh-pages"
+        },
+        port: 4000,
+        weinre: {
+            port: 40001
         }
     });
     done();
