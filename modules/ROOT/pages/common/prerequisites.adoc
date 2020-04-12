@@ -1,7 +1,7 @@
 
 * https://cloud.ibm.com/kubernetes/catalog/openshiftcluster[RedHat Openshift Cluster^]
 * Kabanero Enterprise via IBM Cloud Pak for Applications
-** Install Cloud Pak for Application 4.x on RedHat OpenShift 4.x using https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.x/install-icpa-cli.html[CLI Installer for OCP4^]
+** Install Cloud Pak for Application 4.x on RedHat OpenShift 4.x using https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.1.x/install-icpa-cli.html[CLI Installer for OCP4^]
 ** Install Cloud Pak for Application 3.x on RedHat OpenShift 3.x using https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html[CLI Installer for OCP3^]
 ** Install Cloud Pak for Application from IBM Cloud Catalog https://cloud.ibm.com/catalog/content/ibm-cp-applications[IBM Cloud Catalog^]
 * Docker for Desktop - https://docs.docker.com/docker-for-mac/install/[Mac^], https://docs.docker.com/docker-for-windows/install/[Windows^]

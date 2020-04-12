@@ -1,4 +1,4 @@
-= End to End Java Spring Boot Kabanero workflow
+= End to End Java Spring Boot CP4Apps workflow
 :toc:
 :imagesdir: images
 
@@ -8,13 +8,13 @@ IMPORTANT: Recently updated to include RedHat OpenShift 4.x
 
 include::common/prerequisites.adoc[]
 
-== Add Kabanero Collection to appsody
+== Add Stacks to appsody
 
-- From the Cloud Pak for Applications landing page get the `Collection Hub` URL. For example in our example it is as follows.
+- From the Cloud Pak for Applications landing page get the `Appsody` URL, for example:
 
-`https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml`
+`https://github.com/kabanero-io/kabanero-stack-hub/releases/download/0.6.3/kabanero-stack-hub-index.yaml`
 
-- Use the appsody CLI to add the Collection repo.
+- Use the appsody CLI to add add the URL for your stack configuration file:
 
 [source, bash]
 ----
@@ -36,10 +36,10 @@ This returns you something like below.
 ----
 $ appsody repo list
 
-NAME        	URL
-*kabanero   	https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml
-appsodyhub  	https://github.com/appsody/stacks/releases/latest/download/incubator-index.yaml
-experimental	https://github.com/appsody/stacks/releases/latest/download/experimental-index.yaml
+NAME            URL
+*incubator      https://github.com/appsody/stacks/releases/latest/download/incubator-index.yaml
+experimental    https://github.com/appsody/stacks/releases/latest/download/experimental-index.yaml
+kabanero        https://github.com/kabanero-io/kabanero-stack-hub/releases/download/0.6.3/kabanero-stack-hub-index.yaml
 ----
 
 To remove the unused repos, run
@@ -65,11 +65,11 @@ It gives you the list of available stacks.
 $ appsody list kabanero
 
 REPO    	ID               	VERSION  	TEMPLATES        	DESCRIPTION
-kabanero	java-microprofile	0.2.19   	*default         	Eclipse MicroProfile on Open Liberty & OpenJ9 using Maven
-kabanero	java-spring-boot2	0.3.18   	*default, kotlin 	Spring Boot using OpenJ9 and Maven
-kabanero	nodejs           	0.2.6    	*simple          	Runtime for Node.js applications
-kabanero	nodejs-express   	0.2.8    	scaffold, *simple	Express web framework for Node.js
-kabanero	nodejs-loopback  	0.1.6    	*scaffold        	LoopBack 4 API Framework for Node.js
+kabanero	java-microprofile	0.2.26   	*default         	Eclipse MicroProfile on Open Liberty & OpenJ9 using Maven
+kabanero	java-openliberty 	0.2.3    	*default         	Open Liberty & OpenJ9 using Maven
+kabanero	java-spring-boot2	0.3.24   	*default, kotlin 	Spring Boot using OpenJ9 and Maven
+kabanero	nodejs           	0.3.3    	*simple          	Runtime for Node.js applications
+kabanero	nodejs-express   	0.2.10   	scaffold, *simple	Express web framework for Node.js
 ----
 
 - Set the `kabanero` repo as default.
@@ -79,7 +79,7 @@ kabanero	nodejs-loopback  	0.1.6    	*scaffold        	LoopBack 4 API Framework 
 appsody repo set-default kabanero
 ----
 
-If you want to customize the appsody stacks and extend them, refer to xref:appsody-extend-stack.adoc[Appsody - Extending a Stack with Templates].
+If you want to customize the appsody stacks and extend them, refer to https://www.ibm.com/support/knowledgecenter/SSCSJL_4.1.x/guides/guide-working-with-stacks/README.html[Customizing application stacks].
 
 == Appsody application
 
@@ -94,7 +94,7 @@ mkdir appsody_sample_springboot
 cd appsody_sample_springboot/
 ----
 
-- Initialize the project using `appsody init` and select the desired stack ID.
+- Initialize the project using `appsody init` by selecting the desired stack ID template `simple`.
 
 [source, bash]
 ----
@@ -105,11 +105,8 @@ appsody init kabanero/java-spring-boot2
 [source, bash]
 ----
 .
-├── .appsody-config.yaml
-├── .gitignore
-├── .vscode
-│   ├── launch.json
-│   └── tasks.json
+├── mvnw
+├── mvnw.cmd
 ├── pom.xml
 └── src
     ├── main
@@ -151,29 +148,25 @@ This command will locally build a docker image of your appsody project.
 appsody build
 ----
 
-Once it runs successfully, you will see something like this.
+Once it builds successfully, you will see something like this.
 
 [source, bash]
 ----
-[Docker]  ---> Running in 3edec1263e50
-[Docker] Removing intermediate container 3edec1263e50
-[Docker]  ---> b738cc92f9e3
-[Docker] Step 33/34 : COPY --from=compile /project/user-app/target/app.jar /app.jar
-[Docker]  ---> 2bb71966ba32
-[Docker] Step 34/34 : ENTRYPOINT [ "sh", "-c", "java $JVM_ARGS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
-[Docker]  ---> Running in d9c411bc4772
-[Docker] Removing intermediate container d9c411bc4772
-[Docker]  ---> 4537506d45ab
-[Docker] Successfully built 4537506d45ab
-[Docker] Successfully tagged appsody-sample-springboot:latest
-Built docker image appsody-sample-springboot
+[Docker] Step 71/71 : LABEL version=0.3.23
+[Docker]  ---> Running in 4818208fe3ab
+[Docker] Removing intermediate container 4818208fe3ab
+[Docker]  ---> c5ec2b8a9377
+[Docker] Successfully built c5ec2b8a9377
+[Docker] Successfully tagged dev.local/appsody-sample-springboot:latest
+Built docker image dev.local/appsody-sample-springboot
+Running command: docker create --name appsody-sample-springboot-extract docker.io/kabanero/java-spring-boot2:0.3
 ----
 
-It helps you to check that stack is stable and init is done correctly. You need not run build to run the project ever again.
+It helps you to check that stack is stable and init is done correctly. You do not need to run build directly ever again.
 
 === Test the Application
 
-- Test the application using appsody.
+- Test the application using appsody
 
 [source, bash]
 ----
@@ -184,61 +177,12 @@ This step is building a container and running the test command inside of it.
 
 [source, bash]
 ----
-$ appsody test
-Running test environment
-Running command: docker[pull kabanero/java-spring-boot2:0.3]
-Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/user@ibm.com/codewind-workspace/appsody-sample-springboot/.:/project/user-app -v /Users/user@ibm.com/.m2/repository:/mvn/repository -v /Users/user@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=test]
-[Container] Running: /project/java-spring-boot2-build.sh test
-[Container] Installing parent dev.appsody:spring-boot2-stack:0.3.13
-[Container] > mvn install -q -f /project/appsody-boot2-pom.xml
-[Container] Test project in the foreground
-[Container] > mvn package test
-[Container] [INFO] Scanning for projects...
-...
-...
-[Container] 2019-09-23 22:25:18.476  INFO 194 --- [           main] i.j.internal.reporters.LoggingReporter   : Span reported: 50797d26c2920f16:50797d26c2920f16:0:1 - GET
-[Container] [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.564 s - in application.MainTests
-[Container] 2019-09-23 22:25:18.659  INFO 194 --- [      Thread-13] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
-[Container] [INFO]
-[Container] [INFO] Results:
-[Container] [INFO]
-[Container] [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
-[Container] [INFO]
-[Container] [INFO]
-[Container] [INFO] --- maven-jar-plugin:3.1.2:jar (default-jar) @ application ---
-[Container] [INFO] Building jar: /project/user-app/target/app.jar
-[Container] [INFO]
-[Container] [INFO] --- spring-boot-maven-plugin:2.1.6.RELEASE:repackage (default) @ application ---
-[Container] [INFO] Replacing main artifact with repackaged archive
-[Container] [INFO]
-[Container] [INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ application ---
-[Container] [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[Container] [INFO] Copying 2 resources
-[Container] [INFO]
-[Container] [INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ application ---
-[Container] [INFO] Nothing to compile - all classes are up to date
-[Container] [INFO]
-[Container] [INFO] --- maven-antrun-plugin:1.1:run (trigger-spring-restart) @ application ---
-[Container] [INFO] Executing tasks
-[Container]      [echo] Triggering Spring app restart.
-[Container] [INFO] Executed tasks
-[Container] [INFO]
-[Container] [INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ application ---
-[Container] [INFO] Using 'UTF-8' encoding to copy filtered resources.
-[Container] [INFO] skip non existing resourceDirectory /project/user-app/src/test/resources
-[Container] [INFO]
-[Container] [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ application ---
-[Container] [INFO] Nothing to compile - all classes are up to date
-[Container] [INFO]
-[Container] [INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ application ---
-[Container] [INFO] Skipping execution of surefire because it has already been run for this configuration
 [Container] [INFO] ------------------------------------------------------------------------
 [Container] [INFO] BUILD SUCCESS
 [Container] [INFO] ------------------------------------------------------------------------
-[Container] [INFO] Total time:  38.440 s
-[Container] [INFO] Finished at: 2019-09-23T22:25:26Z
+[Container] [INFO] Total time:  01:01 min
+[Container] [INFO] Finished at: 2020-04-12T03:09:06Z
 [Container] [INFO] ------------------------------------------------------------------------
-[Container] Watcher is not running.
 ----
 
 === Run the Application
@@ -252,6 +196,7 @@ appsody run
 
 This step is building a container and running it, the output has the endpoint for the application.
 
+[source, bash]
 ----
 Running development environment...
 Running command: docker[pull kabanero/java-spring-boot2:0.3]
@@ -281,7 +226,7 @@ For more details, refer https://github.com/appsody/stacks/blob/master/incubator/
 
 === Stop the Application
 
-- To stop the container, run this command.
+- To stop the application container, run this command.
 
 [source, bash]
 ----
@@ -346,7 +291,6 @@ The output indicates the debug environment is being used.
 
 [source, bash]
 ----
-$ appsody debug
 Running debug environment
 Running command: docker[pull kabanero/java-spring-boot2:0.3]
 Running docker command: docker[run --rm -p 35729:35729 -p 5005:5005 -p 8080:8080 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=debug]
@@ -413,13 +357,11 @@ Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using V
 
 === Getting the Codewind extension
 
-- To get codewind extension you need https://code.visualstudio.com/download[VS Code version 1.28 or later].
-
-- Go to the extensions view and install codewind from the VS code market place.
+- Go to the extensions view and search for codewind from the VS code market place.
 
 image::sb_lab1_vscode_codewind_extension.png[]
 
-You will find `Codewind` and click `install` to get it. Also, if you want to use the IDE for Java applications, you need to install `Codewind Java Profiler`.
+You will find `Codewind` then click `install` to get it. Also, if you want to use Codewind for Node.js performance analysis, you need to install `Codewind Node.js Profiler`.
 
 - Once you get them installed, let us now open the `Codewind` in the IDE.
 
@@ -427,15 +369,15 @@ You will find `Codewind` and click `install` to get it. Also, if you want to use
 View > Open View...
 ----
 
-image::sb_lab1_vscode_view.png[]
+image::sb_lab1_vscode_view.png[align="center"]
 
 - It gives you you a list of options. Select `Codewind`.
 
-image::sb_lab1_vscode_code_explorer.png[]
+image::sb_lab1_vscode_code_explorer.png[align="center"]
 
 - This opens the `Codewind`.
 
-image::sb_lab1_vscode_codewind_explorer.png[]
+image::sb_lab1_vscode_codewind_explorer.png[align="center"]
 
 If you want to configure codewind with appsody, checkout xref:codewind-setup-appsody.adoc[Configure CodeWind with Appsody CLI].
 
@@ -445,9 +387,8 @@ If you want to configure codewind with appsody, checkout xref:codewind-setup-app
 
 - Right click on `Projects` under Codewind. Select `Add Existing Project` in the menu.
 
-image::sb_lab1_codewind_add_existing_project.png[]
+image::sb_lab1_codewind_add_existing_project.png[align="center"]
 
-NOTE: - Before doing this, copy your project to the codewind workspace. At this point of time, codewind only accepts the projects that are available in the `codewind workspace`.
 
 - From the codewind workspace, select the project you created earlier.
 
@@ -465,7 +406,7 @@ image::sb_lab1_appsody_project.png[]
 
 image::sb_lab1_appsody_project_running.png[]
 
-=== Project options for dev
+=== Project Options
 
 - Go to the application and `right click` on it to access the various options available.
 
@@ -503,9 +444,9 @@ image::sb_lab1_restart_in_run_mode_app.png[]
 
 - Similarly, you can also do debugging by using `Restart in Debug Mode`.
 
-=== Project options for performance
+=== Application Performance, Monitor, Profiling with Codewind
 
-- Go to the application and `right click` on it to access the various options available.
+- You can launch the app monitor by selecting `Open Appplication Monitor`
 
 image::sb_lab1_code_wind_project_options.png[]
 
@@ -624,7 +565,7 @@ Once you create it, you will see something like below.
 [source, bash]
 ----
 $ oc new-project kabanero-samples
-Already on project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+Now using project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -663,20 +604,20 @@ $ oc project -q
 kabanero-samples
 ----
 
-==== Target Namespace: Kabanero 4.2
+=== Add new Target Namespace
 
 include::common/target-kabanero.adoc[]
 
 === Create application deployment manifest
 
-- Extract the appsody deployment config.
+- Extract the appsody deployment config file
 
 [source, bash]
 ----
-appsody deploy --generate-only
+appsody build
 ----
 
-This will generate you the below file.
+This will generate the file `app-deploy.yaml` with the following content:
 
 [source, yaml]
 ----
@@ -798,11 +739,9 @@ image::sb_lab1_tekton_dashboard.png[]
 
 - Click on Webhooks in the menu.
 
-image::sb_lab1_menu_webhooks.png[]
 
 - Click on `Add Webhook`.
 
-image::sb_lab1_add_webhook.png[]
 
 - Enter the information for the Webhook settings.
 
@@ -827,6 +766,7 @@ image::sb_lab1_webhook_settings_access_token_existing.png[]
 === Set up the pipeline
 
 - Enter the information for the Pipeline settings
+NOTE: Replace <your_project> with the name of the target namespace in our case `kabanero-samples`
 
 ----
 Namespace - kabanero
@@ -848,9 +788,9 @@ Also, a new Gitub webhook is created on the project repository.
 
 You can verify it by going into your `github repository > Settings > Webhooks` and you should be able to see the webhook created.
 
-*[Issue]* The webhook may show an error of 503. It will be cleared the first time the github webhook gets triggered.
+NOTE: Replace <your_project> with the name of the target namespace in our case `kabanero-samples`
 
-Here, we are using the default pipeline. If you want to customize the pipeline, refer to xref:tekton-create-pipeline.adoc[Tekton - Create a custom pipeline].
+Here, we are using the default pipeline. If you want to customize the pipeline, refer to https://www.ibm.com/support/knowledgecenter/SSCSJL_4.1.x/guides/guide-curating-pipelines/curating.html[Creating and updating tasks and pipelines].
 
 === Deploy the Application
 
@@ -905,7 +845,7 @@ You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-s
 - Edit the resource `smmr` :
 [source, bash]
 ----
-oc edit smmr -n istio-system
+oc edit smmr -n knative-serving-ingress
 ----
 
 - Append the target namespace into the SMMR resource `spec` for example `kabanero-samples` leave any other namespaces already present:
@@ -914,18 +854,15 @@ oc edit smmr -n istio-system
 spec:
   members:
   - knative-serving
-  - tekton-pipelines
-  - kabanero
   - kabanero-samples
 ----
 
 - Verify the namespace `kabanero-samples` was added by following this command:
 [source, bash]
 ----
-oc get smmr -n istio-system
+oc get smmr default -n knative-serving-ingress -o jsonpath={.spec.members}
 
-NAME      MEMBERS
-default   [knative-serving tekton-pipelines kabanero kabanero-samples]
+[knative-serving kabanero-samples]
 ----
 
 === Update the Application for Serverless

@@ -1,4 +1,4 @@
-= End to End Node.js Express CP4Apps workflow
+= End to End Java Openliberty CP4Apps workflow
 :toc:
 :imagesdir: images
 
@@ -18,7 +18,7 @@ include::common/prerequisites.adoc[]
 
 [source, bash]
 ----
-appsody repo add kabanero https://github.com/kabanero-io/kabanero-stack-hub/releases/download/0.6.3/kabanero-stack-hub-index.yaml
+appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml
 ----
 
 - If possible, remove other repos that are existing.
@@ -89,35 +89,79 @@ If you want to customize the appsody stacks and extend them, refer to https://ww
 
 [source, bash]
 ----
-mkdir appsody_sample_nodejs-express
+mkdir appsody_sample_openliberty
 
-cd appsody_sample_nodejs-express/
+cd appsody_sample_openliberty/
 ----
 
 - Initialize the project using `appsody init` by selecting the desired stack ID template `simple`.
 
 [source, bash]
 ----
-appsody init kabanero/nodejs-express
+appsody init kabanero/java-openliberty
 ----
 
 - The directory contains a minimal set of artifacts
 [source, bash]
 ----
 .
-├── app.js
-├── package-lock.json
-├── package.json
-└── test
-    └── test.js
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── dev
+    │   │       └── appsody
+    │   │           └── starter
+    │   │               ├── StarterApplication.java
+    │   │               ├── StarterResource.java
+    │   │               └── health
+    │   │                   ├── StarterLivenessCheck.java
+    │   │                   └── StarterReadinessCheck.java
+    │   ├── liberty
+    │   │   └── config
+    │   │       ├── configDropins
+    │   │       │   └── defaults
+    │   │       │       └── quick-start-security.xml
+    │   │       └── server.xml
+    │   └── webapp
+    │       ├── WEB-INF
+    │       │   └── beans.xml
+    │       └── index.html
+    └── test
+        └── java
+            └── it
+                └── dev
+                    └── appsody
+                        └── starter
+                            ├── EndpointTest.java
+                            └── HealthEndpointTest.java
 ----
 
-app.js::
-A sample javascript app
-package.json::
-The application's npm dependency tree
-test.js::
-The application's package manifest
+mvnw.cmd::
+a Maven Wrapper for Windows environments
+mvnw::
+ a Maven Wrapper for Unix-like environments
+pom.xml::
+ a project build file
+StarterApplication.java::
+ a JAX-RS Application class
+StarterResource.java::
+ a JAX-RS Resource class
+quick-start-security.xml::
+ a simple administrative security configuration
+server.xml::
+ an Open Liberty server configuration file
+index.html::
+ a static HTML file
+beans.xml::
+ the CDI deployment descriptor
+EndpointTest.java::
+ a test for the Starter resource endpoint
+HealthEndpointTest.java::
+ tests for the readiness and liveness endpoints
+
 
 === Build the application
 
@@ -132,10 +176,14 @@ Once it builds successfully, you will see something like this.
 
 [source, bash]
 ----
-[Docker] Successfully built 8dbee1649108
-[Docker] Successfully tagged dev.local/appsody-sample-nodejs-express:latest
-Built docker image dev.local/appsody-sample-nodejs-express
-Running command: docker create --name appsody-sample-nodejs-express-extract docker.io/kabanero/nodejs-express:0.2
+[Docker] Step 62/62 : LABEL version=0.2.3
+[Docker]  ---> Running in e9306f09a5fc
+[Docker] Removing intermediate container e9306f09a5fc
+[Docker]  ---> 129730417f81
+[Docker] Successfully built 129730417f81
+[Docker] Successfully tagged dev.local/appsody-sample-openliberty:latest
+Built docker image dev.local/appsody-sample-openliberty
+Running command: docker create --name appsody-sample-openliberty-extract docker.io/kabanero/java-openliberty:0.2
 ----
 
 It helps you to check that stack is stable and init is done correctly. You do not need to run build directly ever again.
@@ -153,19 +201,13 @@ This step is building a container and running the test command inside of it.
 
 [source, bash]
 ----
-Running test environment
-Running command: docker pull kabanero/nodejs-express:0.2
-...
-[Container]
-[Container]
-[Container] App started on PORT 3000
-[Container]   Node.js Express Simple template
-[Container]     / endpoint
-[Container]       ✓ status
-[Container]
-[Container]
-[Container]   1 passing (38ms)
-[Container]
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] BUILD SUCCESS
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] [INFO] Total time:  01:04 min
+[Container] [INFO] Finished at: 2020-04-12T04:40:59Z
+[Container] [INFO] ------------------------------------------------------------------------
+[Container] + set +x
 [Container] The file watcher is not running because no APPSODY_RUN/TEST/DEBUG_ON_CHANGE action was specified or it has been disabled using the --no-watcher flag.
 Closing down development environment.
 ----
@@ -184,34 +226,31 @@ This step is building a container and running it, the output has the endpoint fo
 [source, bash]
 ----
 Running development environment...
-Pulling docker image docker.io/kabanero/nodejs-express:0.2
-Running command: docker pull docker.io/kabanero/nodejs-express:0.2
-0.2: Pulling from kabanero/nodejs-express
-Digest: sha256:e146ec0b008cd122f3c87b50e2d69102141f71dfd44239d1dbaeac97d06737a0
-Status: Image is up to date for kabanero/nodejs-express:0.2
-docker.io/kabanero/nodejs-express:0.2
-Running command: docker run --rm -p 8080:8080 -p 9229:9229 -p 3000:3000 --name appsody-sample-nodejs-express -v /Users/csantana23/dev/kabanero/demos/cp4apps41/appsody_sample_nodejs-express/:/project/user-app -v appsody-appsody-sample-nodejs-express-20200411182922.16881400:/project/user-app/node_modules -v appsody-controller-0.3.4:/.appsody -t --entrypoint /.appsody/appsody-controller docker.io/kabanero/nodejs-express:0.2 "--mode=run"
-[Container] Running APPSODY_PREP command: npm install --prefix user-app
-audited 295 packages in 1.457s
-[Container]
-[Container] > nodejs-express@0.2.10 start /project
-[Container] > node server.js
-[Container]
-[Container] [Sat Apr 11 22:36:35 2020] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.1.1.202003102146 (Agent Core 4.0.5)
-[Container] [Sat Apr 11 22:36:36 2020] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
-[Container] App started on PORT 3000
+Running command: docker[pull kabanero/java-spring-boot2:0.3]
+Running docker command: docker[run --rm -p 5005:5005 -p 8080:8080 -p 35729:35729 --name appsody-sample-springboot-dev -u 501:20 -e APPSODY_USER=501 -e APPSODY_GROUP=20 -v /Users/<user>@ibm.com/kabanero101/appsody_sample_springboot/.:/project/user-app -v /Users/<user>@ibm.com/.m2/repository:/mvn/repository -v /Users/<user>@ibm.com/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-spring-boot2:0.3 --mode=run]
+......
+......
+......
+[Container] 2019-09-12 17:49:22.173  INFO 185 --- [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoint(s) beneath base path '/actuator'
+[Container] 2019-09-12 17:49:22.377  INFO 185 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+[Container] 2019-09-12 17:49:22.386  INFO 185 --- [  restartedMain] application.Main                         : Started Main in 7.984 seconds (JVM running for 9.679)
+[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+[Container] 2019-09-12 17:58:42.777  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+[Container] 2019-09-12 17:58:42.805  INFO 185 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 27 ms
+[Container] 2019-09-12 17:58:43.044  INFO 185 --- [nio-8080-exec-1] i.j.internal.reporters.LoggingReporter   : Span reported: 445d02b19cea491:445d02b19cea491:0:1 - GET
 ----
 
-- Open the application using the web browser at http://localhost:3000 .
+- Open the application using the web browser at http://localhost:9080.
 
 - By default, the template provides the below endpoints.
 
-** Readiness endpoint: http://localhost:3000/ready
-** Liveness endpoint: http://localhost:3000/live
-** Health check endpoint: http://localhost:3000/health
-** Metrics endpoint: http://localhost:3000/metrics
+** Health endpoint: http://localhost:9080/health
+** Liveness endpoint: http://localhost:9080/health/live
+** Metrics endpoint: http://localhost:9080/metrics (login as admin user with adminpwd password)
+** OpenAPI endpoint: http://localhost:9080/openapi
+** Swagger UI endpoint: http://localhost:9080/openapi/ui
 
-For more details, refer https://github.com/appsody/stacks/blob/master/incubator/nodejs-express/README.md[Node.js Express Stack].
+For more details, refer https://github.com/appsody/stacks/blob/master/incubator/java-openliberty/README.md[Java Openliberty Stack].
 
 === Stop the Application
 
@@ -224,17 +263,48 @@ appsody stop
 
 - Alternatively, you can also press `Ctrl+C`.
 
+
+=== Update the Application
+
+- Lets add a new endpoint API to our Application
++
+Change the file `src/main/java/dev/appsody/starter/StarterResource.java` and populate with the following code:
++
+[source, java]
+----
+package dev.appsody.starter;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+@Path("/hello")
+public class StarterResource {
+    @GET
+    public String getRequest() {
+        return "Hello World";
+    }
+}
+----
+
+image::microprofile-code-change.png[]
+
+- Open the browser and navigate to the endpoint url http://localhost:9080/starter/hello
+
+image::microprofile-hello-endpoint.png[]
+
+- Make a change to the application and refresh the browser for example `Hello World Demo`
+
+image::microprofile-hello-refresh.png[]
+
 === Debug the Application
 
 - Open your editor. We are using `VS Code`. Add the project to your workspace, or use the command `code .`
 
-image::js_lab1_vscode_project.png[align="center"]
+image::microprofile_lab1_vscode_project.png[]
 
 - Open a new terminal window inside VS Code. Use `View->Terminal`.
 
-image::js_lab1_vscode_terminal.png[align="center"]
+image::microprofile_lab1_vscode_terminal.png[]
 
- - To debug the application including reloading the application on code changes run the below command.
+- To debug the application including reloading the application on code changes run the below command.
 
 [source, bash]
 ----
@@ -246,58 +316,45 @@ The output indicates the debug environment is being used.
 [source, bash]
 ----
 Running debug environment
-Pulling docker image docker.io/kabanero/nodejs-express:0.2
-Running command: docker pull docker.io/kabanero/nodejs-express:0.2
-0.2: Pulling from kabanero/nodejs-express
-Digest: sha256:e146ec0b008cd122f3c87b50e2d69102141f71dfd44239d1dbaeac97d06737a0
-Status: Image is up to date for kabanero/nodejs-express:0.2
-docker.io/kabanero/nodejs-express:0.2
-Running command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express -v /Users/csantana23/Documents/dev/kabanero/demos/cp4apps41/appsody_sample_nodejs-express/:/project/user-app -v appsody-appsody-sample-nodejs-express-20200411182922.16881400:/project/user-app/node_modules -v appsody-controller-0.3.4:/.appsody -t --entrypoint /.appsody/appsody-controller docker.io/kabanero/nodejs-express:0.2 "--mode=debug"
-[Container] Running APPSODY_PREP command: npm install --prefix user-app
-audited 295 packages in 1.486s
-[Container]
-[Container] > nodejs-express@0.2.10 debug /project
-[Container] > node --inspect=0.0.0.0 server.js
-[Container]
-[Container] Debugger listening on ws://0.0.0.0:9229/570389b5-9dcd-43b1-920d-9b7e5cb75fd4
-[Container] For help, see: https://nodejs.org/en/docs/inspector
-[Container] [Sat Apr 11 22:40:25 2020] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.1.1.202003102146 (Agent Core 4.0.5)
-[Container] [Sat Apr 11 22:40:25 2020] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
-[Container] App started on PORT 3000
+Running command: docker pull kabanero/java-microprofile:0.2
+Running docker command: docker run --rm -p 7777:7777 -p 9080:9080 -p 9443:9443 --name appsody-sample-microprofile-dev -v /Users/user/.m2/repository:/mvn/repository -v /Users/user/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/src:/project/user-app/src -v /Users/user/GitHub/Cloud/Cloud-Native/Kabanero/appsody_sample_microprofile/pom.xml:/project/user-app/pom.xml -v /Users/user/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/java-microprofile:0.2 --mode=debug
+.......
+.......
+.......
+[Container]  INFO  --- liberty-maven-plugin:2.6.4:debug (default-cli) @ starter-app ---
+[Container]  INFO  CWWKM2102I: Using artifact based assembly archive : io.openliberty:openliberty-runtime:null:19.0.0.8:zip.
+[Container]  INFO  CWWKM2102I: Using installDirectory : /project/user-app/target/liberty/wlp.
+[Container]  INFO  CWWKM2102I: Using serverName : defaultServer.
+[Container]  INFO  CWWKM2102I: Using serverDirectory : /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2112I: Re-using previously installed assembly.
+[Container]  INFO  Copying 1 file to /project/user-app/target/liberty/wlp/usr/servers/defaultServer
+[Container]  INFO  CWWKM2144I: Update server configuration file server.xml from /project/user-app/src/main/liberty/config/server.xml.
+[Container]  INFO  CWWKM2144I: Update server configuration file bootstrap.properties from inlined configuration.
+[Container]  INFO  CWWKM2001I: server.config.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2001I: server.output.dir is /project/user-app/target/liberty/wlp/usr/servers/defaultServer.
+[Container]  INFO  CWWKM2001I: Invoke command is  /project/user-app/target/liberty/wlp/bin/server, debug, defaultServer .
+[Container]  INFO
+[Container]  INFO  Listening for transport dt_socket at address: 7777
 ----
 
 
-- Now you can open the application at http://localhost:3000/
-
-image::js_lab1_endpoint.png[align="center"]
-
-- Let us make a code change.
-
-image::js_lab1_code_change.png[align="center"]
-
-Here, the debugger will reload the application for you.
-
-- Refresh the browser to see the changes.
-
-image::js_lab1_endpoint_test.png[align="center"]
-
-- You can attach to the Node.js debugger using `VSCode`
+- You can attach to the debugger using `VSCode`
 
 - To access the debug view use `View->Debug` or click Debug icon on left menu
 
-image::js_lab1_vscode_debug.png[align="center"]
+image::microprofile_lab1_vscode_debug.png[]
 
 - Add a breakpoint to the application, click to the left of the line number
 
-image::js_lab1_vscode_breakpoint.png[align="center"]
+image::microprofile_lab1_vscode_breakpoint.png[]
 
-- Click on the debug task `Appsody: Attach node`
+- Click on the debug task `Appsody: Attach java debugger`
 
-image::js_lab1_vscode_attach.png[align="center"]
+image::microprofile_lab1_vscode_attach.png[]
 
-- Refresh the browser and watch how the debugger stops at the breakpoint
+- Open the browser on the new endpoint http://localhost:9080/starter/hello and watch how the debugger stops at the breakpoint.
 
-image::js_lab1_vscode_attach_break.png[align="center"]
+image::microprofile_lab1_vscode_attach_break.png[]
 
 
 == Appsody tasks on VS Code
@@ -308,38 +365,31 @@ image::js_lab1_vscode_attach_break.png[align="center"]
 Terminal > Run Build Task...
 ----
 
-image::js_lab1_build_task_menu.png[align="center"]
+image::sb_lab1_build_task_menu.png[]
 
 - You will see a list of available tasks.
 
-image::js_lab1_build_task_list.png[align="center"]
+image::sb_lab1_build_task_list.png[]
 
 - Click on `Appsody: run` and this will run the application.
 
-image::js_lab1_build_task_run.png[align="center"]
+image::sb_lab1_build_task_run.png[]
 
-- Once, it is successfully started, you can access the application at http://localhost:3000/
+- Once, it is successfully started, you can access the application at http://localhost:9080/.
 
-image::js_lab1_endpoint.png[align="center"]
-
-- Run the `Appsody: stop` task
-
-image::js_lab1_build_task_stop.png[align="center"]
+image::microprofile-home.png[]
 
 == Codewind on VS Code
 
-Codewind simplifies and enhances development in containers by extending industry-standard IDEs with features to write, debug, and deploy cloud-native applications. It helps you to get started quickly with templates or samples, or you can also pull in your applications and let Codewind get them cloud-ready.
+Codewind simplifies and enhances development in containers by extending industry standard IDEs with features to write, debug, and deploy cloud-native applications. It helps you to get started quickly with templates or samples, or you can also pull in your applications and let Codewind get them cloud ready.
 
 Codewind supports VS Code, Eclipse Che, and Eclipse. In this lab, we are using VS Code as our IDE.
 
-
 === Getting the Codewind extension
 
-- To get codewind extension you need https://code.visualstudio.com/download[VS Code version 1.28 or later].
+- Go to the extensions view and install codewind from the VS code market place.
 
-- Go to the extensions view and search for codewind from the VS code market place.
-
-image::js_lab1_vscode_codewind_extension.png[Codewind extensions, 500]
+image::sb_lab1_vscode_codewind_extension.png[]
 
 You will find `Codewind` then click `install` to get it. Also, if you want to use Codewind for Node.js performance analysis, you need to install `Codewind Node.js Profiler`.
 
@@ -349,15 +399,15 @@ You will find `Codewind` then click `install` to get it. Also, if you want to us
 View > Open View...
 ----
 
-image::sb_lab1_vscode_view.png[align="center"]
+image::sb_lab1_vscode_view.png[]
 
 - It gives you you a list of options. Select `Codewind`.
 
-image::sb_lab1_vscode_code_explorer.png[align="center"]
+image::sb_lab1_vscode_code_explorer.png[]
 
 - This opens the `Codewind`.
 
-image::sb_lab1_vscode_codewind_explorer.png[align="center"]
+image::sb_lab1_vscode_codewind_explorer.png[]
 
 If you want to configure codewind with appsody, checkout xref:codewind-setup-appsody.adoc[Configure CodeWind with Appsody CLI].
 
@@ -367,44 +417,49 @@ If you want to configure codewind with appsody, checkout xref:codewind-setup-app
 
 - Right click on `Projects` under Codewind. Select `Add Existing Project` in the menu.
 
-image::sb_lab1_codewind_add_existing_project.png[align="center"]
+image::sb_lab1_codewind_add_existing_project.png[]
+
+NOTE: - Before doing this, copy your project to the codewind workspace. At this point in time, codewind only accepts the projects that are available in the `codewind workspace`.
 
 - From the codewind workspace, select the project you created earlier.
 
-image::js_lab1_add_existing_prj_from_workspace.png[align="center"]
+image::microprofile-add.png[]
 
 - The codewind extension asks you for confirmation as follows. Click `Yes`.
 
+image::microprofile-confirm.png[]
+
 - The project will be added.
+
+image::microprofile-codewind-starting.png[]
 
 - Once it is successfully built, it starts running.
 
-image::js_lab1_appsody_project_running.png[align="center"]
-
+image::microprofile-codewind-running.png[]
 
 === Project Options
 
 - Go to the application and `right click` on it to access the various options available.
 
-image::js_lab1_codewind_project_options.png[align="center"]
+image::microprofile-codewind-options.png[]
 
 - Click `Open App` to access the application.
 
-image::js_lab1_codewind_open_app.png[align="center"]
+image::microprofile-codewind.png[]
 
 NOTE: - Codewind exposes your applications on different external ports. This will allow you to run multiple projects of same type.
 
 - To get the overview of your project, click on `Open Project Overview`.
 
-image::js_lab1_codewind_project_overview.png[align="center"]
+image::microprofile-overview.png[]
 
 - You can access the container shell directly from the IDE by using `Open Container Shell`.
 
-image::js_lab1_codewind_container_shell.png[align="center"]
+image::sb_lab1_codewind_container_shell.png[]
 
 - To access the logs of the application, click on `Show all logs`.
 
-image::js_lab1_codewind_project_logs.png[align="center"]
+image::sb_lab1_codewind_project_logs.png[]
 
 - You can also hide the logs if you want to by using `Hide all logs` option.
 
@@ -412,39 +467,13 @@ image::js_lab1_codewind_project_logs.png[align="center"]
 
 - You can also run the application by using `Restart in Run Mode`.
 
-image::js_lab1_codewind_project_restart_in_run_mode.png[align="center"]
+image::sb_lab1_codewind_project_restart_in_run_mode.png[]
 
 Once it is restarted, you can access the application by clicking on the button as shown below.
 
-image::js_lab1_restart_in_run_mode_app.png[align="center"]
+image::sb_lab1_restart_in_run_mode_app.png[]
 
 - Similarly, you can also do debugging by using `Restart in Debug Mode`.
-
-=== Application Performance, Monitor, Profiling with Codewind
-
-- You can launch the app monitor by selecting `Open Appplication Monitor`
-
-NOTE: Version `0.9.0` of Codewind in VSCode has a bug that doesn't show the metrics or the performance dashboards https://github.com/eclipse/codewind/issues/2664
-
-image::js_lab1_codewind_app_monitor.png[]
-
-- The monitor dashboard will open in the browser
-
-image::js_lab1_app_monitor_dashboard.png[]
-
-- You can launch the app performance dashboard by selecting `Open Performance Dashboard`
-
-image::js_lab1_app_performance.png[]
-
-- The performance dashboard will open in the browser
-
-image::js_lab1_app_performance_dashboard.png[]
-
-- You can click Run Test and have Monitor and Performance dashboars side by side during the test.
-
-image::js_lab1_app_side_by_side_perf_test.png[]
-
-NOTE: Profiling the node.js code is currently not working an https://github.com/eclipse/codewind-node-profiler/issues/5[issue] is opened on the github repo for the codewind node.js profiler extension
 
 == Deploy the appsody application on Openshift for team development
 
@@ -462,7 +491,7 @@ Once you create it, you will see something like below.
 [source, bash]
 ----
 $ oc new-project kabanero-samples
-Now using project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
+Already on project "kabanero-samples" on server "https://c100-e.us-east.containers.cloud.ibm.com:31718".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -521,50 +550,43 @@ This will generate the file `app-deploy.yaml` with the following content:
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-nodejs-express
-  labels:
-    image.opencontainers.org/title: appsody-sample-nodejs-express
-    stack.appsody.dev/id: nodejs-express
-    stack.appsody.dev/version: 0.2.10
+  name: appsody-sample-openliberty
 spec:
-  applicationImage: dev.local/appsody-sample-nodejs-express
+  applicationImage: dev.local/appsody-sample-openliberty
   createKnativeService: false
   expose: true
   livenessProbe:
     failureThreshold: 12
     httpGet:
-      path: /live
-      port: 3000
+      path: /health/live
+      port: 9080
     initialDelaySeconds: 5
     periodSeconds: 2
-  monitoring:
-    labels:
-      k8s-app: appsody-sample-nodejs-express
   readinessProbe:
     failureThreshold: 12
     httpGet:
-      path: /ready
-      port: 3000
+      path: /health/ready
+      port: 9080
     initialDelaySeconds: 5
     periodSeconds: 2
     timeoutSeconds: 1
   service:
     annotations:
       prometheus.io/scrape: "true"
-    port: 3000
+    port: 9080
     type: NodePort
-  stack: nodejs-express
+  stack: java-openliberty
   version: 1.0.0
 ----
 
-By default, the application is deployed in the `kabanero` namespace. If you want to deploy the application in a different namespace, you need to specify it in this yaml file. In this lab, let's use a namespace called `kabanero-samples` and we can specify it under the metadata as below.
+By default, the application is deployed in the `kabanero` namespace. If you want to deploy the application in a different namespace, you can specify it in this yaml file. In this lab, let us use a namespace called `kabanero-samples` and we can specify it under the metadata as below.
 
 [source, yaml]
 ----
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-nodejs-express
+  name: appsody-sample-openliberty
   namespace: kabanero-samples
 ----
 
@@ -595,7 +617,7 @@ git push -u origin master
 - Select `Generate new token`.
 - Create a Github access token with permission `admin:repo_hook`
 
-image::js_lab1_github_token.png[align="center"]
+image::sb_lab1_github_token.png[]
 
 - Then finally click `Generate token` to create one.
 
@@ -607,9 +629,9 @@ For more details on how to generate Github personal access token refer https://h
 
 - Navigate to the menu in the upper left and select instances.
 
-- Then click the link under the `Pipelines` label to navigate to `Pipelines Dashboard`.
+- Then click the link under the `Tekton` label to navigate to the `Tekton Dashboard`.
 
-image::tekton_link_42.png[align="center"]
+image::tekton_link_42.png[]
 
 image::sb_lab1_tekton_dashboard.png[]
 
@@ -617,11 +639,13 @@ image::sb_lab1_tekton_dashboard.png[]
 
 - Click on Webhooks in the menu.
 
+
 - Click on `Add Webhook`.
+
 
 - Enter the information for the Webhook settings.
 
-image::sb_lab1_webhook_settings.png[align="center"]
+image::sb_lab1_webhook_settings.png[]
 
 ----
 Name - <Name for webhook>
@@ -633,11 +657,11 @@ For more information on how to configure github credentials, refer to xref:tekto
 
 - Create a new token as follows.
 
-image::sb_lab1_webhook_settings_access_token_create.png[align="center"]
+image::sb_lab1_webhook_settings_access_token_create.png[]
 
 - You can also use an existing token if it is already created.
 
-image::sb_lab1_webhook_settings_access_token_existing.png[align="center"]
+image::sb_lab1_webhook_settings_access_token_existing.png[]
 
 === Set up the pipeline
 
@@ -646,17 +670,19 @@ NOTE: Replace <your_project> with the name of the target namespace in our case `
 
 ----
 Namespace - kabanero
-Pipeline - nodejs-express-build-deploy-pipeline
+Pipeline - java-openliberty-build-deploy-pipeline
 Service account - kabaner-operator
 OCP 3.11 - Docker Registry - docker-registry.default.svc:5000/<your_project>
 OCP 4.X - Docker Registry - image-registry.openshift-image-registry.svc:5000/<your_project>
 ----
 
-image::js_lab1_pipeline_settings.png[align="center"]
+image::sb_lab1_pipeline_settings.png[]
 
 Here, we are using the default docker registry that comes with the openshift cluster. Sometimes, you may need to configure a third party registry instead of using the default one. In order to do that, check out xref:tekton-credentials-docker.adoc[Tekton - Configure External Docker Registry].
 
 - Click Create, a new webhook is created.
+
+image::sb_lab1_webhook.png[]
 
 Also, a new Gitub webhook is created on the project repository.
 
@@ -670,21 +696,21 @@ Here, we are using the default pipeline. If you want to customize the pipeline, 
 
 The way to deploy the application is to make a change in the application in the git repository to trigger the tekton webhook and start the DevOps pipeline to build and deploy the application.
 
-- Make a change to the application such as changing the `app.js` or any other things.
+- Make a change to the application such as changing the `index.html` or any other things.
 
-Let's change from `Hello from Appsody Demo!` to `Hello from Cloud Paks !!!`.
+Let us change the `title` from `Hello from Appsody!` to `Hello from Cloud Paks !!!`.
 
 - Push your changes to the remote git repository.
 
 - This will trigger the Tekton Pipeline. To see the status of the Pipeline click on `PipelineRuns` on the menu of the dashboard.
 
-image::js_lab1_pipeline_runs.png[align="center"]
+image::sb_lab1_pipeline_runs.png[]
 
 - When the application is built and deployed the application will be available via the expose `Route`.
 
 include::common/oc_routes1.adoc[]
 
-== OCP 4.X instructions
+==== OCP 4.X instructions
 
 - Open the menu in the upper left of the OpenShift Console and navigate to Topology.
 
@@ -692,7 +718,7 @@ include::common/oc_routes1.adoc[]
 
 - Note: Please ensure you are in the developer role (should be default if following this guide)
 
-image::dc_lab1_route_location_42.png[align="center"]
+image::dc_microprofile_route.png[align="center"]
 
 - Or you can also get the route from the oc CLI.
 
@@ -706,14 +732,11 @@ For instance,
 [source,bash]
 ----
 $ oc get routes -n kabanero-samples
-NAME                            HOST/PORT                                                                                                                               PATH      SERVICES                        PORT      TERMINATION   WILDCARD
-appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.ocp.example.com            appsody-sample-nodejs-express   3000                    None
+NAME                        HOST/PORT                                                                                                                                PATH      SERVICES                    PORT      TERMINATION   WILDCARD
+appsody-sample-openliberty   appsody-sample-openliberty-kabanero-samples.ocp.example.com            appsody-sample-mopenliberty   8080                    None
 ----
 
-You can now acccess the application at <HOST/PORT>, here it is `https://appsody-sample-nodejs-express-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
-
-
-== Serverless autoscaling the Application with Knative
+You can now acccess the application at <HOST/PORT>, here it is `appsody-sample-openliberty-kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud`.
 
 === Add the target namespace to ServiceMeshMemberRoll
 
@@ -751,7 +774,7 @@ oc get smmr default -n knative-serving-ingress -o jsonpath={.spec.members}
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
-  name: appsody-sample-nodejs-express
+  name: appsody-sample-openliberty
   namespace: kabanero-samples
 spec:
   createKnativeService: true
@@ -762,46 +785,46 @@ spec:
 - Show the Knative resource
 [source, bash]
 ----
-oc get service.serving.knative.dev/appsody-sample-nodejs-express
+oc get service.serving.knative.dev/appsody-sample-smircroprofile
 
 NAME                            URL                                                                                                                                            LATESTCREATED                         LATESTREADY                           READY     REASON
-appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.ocp.example.com  appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True
+appsody-sample-smircroprofile   http://appsody-sample-smircroprofile.kabanero-samples.ocp.example.com  appsody-sample-openliberty-mtl4q   appsody-sample-openliberty-mtl4q   True
 ----
 
 - Show the Knative route
 [source, bash]
 ----
-oc get route.serving.knative.dev/appsody-sample-nodejs-express
+oc get route.serving.knative.dev/appsody-sample-smircroprofile
 
 NAME                            URL                                                                                                                                            READY     REASON
-appsody-sample-nodejs-express   http://appsody-sample-nodejs-express.kabanero-samples.ocp.example.com  True
+appsody-sample-smircroprofile   http://appsody-sample-smircroprofile.kabanero-samples.ocp.example.com  True
 ----
 
 - Show the Knative configuration
 [source, bash]
 ----
-oc get configuration.serving.knative.dev/appsody-sample-nodejs-express
+oc get configuration.serving.knative.dev/appsody-sample-smircroprofile
 
 NAME                            LATESTCREATED                         LATESTREADY                           READY     REASON
-appsody-sample-nodejs-express   appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   True
+appsody-sample-smircroprofile   appsody-sample-openliberty-mtl4q   appsody-sample-openliberty-mtl4q   True
 ----
 
 - Show the Knative latest ready revision
 [source, bash]
 ----
-oc get revision.serving.knative.dev/appsody-sample-nodejs-express-mtl4q
+oc get revision.serving.knative.dev/appsody-sample-openliberty-mtl4q
 
 NAME                                  SERVICE NAME                          GENERATION   READY     REASON
-appsody-sample-nodejs-express-mtl4q   appsody-sample-nodejs-express-mtl4q   2            True
+appsody-sample-openliberty-mtl4q   appsody-sample-openliberty-mtl4q   2            True
 ----
 
-Visit the Knative public url `http://appsody-sample-nodejs-express.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud` and list the pods
+Visit the Knative public url `http://appsody-sample-smircroprofile.kabanero-samples.csantana-ocp3-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud` and list the pods
 [source, bash]
 ----
 oc get pods
 
 NAME                                                              READY     STATUS    RESTARTS   AGE
-appsody-sample-nodejs-express-mtl4q-deployment-7bf6dbddf6-rr89p   2/2       Running   0          27s
+appsody-sample-openliberty-mtl4q-deployment-7bf6dbddf6-rr89p   2/2       Running   0          27s
 ----
 
 - Wait 1 minute and you will then see the pods are not longer running

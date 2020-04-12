@@ -7,18 +7,14 @@
 
 * Workflows
 ** xref:e2e-java-spring-boot2.adoc[E2E Java Spring Boot 2]
-** xref:e2e-java-microprofile.adoc[E2E Java Microprofile]
+** xref:e2e-java-openliberty.adoc[E2E Java OpenLiberty]
 ** xref:e2e-nodejs-express.adoc[E2E Node.js Express]
 
 * Tasks
 ** xref:appsody-deploy.adoc[Appsody Deploy]
 ** xref:codewind-setup-appsody.adoc[Configure CodeWind]
-** xref:appsody-extend-stack.adoc[Extend Appsody Stack]
-** xref:tekton-create-pipeline.adoc[Extend Tekton Pipelines]
-*** xref:tekton-create-pipeline.adoc#nodejs-express-deploy[Deploy Test Pipelines]
-*** xref:tekton-create-pipeline.adoc#nodejs-express[Test Node.js Express]
-*** xref:tekton-create-pipeline.adoc#java-spring-boot2[Test Java Spring Boot Test]
-*** xref:tekton-create-pipeline.adoc#java-microprofile[Test Java Microprofile]
+** https://www.ibm.com/support/knowledgecenter/SSCSJL_4.1.x/guides/guide-working-with-stacks/README.html[Customizing Application Stacks ↗^]
+** https://www.ibm.com/support/knowledgecenter/SSCSJL_4.1.x/guides/guide-curating-pipelines/curating.html[Creating and updating tasks and pipelines ↗^]
 ** xref:tekton-credentials-github.adoc[Configure Github Credentials]
 ** xref:tekton-credentials-docker.adoc[Configure Docker Credentials]
 
