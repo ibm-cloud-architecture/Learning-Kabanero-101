@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>End to end Node.js Express Kabanero workflow :: Learning-Kabanero-101</title>
+    <title>End to End Node.js Express CP4Apps workflow :: Learning CP4Apps Accelerators for Teams 101</title>
     <link rel="canonical" href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/web/1.0.0/e2e-nodejs-express.html">
     <meta name="generator" content="Antora 2.0.1">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -15,7 +15,7 @@
   <nav class="navbar">
     <div class="navbar-brand">
       <div class="navbar-item">
-        <p>Learning Kabanero Enterprise 101</p>
+        <p>CP4Apps Accelerators for Teams 101</p>
       </div>
     </div>
     <div id="topbar-nav" class="navbar-menu">
@@ -42,7 +42,7 @@
     <span class="nav-text"><a href="https://cloud.ibm.com/catalog/content/ibm-cp-applications" target="_blank" rel="noopener">Using IBM Cloud Console ↗</a></span>
   </li>
   <li class="nav-item" data-depth="2">
-    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.x/install-icpa-cli.html" target="_blank" rel="noopener">OCP4 CLI Installer ↗</a></span>
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.1.x/install-icpa-cli.html" target="_blank" rel="noopener">OCP4 CLI Installer ↗</a></span>
   </li>
   <li class="nav-item" data-depth="2">
     <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">OCP3 CLI Installer ↗</a></span>
@@ -57,7 +57,7 @@
     <a class="nav-link" href="e2e-java-spring-boot2.html">E2E Java Spring Boot 2</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="e2e-java-microprofile.html">E2E Java Microprofile</a>
+    <a class="nav-link" href="e2e-java-openliberty.html">E2E Java OpenLiberty</a>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="e2e-nodejs-express.html">E2E Node.js Express</a>
@@ -75,25 +75,10 @@
     <a class="nav-link" href="codewind-setup-appsody.html">Configure CodeWind</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="appsody-extend-stack.html">Extend Appsody Stack</a>
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/SSCSJL_4.1.x/guides/guide-working-with-stacks/README.html" target="_blank" rel="noopener">Customizing Application Stacks ↗</a></span>
   </li>
   <li class="nav-item" data-depth="2">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="tekton-create-pipeline.html">Extend Tekton Pipelines</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="tekton-create-pipeline.html#nodejs-express-deploy">Deploy Test Pipelines</a>
-  </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="tekton-create-pipeline.html#nodejs-express">Test Node.js Express</a>
-  </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="tekton-create-pipeline.html#java-spring-boot2">Test Java Spring Boot Test</a>
-  </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="tekton-create-pipeline.html#java-microprofile">Test Java Microprofile</a>
-  </li>
-</ul>
+    <span class="nav-text"><a href="https://www.ibm.com/support/knowledgecenter/SSCSJL_4.1.x/guides/guide-curating-pipelines/curating.html" target="_blank" rel="noopener">Creating and updating tasks and pipelines ↗</a></span>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="tekton-credentials-github.html">Configure Github Credentials</a>
@@ -145,7 +130,7 @@
     </div>
   </aside>
 </div>
-<main>
+<main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
   <a href="kabanero-overview.html" class="home-link"></a>
@@ -158,13 +143,14 @@
 </nav>
   <div class="edit-this-page"><a href="https://github.com/ibm-cloud-architecture/Learning-Kabanero-101/edit/master/modules/ROOT/pages/e2e-nodejs-express.adoc">Edit this Page</a></div>
   </div>
+  <div class="content">
 <article class="doc">
-<h1 class="page">End to end Node.js Express Kabanero workflow</h1>
+<h1 class="page">End to End Node.js Express CP4Apps workflow</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_prerequisites">Prerequisites</a></li>
-<li><a href="#_add_kabanero_collection_to_appsody">Add Kabanero Collection to appsody</a></li>
+<li><a href="#_add_stacks_to_appsody">Add Stacks to appsody</a></li>
 <li><a href="#_appsody_application">Appsody application</a>
 <ul class="sectlevel2">
 <li><a href="#_create_a_new_application">Create a new Application</a></li>
@@ -239,7 +225,7 @@ Recently updated to include RedHat OpenShift 4.x
 <div class="ulist">
 <ul>
 <li>
-<p>Install Cloud Pak for Application 4.x on RedHat OpenShift 4.x using <a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.x/install-icpa-cli.html" target="_blank" rel="noopener">CLI Installer for OCP4</a></p>
+<p>Install Cloud Pak for Application 4.x on RedHat OpenShift 4.x using <a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.1.x/install-icpa-cli.html" target="_blank" rel="noopener">CLI Installer for OCP4</a></p>
 </li>
 <li>
 <p>Install Cloud Pak for Application 3.x on RedHat OpenShift 3.x using <a href="https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html" target="_blank" rel="noopener">CLI Installer for OCP3</a></p>
@@ -274,28 +260,28 @@ Recently updated to include RedHat OpenShift 4.x
 </div>
 </div>
 <div class="sect1">
-<h2 id="_add_kabanero_collection_to_appsody"><a class="anchor" href="#_add_kabanero_collection_to_appsody"></a>Add Kabanero Collection to appsody</h2>
+<h2 id="_add_stacks_to_appsody"><a class="anchor" href="#_add_stacks_to_appsody"></a>Add Stacks to appsody</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p>From the Cloud Pak for Applications landing page get the <code>Collection Hub</code> URL, for example:</p>
+<p>From the Cloud Pak for Applications landing page get the <code>Appsody</code> URL, for example:</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><code><a href="https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml" class="bare">https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml</a></code></p>
+<p><code><a href="https://github.com/kabanero-io/kabanero-stack-hub/releases/download/0.6.3/kabanero-stack-hub-index.yaml" class="bare">https://github.com/kabanero-io/kabanero-stack-hub/releases/download/0.6.3/kabanero-stack-hub-index.yaml</a></code></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Use the appsody CLI to add the Collection repo.</p>
+<p>Use the appsody CLI to add add the URL for your stack configuration file:</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody repo add kabanero https://github.com/kabanero-io/kabanero-stack-hub/releases/download/0.6.3/kabanero-stack-hub-index.yaml</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -320,10 +306,10 @@ Recently updated to include RedHat OpenShift 4.x
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody repo list
 
-NAME        	URL
-*kabanero   	https://github.com/kabanero-io/collections/releases/download/0.3.5/kabanero-index.yaml
-appsodyhub  	https://github.com/appsody/stacks/releases/latest/download/incubator-index.yaml
-experimental	https://github.com/appsody/stacks/releases/latest/download/experimental-index.yaml</code></pre>
+NAME            URL
+*incubator      https://github.com/appsody/stacks/releases/latest/download/incubator-index.yaml
+experimental    https://github.com/appsody/stacks/releases/latest/download/experimental-index.yaml
+kabanero        https://github.com/kabanero-io/kabanero-stack-hub/releases/download/0.6.3/kabanero-stack-hub-index.yaml</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -357,11 +343,11 @@ experimental	https://github.com/appsody/stacks/releases/latest/download/experime
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ appsody list kabanero
 
 REPO    	ID               	VERSION  	TEMPLATES        	DESCRIPTION
-kabanero	java-microprofile	0.2.19   	*default         	Eclipse MicroProfile on Open Liberty &amp; OpenJ9 using Maven
-kabanero	java-spring-boot2	0.3.18   	*default, kotlin 	Spring Boot using OpenJ9 and Maven
-kabanero	nodejs           	0.2.6    	*simple          	Runtime for Node.js applications
-kabanero	nodejs-express   	0.2.8    	scaffold, *simple	Express web framework for Node.js
-kabanero	nodejs-loopback  	0.1.6    	*scaffold        	LoopBack 4 API Framework for Node.js</code></pre>
+kabanero	java-microprofile	0.2.26   	*default         	Eclipse MicroProfile on Open Liberty &amp; OpenJ9 using Maven
+kabanero	java-openliberty 	0.2.3    	*default         	Open Liberty &amp; OpenJ9 using Maven
+kabanero	java-spring-boot2	0.3.24   	*default, kotlin 	Spring Boot using OpenJ9 and Maven
+kabanero	nodejs           	0.3.3    	*simple          	Runtime for Node.js applications
+kabanero	nodejs-express   	0.2.10   	scaffold, *simple	Express web framework for Node.js</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -377,7 +363,7 @@ kabanero	nodejs-loopback  	0.1.6    	*scaffold        	LoopBack 4 API Framework 
 </div>
 </div>
 <div class="paragraph">
-<p>If you want to customize the appsody stacks and extend them, refer to <a href="appsody-extend-stack.html" class="page">Appsody - Extending a Stack with Templates</a>.</p>
+<p>If you want to customize the appsody stacks and extend them, refer to <a href="https://www.ibm.com/support/knowledgecenter/SSCSJL_4.1.x/guides/guide-working-with-stacks/README.html">Customizing application stacks</a>.</p>
 </div>
 </div>
 </div>
@@ -422,11 +408,6 @@ cd appsody_sample_nodejs-express/</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre>.
-├── .appsody-config.yaml
-├── .gitignore
-├── .vscode
-│   ├── launch.json
-│   └── tasks.json
 ├── app.js
 ├── package-lock.json
 ├── package.json
@@ -438,15 +419,15 @@ cd appsody_sample_nodejs-express/</code></pre>
 <dl>
 <dt class="hdlist1">app.js</dt>
 <dd>
-<p>Node.js application module</p>
+<p>A sample javascript app</p>
 </dd>
 <dt class="hdlist1">package.json</dt>
 <dd>
-<p>NPM package JSON file</p>
+<p>The application&#8217;s npm dependency tree</p>
 </dd>
 <dt class="hdlist1">test.js</dt>
 <dd>
-<p>A simple test module</p>
+<p>The application&#8217;s package manifest</p>
 </dd>
 </dl>
 </div>
@@ -466,19 +447,10 @@ cd appsody_sample_nodejs-express/</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[Docker] Removing intermediate container 264b4dd86f2c
-[Docker]  ---&gt; 3a7e5ca613f2
-[Docker] Step 20/21 : EXPOSE 3000
-[Docker]  ---&gt; Running in fb7b734205a8
-[Docker] Removing intermediate container fb7b734205a8
-[Docker]  ---&gt; badce710593d
-[Docker] Step 21/21 : CMD ["npm", "start"]
-[Docker]  ---&gt; Running in 961a344e2c68
-[Docker] Removing intermediate container 961a344e2c68
-[Docker]  ---&gt; e417d7dfc54c
-[Docker] Successfully built e417d7dfc54c
-[Docker] Successfully tagged appsody-sample-nodejs-express:latest
-Built docker image appsody-sample-nodejs-express</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">[Docker] Successfully built 8dbee1649108
+[Docker] Successfully tagged dev.local/appsody-sample-nodejs-express:latest
+Built docker image dev.local/appsody-sample-nodejs-express
+Running command: docker create --name appsody-sample-nodejs-express-extract docker.io/kabanero/nodejs-express:0.2</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -506,34 +478,19 @@ Built docker image appsody-sample-nodejs-express</code></pre>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Running test environment
 Running command: docker pull kabanero/nodejs-express:0.2
-Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantanapr/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantanapr/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=test
-[Container] Running APPSODY_PREP command: npm install --prefix user-app
-added 170 packages from 578 contributors and audited 295 packages in 2.76s
-...
-[Container] Running command:  npm test &amp;&amp; npm test --prefix user-app
-[Container]
-[Container] &gt; nodejs-express@0.2.6 test /project
-[Container] &gt; mocha
-...
-[Container] App started on PORT 3000
 ...
 [Container]
-[Container]   7 passing (44ms)
 [Container]
-[Container]
-[Container] &gt; nodejs-express-simple@0.1.0 test /project/user-app
-[Container] &gt; mocha
-[Container]
-...
 [Container] App started on PORT 3000
 [Container]   Node.js Express Simple template
 [Container]     / endpoint
 [Container]       ✓ status
 [Container]
 [Container]
-[Container]   1 passing (40ms)
+[Container]   1 passing (38ms)
 [Container]
-[Container] The file watcher is not running because no APPSODY_RUN/TEST/DEBUG_ON_CHANGE action was specified or it has been disabled using the --no-watcher flag.</code></pre>
+[Container] The file watcher is not running because no APPSODY_RUN/TEST/DEBUG_ON_CHANGE action was specified or it has been disabled using the --no-watcher flag.
+Closing down development environment.</code></pre>
 </div>
 </div>
 </div>
@@ -557,19 +514,21 @@ added 170 packages from 578 contributors and audited 295 packages in 2.76s
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Running development environment...
-Running command: docker pull kabanero/nodejs-express:0.2
-Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantanapr/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantanapr/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=run
+Pulling docker image docker.io/kabanero/nodejs-express:0.2
+Running command: docker pull docker.io/kabanero/nodejs-express:0.2
+0.2: Pulling from kabanero/nodejs-express
+Digest: sha256:e146ec0b008cd122f3c87b50e2d69102141f71dfd44239d1dbaeac97d06737a0
+Status: Image is up to date for kabanero/nodejs-express:0.2
+docker.io/kabanero/nodejs-express:0.2
+Running command: docker run --rm -p 8080:8080 -p 9229:9229 -p 3000:3000 --name appsody-sample-nodejs-express -v /Users/csantana23/dev/kabanero/demos/cp4apps41/appsody_sample_nodejs-express/:/project/user-app -v appsody-appsody-sample-nodejs-express-20200411182922.16881400:/project/user-app/node_modules -v appsody-controller-0.3.4:/.appsody -t --entrypoint /.appsody/appsody-controller docker.io/kabanero/nodejs-express:0.2 "--mode=run"
 [Container] Running APPSODY_PREP command: npm install --prefix user-app
-audited 295 packages in 1.546s
-[Container] found 0 vulnerabilities
+audited 295 packages in 1.457s
 [Container]
-[Container] Running command:  npm start
-[Container]
-[Container] &gt; nodejs-express@0.2.6 start /project
+[Container] &gt; nodejs-express@0.2.10 start /project
 [Container] &gt; node server.js
 [Container]
-[Container] [Sun Sep 22 23:29:50 2019] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.0.5.201909191743 (Agent Core 4.0.5)
-[Container] [Sun Sep 22 23:29:51 2019] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
+[Container] [Sat Apr 11 22:36:35 2020] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.1.1.202003102146 (Agent Core 4.0.5)
+[Container] [Sat Apr 11 22:36:36 2020] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
 [Container] App started on PORT 3000</code></pre>
 </div>
 </div>
@@ -642,7 +601,7 @@ audited 295 packages in 1.546s
 <div class="ulist">
 <ul>
 <li>
-<p>Open a new terminal window inside VS Code use <code>View&#8594;Terminal</code></p>
+<p>Open a new terminal window inside VS Code. Use <code>View&#8594;Terminal</code>.</p>
 </li>
 </ul>
 </div>
@@ -664,26 +623,28 @@ audited 295 packages in 1.546s
 </div>
 </div>
 <div class="paragraph">
-<p>The output indicates the debug environment is being used</p>
+<p>The output indicates the debug environment is being used.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">Running debug environment
-Running command: docker pull kabanero/nodejs-express:0.2
-Running docker command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express-dev -v /Users/csantana23/dev/kabanero/appsody_sample_nodejs-express/:/project/user-app -v appsody-sample-nodejs-express-deps:/project/user-app/node_modules -v /Users/csantana23/.appsody/appsody-controller:/appsody/appsody-controller -t --entrypoint /appsody/appsody-controller kabanero/nodejs-express:0.2 --mode=debug
+Pulling docker image docker.io/kabanero/nodejs-express:0.2
+Running command: docker pull docker.io/kabanero/nodejs-express:0.2
+0.2: Pulling from kabanero/nodejs-express
+Digest: sha256:e146ec0b008cd122f3c87b50e2d69102141f71dfd44239d1dbaeac97d06737a0
+Status: Image is up to date for kabanero/nodejs-express:0.2
+docker.io/kabanero/nodejs-express:0.2
+Running command: docker run --rm -p 3000:3000 -p 8080:8080 -p 9229:9229 --name appsody-sample-nodejs-express -v /Users/csantana23/Documents/dev/kabanero/demos/cp4apps41/appsody_sample_nodejs-express/:/project/user-app -v appsody-appsody-sample-nodejs-express-20200411182922.16881400:/project/user-app/node_modules -v appsody-controller-0.3.4:/.appsody -t --entrypoint /.appsody/appsody-controller docker.io/kabanero/nodejs-express:0.2 "--mode=debug"
 [Container] Running APPSODY_PREP command: npm install --prefix user-app
-audited 295 packages in 1.154s
-[Container] found 0 vulnerabilities
+audited 295 packages in 1.486s
 [Container]
-[Container] Running command:  npm run debug
-[Container]
-[Container] &gt; nodejs-express@0.2.6 debug /project
+[Container] &gt; nodejs-express@0.2.10 debug /project
 [Container] &gt; node --inspect=0.0.0.0 server.js
 [Container]
-[Container] Debugger listening on ws://0.0.0.0:9229/35c7d2cb-ced9-4c57-94f1-a58a5e078302
+[Container] Debugger listening on ws://0.0.0.0:9229/570389b5-9dcd-43b1-920d-9b7e5cb75fd4
 [Container] For help, see: https://nodejs.org/en/docs/inspector
-[Container] [Sun Sep 22 23:38:35 2019] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.0.5.201909191743 (Agent Core 4.0.5)
-[Container] [Sun Sep 22 23:38:35 2019] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
+[Container] [Sat Apr 11 22:40:25 2020] com.ibm.diagnostics.healthcenter.loader INFO: Node Application Metrics 5.1.1.202003102146 (Agent Core 4.0.5)
+[Container] [Sat Apr 11 22:40:25 2020] com.ibm.diagnostics.healthcenter.mqtt INFO: Connecting to broker localhost:1883
 [Container] App started on PORT 3000</code></pre>
 </div>
 </div>
@@ -941,18 +902,6 @@ audited 295 packages in 1.154s
 <img src="_images/sb_lab1_codewind_add_existing_project.png" alt="sb lab1 codewind add existing project">
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-- Before doing this, copy your project to the codewind workspace, in the directory <code>codewind-workspaces/</code> in your HOME directory. At this point in time, codewind only accepts the projects that are available in the <code>codewind workspace</code>.
-</td>
-</tr>
-</table>
-</div>
 <div class="ulist">
 <ul>
 <li>
@@ -981,18 +930,6 @@ audited 295 packages in 1.154s
 <div class="imageblock text-center">
 <div class="content">
 <img src="_images/js_lab1_appsody_project_running.png" alt="js lab1 appsody project running">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>You can open the CodeWind workspace, right click on <code>Projects</code></p>
-</li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="_images/js_lab1_codewind_open_workspace.png" alt="js lab1 codewind open workspace">
 </div>
 </div>
 </div>
@@ -1112,6 +1049,18 @@ audited 295 packages in 1.154s
 <p>You can launch the app monitor by selecting <code>Open Appplication Monitor</code></p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Version <code>0.9.0</code> of Codewind in VSCode has a bug that doesn&#8217;t show the metrics or the performance dashboards <a href="https://github.com/eclipse/codewind/issues/2664" class="bare">https://github.com/eclipse/codewind/issues/2664</a>
+</td>
+</tr>
+</table>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1271,8 +1220,8 @@ kabanero-samples</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ oc get kabaneros -n kabanero
-NAME       AGE       VERSION   READY
-kabanero   24h       0.3.4     True</code></pre>
+NAME       AGE   VERSION   READY
+kabanero   44h   0.6.1     True</code></pre>
 </div>
 </div>
 <div class="ulist">
@@ -1310,13 +1259,13 @@ kabanero   24h       0.3.4     True</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>Extract the appsody deployment config.</p>
+<p>Extract the appsody deployment config file</p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody deploy --generate-only</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">appsody build</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1328,16 +1277,24 @@ kabanero   24h       0.3.4     True</code></pre>
 kind: AppsodyApplication
 metadata:
   name: appsody-sample-nodejs-express
+  labels:
+    image.opencontainers.org/title: appsody-sample-nodejs-express
+    stack.appsody.dev/id: nodejs-express
+    stack.appsody.dev/version: 0.2.10
 spec:
-  # Add fields here
-  version: 1.0.0
-  applicationImage: appsody-sample-nodejs-express
-  stack: nodejs-express
-  service:
-    type: NodePort
-    port: 3000
-    annotations:
-      prometheus.io/scrape: 'true'
+  applicationImage: dev.local/appsody-sample-nodejs-express
+  createKnativeService: false
+  expose: true
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /live
+      port: 3000
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  monitoring:
+    labels:
+      k8s-app: appsody-sample-nodejs-express
   readinessProbe:
     failureThreshold: 12
     httpGet:
@@ -1346,14 +1303,13 @@ spec:
     initialDelaySeconds: 5
     periodSeconds: 2
     timeoutSeconds: 1
-  livenessProbe:
-    failureThreshold: 12
-    httpGet:
-      path: /live
-      port: 3000
-    initialDelaySeconds: 5
-    periodSeconds: 2
-  expose: true</code></pre>
+  service:
+    annotations:
+      prometheus.io/scrape: "true"
+    port: 3000
+    type: NodePort
+  stack: nodejs-express
+  version: 1.0.0</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1449,7 +1405,7 @@ git push -u origin master</code></pre>
 <p>Navigate to the menu in the upper left and select instances.</p>
 </li>
 <li>
-<p>Then click the link under the <code>Tekton</code> label to navigate to the <code>Tekton Dashboard</code>.</p>
+<p>Then click the link under the <code>Pipelines</code> label to navigate to <code>Pipelines Dashboard</code>.</p>
 </li>
 </ul>
 </div>
@@ -1471,27 +1427,9 @@ git push -u origin master</code></pre>
 <li>
 <p>Click on Webhooks in the menu.</p>
 </li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/sb_lab1_menu_webhooks.png" alt="Tekton Menu" width="300">
-</div>
-</div>
-<div class="ulist">
-<ul>
 <li>
 <p>Click on <code>Add Webhook</code>.</p>
 </li>
-</ul>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="_images/sb_lab1_add_webhook.png" alt="sb lab1 add webhook">
-</div>
-</div>
-<div class="ulist">
-<ul>
 <li>
 <p>Enter the information for the Webhook settings.</p>
 </li>
@@ -1571,22 +1509,26 @@ OCP 4.X - Docker Registry - image-registry.openshift-image-registry.svc:5000/&lt
 </li>
 </ul>
 </div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="_images/js_lab1_webhook.png" alt="js lab1 webhook">
-</div>
-</div>
 <div class="paragraph">
 <p>Also, a new Gitub webhook is created on the project repository.</p>
 </div>
 <div class="paragraph">
 <p>You can verify it by going into your <code>github repository &gt; Settings &gt; Webhooks</code> and you should be able to see the webhook created.</p>
 </div>
-<div class="paragraph">
-<p><strong>[Issue]</strong> The webhook may show an error of 503. It will be cleared the first time the github webhook gets triggered.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Replace &lt;your_project&gt; with the name of the target namespace in our case <code>kabanero-samples</code>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>Here, we are using the default pipeline. If you want to customize the pipeline, refer to <a href="tekton-create-pipeline.html" class="page">Tekton - Create a custom pipeline</a>.</p>
+<p>Here, we are using the default pipeline. If you want to customize the pipeline, refer to <a href="https://www.ibm.com/support/knowledgecenter/SSCSJL_4.1.x/guides/guide-curating-pipelines/curating.html">Creating and updating tasks and pipelines</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1709,7 +1651,7 @@ appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.o
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>oc edit smmr -n istio-system</pre>
+<pre>oc edit smmr -n knative-serving-ingress</pre>
 </div>
 </div>
 <div class="ulist">
@@ -1724,8 +1666,6 @@ appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.o
 <pre>spec:
   members:
   - knative-serving
-  - tekton-pipelines
-  - kabanero
   - kabanero-samples</pre>
 </div>
 </div>
@@ -1738,10 +1678,9 @@ appsody-sample-nodejs-express   appsody-sample-nodejs-express-kabanero-samples.o
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>oc get smmr -n istio-system
+<pre>oc get smmr default -n knative-serving-ingress -o jsonpath={.spec.members}
 
-NAME      MEMBERS
-default   [knative-serving tekton-pipelines kabanero kabanero-samples]</pre>
+[knative-serving kabanero-samples]</pre>
 </div>
 </div>
 </div>
@@ -1860,6 +1799,10 @@ No resources found.</pre>
 </div>
 </div>
 </article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
 </main>
 </div>
 <footer class="footer">
