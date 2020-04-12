@@ -19,6 +19,8 @@
 ** xref:tekton-credentials-docker.adoc[Configure Docker Credentials]
 
 
+
+
 * External Resources
 ** https://developer.ibm.com/technologies/containers/tutorials/create-appsody-stack[Create Appsody Stack ↗^]
 ** https://github.com/gcharters/kabanero-dev-getting-started[Java MicroProfile Tutorial ↗^]
