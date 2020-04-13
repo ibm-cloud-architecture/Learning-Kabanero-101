@@ -1,6 +1,6 @@
 {
     "name": "learning-kabanero-101",
-    "description": "Learning Kabanero 101 Documentation Site",
+    "description": "Learning CP4Apps 101 Documentation Site",
     "dependencies": {
         "@antora/cli": "2.0.0",
         "@antora/site-generator-default": "2.0.0",
@@ -21,7 +21,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ibm-cloud-architecture/learning-kabanero-101.git"
+        "url": "git+https://github.com/ibm-cloud-architecture/learning-cp4apps-101.git"
     },
     "license": "Apache-2.0",
     "babel": {
