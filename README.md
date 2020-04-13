@@ -4,16 +4,15 @@
 
 
 ## Learning Journey
-Access the learning modules https://ibm-cloud-architecture.github.io/Learning-Kabanero-101
+Access the tutorials https://ibm-cloud-architecture.github.io/learning-cp4apps-101
 
-Kabanero Enterprise is part of [IBM Cloud Pak for Applications](https://www.ibm.com/support/knowledgecenter/SSCSJL/about-overview.html)
+Accelerators for Teams is part of [IBM Cloud Pak for Applications](https://www.ibm.com/support/knowledgecenter/SSCSJL/about-overview.html)
 
-Kabanero Enterprise is the commercial enterprise-ready and fully supported implementation of the Kabanero open source community project. Kabanero Enterprise integrates with, extends, and adds value to Red Hat OpenShift.
 
-Kabanero offers open source technologies in a microservices-based framework that simplifies development, build, and deployment of applications for both Kubernetes and Knative (serverless).
+Accelerators for Teams offers open source technologies in a microservices-based framework that simplifies development, build, and deployment of applications on OpenShift.
 
 This learning journey provides a set of workflows integrating the following tools:
-- [Red Hat OpenShift Container Platform](https://docs.openshift.com/container-platform/3.11/welcome/index.html)
+- [Red Hat OpenShift Container Platform](https://docs.openshift.com/container-platform/)
 - [Appsody](https://appsody.dev/)
 - [CodeWind](https://codewind.dev)
 - [Tekton](https://tekton.dev)
