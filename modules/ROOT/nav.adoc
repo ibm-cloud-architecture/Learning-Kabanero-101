@@ -1,6 +1,6 @@
 * xref:kabanero-overview.adoc[Overview]
 
-* Installing Kabanero Enterprise
+* Installing Cloud Pack for Applications
 ** https://cloud.ibm.com/catalog/content/ibm-cp-applications[Using IBM Cloud Console ↗^]
 ** https://www.ibm.com/support/knowledgecenter/en/SSCSJL_4.1.x/install-icpa-cli.html[OCP4 CLI Installer ↗^]
 ** https://www.ibm.com/support/knowledgecenter/en/SSCSJL/install-icpa-cli.html[OCP3 CLI Installer ↗^]
