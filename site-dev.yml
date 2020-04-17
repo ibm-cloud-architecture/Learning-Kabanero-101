@@ -3,7 +3,7 @@ runtime:
 
 site:
   title: Learning CP4Apps Accelerators for Teams 101
-  url: https://github.com/ibm-cloud-architecture/learning-cp4apps-101/
+  url: https://cp4apps.cloudnative101.dev
   start_page: web::kabanero-overview.adoc
 
 content:
