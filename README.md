@@ -4,7 +4,7 @@
 
 
 ## Learning Journey
-Access the tutorials https://ibm-cloud-architecture.github.io/learning-cp4apps-101
+Access the tutorials https://cp4apps.cloudnative101.dev
 
 Accelerators for Teams is part of [IBM Cloud Pak for Applications](https://www.ibm.com/support/knowledgecenter/SSCSJL/about-overview.html)
 
